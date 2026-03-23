@@ -1,15 +1,9 @@
-# Python dependencies for Moltbook Session analyses
+# Legacy pip fallback.
+# Preferred workflow: `UV_CACHE_DIR=.uv-cache uv sync`
 
-# Data processing
-numpy>=1.24.0
-pandas>=2.0.0
-
-# Visualization
-matplotlib>=3.7.0
-
-# Statistics
-scipy>=1.10.0
-
-# Optional: For reading docx/pptx files
-python-docx>=0.8.11
-python-pptx>=0.6.21
+matplotlib>=3.10,<4
+numpy>=2.2,<3
+pandas>=2.2,<3
+python-docx>=1.1,<2
+python-pptx>=1.0,<2
+scipy>=1.15,<2

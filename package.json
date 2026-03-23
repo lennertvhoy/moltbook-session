@@ -1,0 +1,12 @@
+{
+  "name": "moltbook-session",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Native PowerPoint build pipeline for the Moltbook session deck.",
+  "scripts": {
+    "build:deck": "bun run scripts/build_deck.ts"
+  },
+  "dependencies": {
+    "pptxgenjs": "^3.12.0"
+  }
+}

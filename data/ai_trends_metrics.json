@@ -1,0 +1,119 @@
+{
+  "collected_at": "2026-03-23",
+  "sources": [
+    {
+      "id": "stanford_ai_index_2025_state_of_ai",
+      "label": "Stanford HAI, AI Index 2025: State of AI in 10 Charts",
+      "url": "https://hai.stanford.edu/news/most-read-the-stanford-hai-stories-that-defined-ai-in-2025",
+      "accessed_on": "2026-03-23",
+      "notes": "Used for the 280x cost reduction summary and the benchmark jump summary cited in Stanford's AI Index coverage."
+    },
+    {
+      "id": "epoch_eci",
+      "label": "Epoch AI, Epoch Capabilities Index",
+      "url": "https://epoch.ai/benchmarks/eci",
+      "accessed_on": "2026-03-23",
+      "notes": "Used for methodology framing. The page overview says 37 benchmarks, while the data section lists 42 benchmarks spanning 2023-present."
+    },
+    {
+      "id": "epoch_homepage_stats",
+      "label": "Epoch AI homepage trend snapshot",
+      "url": "https://epoch.ai/",
+      "accessed_on": "2026-03-23",
+      "notes": "Used for compute stock, training compute, pre-training efficiency, and chip performance per dollar summary statistics."
+    },
+    {
+      "id": "anthropic_opus_46",
+      "label": "Anthropic, Claude Opus 4.6",
+      "url": "https://www.anthropic.com/claude/opus/",
+      "accessed_on": "2026-03-23",
+      "notes": "Used for official Opus 4.6 pricing."
+    },
+    {
+      "id": "anthropic_sonnet_46",
+      "label": "Anthropic, Introducing Claude Sonnet 4.6",
+      "url": "https://www.anthropic.com/news/claude-sonnet-4-6",
+      "accessed_on": "2026-03-23",
+      "notes": "Used for official Sonnet 4.6 pricing."
+    },
+    {
+      "id": "artificial_analysis_minimax_m25",
+      "label": "Artificial Analysis, MiniMax-M2.5",
+      "url": "https://artificialanalysis.ai/models/minimax-m2-5",
+      "accessed_on": "2026-03-23",
+      "notes": "Used for current MiniMax-M2.5 price and index values. The original repo's MiniMax-M2.7 comparison could not be validated."
+    },
+    {
+      "id": "artificial_analysis_opus_46",
+      "label": "Artificial Analysis, Claude Opus 4.6",
+      "url": "https://artificialanalysis.ai/models/claude-opus-4-6",
+      "accessed_on": "2026-03-23",
+      "notes": "Used for current Opus 4.6 index and speed values. Comparing these directly to MiniMax still requires caveats about configuration and class."
+    }
+  ],
+  "benchmark_jumps": [
+    {
+      "benchmark": "MMMU",
+      "improvement_points": 18.8,
+      "source_id": "stanford_ai_index_2025_state_of_ai"
+    },
+    {
+      "benchmark": "GPQA",
+      "improvement_points": 48.9,
+      "source_id": "stanford_ai_index_2025_state_of_ai"
+    },
+    {
+      "benchmark": "SWE-bench",
+      "improvement_points": 67.3,
+      "source_id": "stanford_ai_index_2025_state_of_ai"
+    }
+  ],
+  "inference_cost_decline": {
+    "reduction_factor": 280.0,
+    "start_month": "2022-11",
+    "end_month": "2024-10",
+    "source_id": "stanford_ai_index_2025_state_of_ai"
+  },
+  "epoch_capability_context": {
+    "overview_benchmark_count": 37,
+    "data_section_benchmark_count": 42,
+    "method_note": "Epoch positions ECI as a composite capability scale because individual benchmarks saturate over long enough timespans.",
+    "source_id": "epoch_eci"
+  },
+  "epoch_trend_snapshot": {
+    "compute_stock_growth_per_year": 3.3,
+    "compute_stock_doubling_months": 7.0,
+    "training_compute_growth_per_year": 5.0,
+    "training_compute_doubling_months": 5.2,
+    "pretraining_efficiency_improvement_per_year": 3.0,
+    "pretraining_efficiency_doubling_months": 7.6,
+    "chip_perf_per_dollar_growth_per_year": 1.37,
+    "chip_perf_per_dollar_improvement_pct": 37.0,
+    "chip_perf_per_dollar_doubling_years": 2.2,
+    "source_id": "epoch_homepage_stats"
+  },
+  "model_price_quality_snapshot": {
+    "comparison_date": "2026-03-23",
+    "caveat": "This is included for audit purposes only. The original repo's MiniMax-M2.7 vs Claude Opus 4.6 framing was not source-aligned. Current values depend on exact configuration and are not a clean apples-to-apples comparison.",
+    "models": [
+      {
+        "name": "Claude Opus 4.6",
+        "configuration": "non-reasoning / high effort listing",
+        "intelligence_index": 46,
+        "output_tokens_per_second": 42.0,
+        "input_price_per_million": 5.0,
+        "output_price_per_million": 25.0,
+        "source_id": "artificial_analysis_opus_46"
+      },
+      {
+        "name": "MiniMax-M2.5",
+        "configuration": "reasoning",
+        "intelligence_index": 42,
+        "output_tokens_per_second": 38.5,
+        "input_price_per_million": 0.3,
+        "output_price_per_million": 1.2,
+        "source_id": "artificial_analysis_minimax_m25"
+      }
+    ]
+  }
+}

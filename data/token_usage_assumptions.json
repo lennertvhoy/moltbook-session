@@ -1,0 +1,121 @@
+{
+  "collected_at": "2026-03-23",
+  "description": "Illustrative token-cost scenario for one agent 'social cycle'. This is not a measured Moltbook trace. Assumptions are explicit so the arithmetic is auditable.",
+  "sources": [
+    {
+      "id": "openclaw_context_docs",
+      "label": "OpenClaw Context docs",
+      "url": "https://docs.openclaw.ai/concepts/context",
+      "accessed_on": "2026-03-23",
+      "notes": "Used to anchor the claim that context overhead can already exceed ~14k session tokens in a small documented example. It also provides the ~9,603 system prompt example."
+    },
+    {
+      "id": "anthropic_opus_46",
+      "label": "Anthropic, Claude Opus 4.6",
+      "url": "https://www.anthropic.com/claude/opus/",
+      "accessed_on": "2026-03-23",
+      "notes": "Used for the official $5 / $25 per million token pricing."
+    },
+    {
+      "id": "anthropic_sonnet_46",
+      "label": "Anthropic, Introducing Claude Sonnet 4.6",
+      "url": "https://www.anthropic.com/news/claude-sonnet-4-6",
+      "accessed_on": "2026-03-23",
+      "notes": "Used for the official $3 / $15 per million token pricing."
+    },
+    {
+      "id": "artificial_analysis_minimax_m25",
+      "label": "Artificial Analysis, MiniMax-M2.5",
+      "url": "https://artificialanalysis.ai/models/minimax-m2-5",
+      "accessed_on": "2026-03-23",
+      "notes": "Used for current MiniMax-M2.5 token pricing."
+    }
+  ],
+  "documented_openclaw_example": {
+    "system_prompt_tokens": 9603,
+    "agents_md_tokens": 436,
+    "skills_list_tokens": 546,
+    "tool_schemas_tokens": 7997,
+    "session_tokens_total": 14250,
+    "source_id": "openclaw_context_docs"
+  },
+  "social_cycle_assumptions": {
+    "context_components_per_action": [
+      {
+        "name": "System prompt",
+        "tokens": 9600,
+        "basis": "Rounded from the OpenClaw docs example (~9,603 tokens)."
+      },
+      {
+        "name": "AGENTS.md and project instructions",
+        "tokens": 1200,
+        "basis": "Assumption for a richer project than the docs example."
+      },
+      {
+        "name": "Tool descriptions and schemas",
+        "tokens": 3000,
+        "basis": "Assumption representing a trimmed but still tool-heavy agent configuration."
+      },
+      {
+        "name": "Agent persona and state",
+        "tokens": 1500,
+        "basis": "Assumption for persona, goals, and current state."
+      },
+      {
+        "name": "Prior history",
+        "tokens": 5000,
+        "basis": "Assumption for a non-trivial conversation or feed context."
+      }
+    ],
+    "timeline_posts": 10,
+    "timeline_tokens_per_post": 500,
+    "reply_context_tokens": 1500,
+    "reply_output_tokens": 800,
+    "post_context_tokens": 1000,
+    "post_output_tokens": 600,
+    "notes": [
+      "This scenario is intentionally labeled as illustrative rather than observed.",
+      "The main point is that repeated context loading dominates cost under current architectures."
+    ]
+  },
+  "pricing": [
+    {
+      "model": "Claude Opus 4.6",
+      "key": "claude_opus_46",
+      "input_price_per_million": 5.0,
+      "output_price_per_million": 25.0,
+      "source_id": "anthropic_opus_46"
+    },
+    {
+      "model": "Claude Sonnet 4.6",
+      "key": "claude_sonnet_46",
+      "input_price_per_million": 3.0,
+      "output_price_per_million": 15.0,
+      "source_id": "anthropic_sonnet_46"
+    },
+    {
+      "model": "MiniMax-M2.5",
+      "key": "minimax_m25",
+      "input_price_per_million": 0.3,
+      "output_price_per_million": 1.2,
+      "source_id": "artificial_analysis_minimax_m25"
+    }
+  ],
+  "scale_scenarios": [
+    {
+      "name": "Small network",
+      "agents": 100,
+      "cycles_per_day": 10
+    },
+    {
+      "name": "Moltbook-like",
+      "agents": 10000,
+      "cycles_per_day": 10
+    },
+    {
+      "name": "Large social platform",
+      "agents": 100000000,
+      "cycles_per_day": 10
+    }
+  ]
+}

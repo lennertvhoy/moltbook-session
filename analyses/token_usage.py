@@ -1,232 +1,338 @@
+"""Token usage analysis for an illustrative AI-agent social cycle.
+
+This script intentionally separates sourced context anchors from presentation
+assumptions. The resulting cost estimates are therefore reproducible arithmetic,
+but they are still scenario outputs rather than observed Moltbook measurements.
 """
-Token Usage Analysis for AI Agent Social Networks
-Analyzes the cost of a single "social cycle" for an AI agent
-"""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+from typing import Any
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-# Pricing data (per 1M tokens)
-PRICING = {
-    "claude_opus_46": {"input": 5.0, "output": 25.0},
-    "claude_sonnet_46": {"input": 3.0, "output": 15.0},
-    "claude_haiku_37": {"input": 0.25, "output": 1.25},
-    "gpt4o": {"input": 2.5, "output": 10.0},
-    "minimax_m27": {"input": 0.30, "output": 1.20},
-}
+
+ROOT = Path(__file__).resolve().parents[1]
+ASSETS_DIR = ROOT / "assets"
+DATA_PATH = ROOT / "data" / "token_usage_assumptions.json"
 
 
-def calculate_context_loading_tokens():
-    """Calculate tokens for context loading per action"""
-    components = {
-        "System prompt": 9600,
-        "AGENTS.md": 1200,
-        "Tool descriptions": 3000,
-        "Agent persona": 1500,
-        "Previous history": 5000,
-    }
-    return components
+def load_assumptions() -> dict[str, Any]:
+    """Load the token usage assumptions and pricing metadata.
 
-
-def calculate_social_cycle():
+    Returns:
+        Parsed JSON payload describing documented anchors, assumptions, and
+        pricing inputs.
     """
-    Calculate token usage for one "social cycle":
-    1. Read timeline (10 posts)
-    2. Generate reply to 1 post
-    3. Make own post
+    return json.loads(DATA_PATH.read_text(encoding="utf-8"))
+
+
+def calculate_context_loading_tokens(assumptions: dict[str, Any]) -> dict[str, int]:
+    """Return per-action context loading assumptions.
+
+    Args:
+        assumptions: Parsed token usage assumptions JSON.
+
+    Returns:
+        Mapping from component label to token count.
     """
-    context = calculate_context_loading_tokens()
+    components = assumptions["social_cycle_assumptions"]["context_components_per_action"]
+    return {component["name"]: int(component["tokens"]) for component in components}
+
+
+def calculate_social_cycle(assumptions: dict[str, Any]) -> tuple[dict[str, dict[str, int]], int, int]:
+    """Calculate token usage for one illustrative social cycle.
+
+    Args:
+        assumptions: Parsed token usage assumptions JSON.
+
+    Returns:
+        Tuple of cycle breakdown, total input tokens, and total output tokens.
+    """
+    context = calculate_context_loading_tokens(assumptions)
     context_total = sum(context.values())
-    
-    # Per action (context loaded 3 times: read, reply, post)
+    social = assumptions["social_cycle_assumptions"]
+
+    timeline_tokens = social["timeline_posts"] * social["timeline_tokens_per_post"]
     cycle = {
-        "Context loading (3×)": {"input": context_total * 3, "output": 0},
-        "Timeline read (10 posts)": {"input": 500 * 10, "output": 0},
-        "Generate reply": {"input": 1500, "output": 800},
-        "Make own post": {"input": 1000, "output": 600},
+        "Context loading (3x)": {"input": context_total * 3, "output": 0},
+        "Timeline read": {"input": timeline_tokens, "output": 0},
+        "Generate reply": {
+            "input": social["reply_context_tokens"],
+            "output": social["reply_output_tokens"],
+        },
+        "Create post": {
+            "input": social["post_context_tokens"],
+            "output": social["post_output_tokens"],
+        },
     }
-    
-    total_input = sum(v["input"] for v in cycle.values())
-    total_output = sum(v["output"] for v in cycle.values())
-    
+
+    total_input = sum(item["input"] for item in cycle.values())
+    total_output = sum(item["output"] for item in cycle.values())
     return cycle, total_input, total_output
 
 
-def calculate_cost(tokens_input, tokens_output, model="claude_opus_46"):
-    """Calculate cost in USD for given tokens"""
-    pricing = PRICING[model]
-    input_cost = (tokens_input / 1_000_000) * pricing["input"]
-    output_cost = (tokens_output / 1_000_000) * pricing["output"]
+def build_pricing_lookup(assumptions: dict[str, Any]) -> dict[str, dict[str, float]]:
+    """Build a lookup of token pricing by model key.
+
+    Args:
+        assumptions: Parsed token usage assumptions JSON.
+
+    Returns:
+        Mapping from model key to input/output pricing.
+    """
+    return {
+        item["key"]: {
+            "model": item["model"],
+            "input": float(item["input_price_per_million"]),
+            "output": float(item["output_price_per_million"]),
+            "source_id": item["source_id"],
+        }
+        for item in assumptions["pricing"]
+    }
+
+
+def calculate_cost(
+    token_input: int,
+    token_output: int,
+    pricing: dict[str, dict[str, float]],
+    model_key: str,
+) -> tuple[float, float, float]:
+    """Calculate the input, output, and total cost for one cycle.
+
+    Args:
+        token_input: Input tokens.
+        token_output: Output tokens.
+        pricing: Pricing lookup keyed by model name.
+        model_key: Model key to use.
+
+    Returns:
+        Tuple of input cost, output cost, and total cost in USD.
+    """
+    model_pricing = pricing[model_key]
+    input_cost = (token_input / 1_000_000) * model_pricing["input"]
+    output_cost = (token_output / 1_000_000) * model_pricing["output"]
     return input_cost, output_cost, input_cost + output_cost
 
 
-def generate_cost_comparison():
-    """Generate cost comparison across different models"""
-    _, total_input, total_output = calculate_social_cycle()
-    
-    results = []
-    for model, pricing in PRICING.items():
-        input_cost, output_cost, total = calculate_cost(
-            total_input, total_output, model
+def generate_cost_comparison(assumptions: dict[str, Any]) -> pd.DataFrame:
+    """Generate a cost comparison across the supported model set.
+
+    Args:
+        assumptions: Parsed token usage assumptions JSON.
+
+    Returns:
+        DataFrame with per-cycle costs by model.
+    """
+    pricing = build_pricing_lookup(assumptions)
+    _, total_input, total_output = calculate_social_cycle(assumptions)
+
+    rows: list[dict[str, Any]] = []
+    for model_key, model_pricing in pricing.items():
+        input_cost, output_cost, total_cost = calculate_cost(
+            total_input,
+            total_output,
+            pricing,
+            model_key,
         )
-        results.append({
-            "Model": model,
-            "Input ($)": round(input_cost, 4),
-            "Output ($)": round(output_cost, 4),
-            "Total ($)": round(total, 4),
-        })
-    
-    return pd.DataFrame(results)
+        rows.append(
+            {
+                "Model": model_pricing["model"],
+                "Input ($)": round(input_cost, 4),
+                "Output ($)": round(output_cost, 4),
+                "Total ($)": round(total_cost, 4),
+                "Source": model_pricing["source_id"],
+            }
+        )
+
+    return pd.DataFrame(rows).sort_values("Total ($)", ascending=False)
 
 
-def generate_scale_comparison():
-    """Generate cost at different scales"""
-    _, total_input, total_output = calculate_social_cycle()
-    _, _, cost_per_cycle = calculate_cost(total_input, total_output, "claude_opus_46")
-    
-    scales = [
-        {"name": "Klein netwerk", "agents": 100, "cycles_per_day": 10},
-        {"name": "Medium", "agents": 1000, "cycles_per_day": 10},
-        {"name": "Moltbook-achtig", "agents": 10000, "cycles_per_day": 10},
-        {"name": "Twitter-schaal", "agents": 100_000_000, "cycles_per_day": 10},
-    ]
-    
-    results = []
-    for scale in scales:
-        daily = scale["agents"] * scale["cycles_per_day"] * cost_per_cycle
-        results.append({
-            "Scenario": scale["name"],
-            "Agents": f"{scale['agents']:,}",
-            "Cycli/dag": scale["cycles_per_day"],
-            "Dagelijkse kosten": f"${daily:,.0f}",
-            "Jaarlijkse kosten": f"${daily * 365:,.0f}",
-        })
-    
-    return pd.DataFrame(results)
+def generate_scale_comparison(assumptions: dict[str, Any], model_key: str) -> pd.DataFrame:
+    """Generate daily and annual costs at different network scales.
+
+    Args:
+        assumptions: Parsed token usage assumptions JSON.
+        model_key: Pricing model used for the scale comparison.
+
+    Returns:
+        DataFrame containing daily and annualized costs.
+    """
+    pricing = build_pricing_lookup(assumptions)
+    _, total_input, total_output = calculate_social_cycle(assumptions)
+    _, _, cycle_cost = calculate_cost(total_input, total_output, pricing, model_key)
+
+    rows: list[dict[str, Any]] = []
+    for scenario in assumptions["scale_scenarios"]:
+        daily_cost = scenario["agents"] * scenario["cycles_per_day"] * cycle_cost
+        rows.append(
+            {
+                "Scenario": scenario["name"],
+                "Agents": scenario["agents"],
+                "Cycles/day": scenario["cycles_per_day"],
+                "Daily cost ($)": daily_cost,
+                "Annual cost ($)": daily_cost * 365,
+            }
+        )
+
+    return pd.DataFrame(rows)
 
 
-def plot_token_breakdown():
-    """Create visualization of token breakdown"""
+def plot_token_breakdown(assumptions: dict[str, Any]) -> Path:
+    """Create the presentation-quality token usage figure.
+
+    Args:
+        assumptions: Parsed token usage assumptions JSON.
+
+    Returns:
+        Path to the saved PNG file.
+    """
+    context = calculate_context_loading_tokens(assumptions)
+    cycle, _, _ = calculate_social_cycle(assumptions)
+    cost_df = generate_cost_comparison(assumptions)
+    scale_df = generate_scale_comparison(assumptions, "claude_opus_46")
+
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
-    
-    # 1. Context loading components
+
     ax1 = axes[0, 0]
-    context = calculate_context_loading_tokens()
-    colors = plt.cm.Blues(np.linspace(0.4, 0.9, len(context)))
+    colors = plt.cm.Blues(np.linspace(0.45, 0.9, len(context)))
     bars = ax1.barh(list(context.keys()), list(context.values()), color=colors)
+    ax1.set_title("Illustrative per-action context load")
     ax1.set_xlabel("Tokens")
-    ax1.set_title("Context Loading Components (per action)")
-    for bar, val in zip(bars, context.values()):
-        ax1.text(val + 100, bar.get_y() + bar.get_height()/2, 
-                f"{val:,}", va='center', fontsize=9)
-    
-    # 2. Social cycle breakdown
+    for bar, value in zip(bars, context.values(), strict=True):
+        ax1.text(value + 100, bar.get_y() + (bar.get_height() / 2), f"{value:,}", va="center", fontsize=9)
+
     ax2 = axes[0, 1]
-    cycle, total_input, total_output = calculate_social_cycle()
     actions = list(cycle.keys())
-    inputs = [v["input"] for v in cycle.values()]
-    outputs = [v["output"] for v in cycle.values()]
-    
+    input_tokens = [item["input"] for item in cycle.values()]
+    output_tokens = [item["output"] for item in cycle.values()]
     x = np.arange(len(actions))
     width = 0.35
-    ax2.bar(x - width/2, inputs, width, label='Input tokens', color='steelblue')
-    ax2.bar(x + width/2, outputs, width, label='Output tokens', color='coral')
-    ax2.set_ylabel("Tokens")
-    ax2.set_title("Token Usage per Social Cycle Component")
+    ax2.bar(x - width / 2, input_tokens, width, label="Input tokens", color="#0f766e")
+    ax2.bar(x + width / 2, output_tokens, width, label="Output tokens", color="#f97316")
     ax2.set_xticks(x)
-    ax2.set_xticklabels(actions, rotation=45, ha='right', fontsize=8)
+    ax2.set_xticklabels(actions, rotation=20, ha="right")
+    ax2.set_ylabel("Tokens")
+    ax2.set_title("One social cycle under stated assumptions")
     ax2.legend()
-    
-    # 3. Cost comparison by model
+
     ax3 = axes[1, 0]
-    df_cost = generate_cost_comparison()
-    models = df_cost["Model"]
-    costs = df_cost["Total ($)"]
-    colors = plt.cm.RdYlGn_r(np.linspace(0.2, 0.8, len(models)))
-    bars = ax3.bar(range(len(models)), costs, color=colors)
-    ax3.set_xticks(range(len(models)))
-    ax3.set_xticklabels(models, rotation=45, ha='right', fontsize=8)
-    ax3.set_ylabel("Cost per cycle ($)")
-    ax3.set_title("Cost Comparison Across Models")
-    ax3.set_yscale('log')
-    for bar, cost in zip(bars, costs):
-        ax3.text(bar.get_x() + bar.get_width()/2, bar.get_height() * 1.1, 
-                f"${cost:.3f}", ha='center', va='bottom', fontsize=8)
-    
-    # 4. Scale costs
+    ax3.bar(cost_df["Model"], cost_df["Total ($)"], color=["#7f1d1d", "#9a3412", "#15803d"])
+    ax3.set_yscale("log")
+    ax3.set_ylabel("Cost per cycle ($, log scale)")
+    ax3.set_title("Per-cycle cost by model")
+    ax3.tick_params(axis="x", rotation=20)
+    for idx, value in enumerate(cost_df["Total ($)"]):
+        ax3.text(idx, value * 1.1, f"${value:.3f}", ha="center", va="bottom", fontsize=9)
+
     ax4 = axes[1, 1]
-    df_scale = generate_scale_comparison()
-    scenarios = df_scale["Scenario"]
-    # Extract numeric values from formatted strings
-    daily_costs = [float(s.replace('$', '').replace(',', '')) for s in df_scale["Dagelijkse kosten"]]
-    colors = plt.cm.Reds(np.linspace(0.3, 0.9, len(scenarios)))
-    bars = ax4.bar(range(len(scenarios)), daily_costs, color=colors)
-    ax4.set_xticks(range(len(scenarios)))
-    ax4.set_xticklabels(scenarios, rotation=45, ha='right', fontsize=9)
-    ax4.set_ylabel("Daily cost ($)")
-    ax4.set_title("Daily Cost at Different Scales (10 cycles/agent/day)")
-    ax4.set_yscale('log')
-    for bar, cost in zip(bars, daily_costs):
-        label = f"${cost:,.0f}" if cost < 1_000_000 else f"${cost/1_000_000:.1f}M"
-        ax4.text(bar.get_x() + bar.get_width()/2, bar.get_height() * 1.1, 
-                label, ha='center', va='bottom', fontsize=8, rotation=0)
-    
-    plt.tight_layout()
-    plt.savefig("../assets/token_breakdown.png", dpi=150, bbox_inches="tight")
-    plt.close()
-    print("✓ Saved: assets/token_breakdown.png")
+    ax4.axis("off")
+    documented = assumptions["documented_openclaw_example"]
+    callout = (
+        "Audit notes\n\n"
+        f"- OpenClaw docs example: ~{documented['session_tokens_total']:,} total session tokens\n"
+        f"- System prompt anchor: ~{documented['system_prompt_tokens']:,} tokens\n"
+        "- Presentation cycle is an assumption-driven scenario, not a measured Moltbook trace\n"
+        "- Main conclusion is directional: repeated context loading dominates cost\n\n"
+        "Selected scale outputs (Opus 4.6)\n"
+    )
+    for row in scale_df.itertuples(index=False):
+        daily_cost = f"${row[3]:,.0f}"
+        annual_cost = f"${row[4]:,.0f}"
+        callout += f"- {row[0]}: {daily_cost}/day, {annual_cost}/year\n"
+    ax4.text(
+        0.02,
+        0.98,
+        callout,
+        va="top",
+        ha="left",
+        fontsize=10,
+        family="monospace",
+        bbox={"boxstyle": "round,pad=0.6", "facecolor": "#f8fafc", "edgecolor": "#cbd5e1"},
+    )
+
+    fig.suptitle("AI-agent social cycle cost model", fontsize=16, fontweight="bold")
+    fig.tight_layout()
+
+    output_path = ASSETS_DIR / "token_breakdown.png"
+    fig.savefig(output_path, dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    return output_path
 
 
-def print_analysis():
-    """Print full analysis report"""
-    print("=" * 70)
-    print("TOKEN USAGE ANALYSIS FOR AI AGENT SOCIAL NETWORKS")
-    print("=" * 70)
-    
-    # Context loading
-    print("\n1. CONTEXT LOADING BREAKDOWN (per action)")
-    print("-" * 50)
-    context = calculate_context_loading_tokens()
+def print_analysis(assumptions: dict[str, Any]) -> None:
+    """Print the audit-friendly token usage summary.
+
+    Args:
+        assumptions: Parsed token usage assumptions JSON.
+    """
+    context = calculate_context_loading_tokens(assumptions)
+    cycle, total_input, total_output = calculate_social_cycle(assumptions)
+    pricing = build_pricing_lookup(assumptions)
+    cost_df = generate_cost_comparison(assumptions)
+    scale_df = generate_scale_comparison(assumptions, "claude_opus_46")
+    _, _, cycle_cost = calculate_cost(total_input, total_output, pricing, "claude_opus_46")
+
+    print("=" * 72)
+    print("TOKEN USAGE ANALYSIS (ILLUSTRATIVE, ASSUMPTION-DRIVEN)")
+    print("=" * 72)
+    print("\nDocumented OpenClaw anchor")
+    print("-" * 72)
+    documented = assumptions["documented_openclaw_example"]
+    print(
+        "OpenClaw docs example:"
+        f" system prompt ~{documented['system_prompt_tokens']:,},"
+        f" AGENTS.md ~{documented['agents_md_tokens']:,},"
+        f" total session tokens ~{documented['session_tokens_total']:,}"
+    )
+
+    print("\nPresentation scenario inputs")
+    print("-" * 72)
     for component, tokens in context.items():
-        print(f"  {component:25}: {tokens:>8,} tokens")
-    print(f"  {'TOTAL':25}: {sum(context.values()):>8,} tokens")
-    
-    # Social cycle
-    print("\n2. SOCIAL CYCLE BREAKDOWN")
-    print("-" * 50)
-    cycle, total_input, total_output = calculate_social_cycle()
+        print(f"{component:30} {tokens:>8,}")
+    print(f"{'Per-action context total':30} {sum(context.values()):>8,}")
+
+    print("\nOne social cycle")
+    print("-" * 72)
     for action, tokens in cycle.items():
-        print(f"  {action:25}: {tokens['input']:>8,} in / {tokens['output']:>6,} out")
-    print(f"  {'TOTAL':25}: {total_input:>8,} in / {total_output:>6,} out")
-    print(f"  {'GRAND TOTAL':25}: {total_input + total_output:>8,} tokens")
-    
-    # Cost comparison
-    print("\n3. COST COMPARISON BY MODEL")
-    print("-" * 50)
-    df_cost = generate_cost_comparison()
-    print(df_cost.to_string(index=False))
-    
-    # Scale comparison
-    print("\n4. COST AT SCALE (Claude Opus 4.6)")
-    print("-" * 50)
-    df_scale = generate_scale_comparison()
-    print(df_scale.to_string(index=False))
-    
-    # Key insight
-    print("\n5. KEY INSIGHT")
-    print("-" * 50)
-    _, _, cost_per_cycle = calculate_cost(total_input, total_output, "claude_opus_46")
-    print(f"  Cost per social cycle: ${cost_per_cycle:.4f}")
-    print(f"  For 10,000 agents doing 10 cycles/day: ${10000 * 10 * cost_per_cycle:,.0f}/day")
-    print(f"  Annual cost at Twitter scale: ~${100_000_000 * 10 * cost_per_cycle * 365 / 1e9:.1f}B")
-    print("\n  → Social interaction for agents is computationally MUCH more")
-    print("    expensive than for humans (~$0 marginal cost per interaction)")
-    
-    print("\n" + "=" * 70)
+        print(f"{action:30} {tokens['input']:>8,} in / {tokens['output']:>6,} out")
+    print(f"{'TOTAL':30} {total_input:>8,} in / {total_output:>6,} out")
+    print(f"{'GRAND TOTAL':30} {total_input + total_output:>8,} tokens")
+
+    print("\nCost comparison")
+    print("-" * 72)
+    print(cost_df.drop(columns=["Source"]).to_string(index=False))
+
+    print("\nScale comparison (Claude Opus 4.6)")
+    print("-" * 72)
+    for row in scale_df.itertuples(index=False):
+        print(
+            f"{row[0]:20} "
+            f"{row[1]:>10,} agents  "
+            f"{row[2]:>3} cycles/day  "
+            f"${row[3]:>13,.0f}/day  "
+            f"${row[4]:>15,.0f}/year"
+        )
+
+    print("\nInterpretation")
+    print("-" * 72)
+    print(f"Cost per illustrative social cycle on Claude Opus 4.6: ${cycle_cost:.4f}")
+    print("This is not a direct Moltbook measurement.")
+    print("It is a transparent scenario showing how quickly repeated context loading dominates cost.")
+    print("\n" + "=" * 72)
+
+
+def main() -> None:
+    """Run the token usage analysis and save the visualization."""
+    assumptions = load_assumptions()
+    print_analysis(assumptions)
+    output_path = plot_token_breakdown(assumptions)
+    print(f"\nSaved figure: {output_path.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":
-    print_analysis()
-    plot_token_breakdown()
-    print("\n✓ Token usage analysis complete!")
+    main()

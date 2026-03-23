@@ -1,0 +1,70 @@
+{
+  "collected_at": "2026-03-23",
+  "description": "Scenario assumptions for the Monte Carlo readiness model. These are explicit assumptions, not empirical measurements.",
+  "weights": {
+    "C": 0.2,
+    "E": 0.2,
+    "M": 0.15,
+    "R": 0.15,
+    "N": 0.12,
+    "G": 0.1,
+    "D": 0.08
+  },
+  "threshold": 75.0,
+  "floor_values": {
+    "M": 60.0,
+    "R": 60.0,
+    "N": 60.0,
+    "G": 60.0
+  },
+  "min_consecutive_years": 2,
+  "pillar_descriptions": {
+    "C": "Capability",
+    "E": "Efficiency",
+    "M": "Memory",
+    "R": "Reliability",
+    "N": "Network",
+    "G": "Governance",
+    "D": "Demand"
+  },
+  "scenarios": [
+    {
+      "name": "Conservative",
+      "pillars": [
+        {"code": "C", "initial_2026": 55, "growth_mu": 0.12, "volatility": 0.1, "neg_shock_prob": 0.08, "neg_shock_size": -0.12},
+        {"code": "E", "initial_2026": 45, "growth_mu": 0.2, "volatility": 0.12, "neg_shock_prob": 0.06, "neg_shock_size": -0.08},
+        {"code": "M", "initial_2026": 30, "growth_mu": 0.08, "volatility": 0.15, "neg_shock_prob": 0.12, "neg_shock_size": -0.15},
+        {"code": "R", "initial_2026": 28, "growth_mu": 0.1, "volatility": 0.15, "neg_shock_prob": 0.15, "neg_shock_size": -0.18},
+        {"code": "N", "initial_2026": 20, "growth_mu": 0.08, "volatility": 0.18, "neg_shock_prob": 0.18, "neg_shock_size": -0.2},
+        {"code": "G", "initial_2026": 25, "growth_mu": 0.04, "volatility": 0.12, "neg_shock_prob": 0.2, "neg_shock_size": -0.25},
+        {"code": "D", "initial_2026": 50, "growth_mu": 0.08, "volatility": 0.1, "neg_shock_prob": 0.08, "neg_shock_size": -0.08}
+      ]
+    },
+    {
+      "name": "Base case",
+      "pillars": [
+        {"code": "C", "initial_2026": 55, "growth_mu": 0.18, "volatility": 0.08, "neg_shock_prob": 0.05, "neg_shock_size": -0.08},
+        {"code": "E", "initial_2026": 45, "growth_mu": 0.28, "volatility": 0.1, "neg_shock_prob": 0.04, "neg_shock_size": -0.06},
+        {"code": "M", "initial_2026": 30, "growth_mu": 0.14, "volatility": 0.12, "neg_shock_prob": 0.08, "neg_shock_size": -0.1},
+        {"code": "R", "initial_2026": 28, "growth_mu": 0.16, "volatility": 0.12, "neg_shock_prob": 0.1, "neg_shock_size": -0.12},
+        {"code": "N", "initial_2026": 20, "growth_mu": 0.15, "volatility": 0.15, "neg_shock_prob": 0.12, "neg_shock_size": -0.15},
+        {"code": "G", "initial_2026": 25, "growth_mu": 0.08, "volatility": 0.1, "neg_shock_prob": 0.15, "neg_shock_size": -0.18},
+        {"code": "D", "initial_2026": 50, "growth_mu": 0.12, "volatility": 0.07, "neg_shock_prob": 0.05, "neg_shock_size": -0.06}
+      ]
+    },
+    {
+      "name": "Accelerated",
+      "pillars": [
+        {"code": "C", "initial_2026": 55, "growth_mu": 0.22, "volatility": 0.06, "neg_shock_prob": 0.03, "neg_shock_size": -0.05},
+        {"code": "E", "initial_2026": 45, "growth_mu": 0.35, "volatility": 0.08, "neg_shock_prob": 0.02, "neg_shock_size": -0.04},
+        {"code": "M", "initial_2026": 30, "growth_mu": 0.2, "volatility": 0.1, "neg_shock_prob": 0.05, "neg_shock_size": -0.06},
+        {"code": "R", "initial_2026": 28, "growth_mu": 0.22, "volatility": 0.1, "neg_shock_prob": 0.06, "neg_shock_size": -0.08},
+        {"code": "N", "initial_2026": 20, "growth_mu": 0.22, "volatility": 0.12, "neg_shock_prob": 0.08, "neg_shock_size": -0.1},
+        {"code": "G", "initial_2026": 25, "growth_mu": 0.12, "volatility": 0.08, "neg_shock_prob": 0.1, "neg_shock_size": -0.12},
+        {"code": "D", "initial_2026": 50, "growth_mu": 0.18, "volatility": 0.06, "neg_shock_prob": 0.03, "neg_shock_size": -0.04}
+      ]
+    }
+  ],
+  "sensitivity_thresholds": [70.0, 75.0, 80.0],
+  "sensitivity_floor_values": [55.0, 60.0, 65.0]
+}

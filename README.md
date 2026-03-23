@@ -1,104 +1,81 @@
-# Moltbook Session - AI Agents & Agent Networks
+# Moltbook Session
 
-Een complete 20-25 minuten sessie over AI agents, OpenClaw, Moltbook en de toekomst van AI agent netwerken.
+This repository now treats the Moltbook talk as a verification-first presentation project, not a polish-only slide deck.
 
-## Snelle Start
+## What Changed
+
+The earlier repo state had three major credibility problems:
+
+1. `analyses/ai_trends.py` generated sourced-looking curves from synthetic data.
+2. The documented analysis commands did not work from the repo root because the scripts saved to the wrong paths.
+3. The deck text overstated confidence on several points, especially the MiniMax vs Opus comparison and the token-cost framing.
+
+The current repo is structured to make those issues visible and auditable.
+
+## Reproducible Workflow
+
+### Python analyses with `uv`
 
 ```bash
-# Setup
 cd /home/ff/Documents/BoostMeUp/MoltBook_Sessie
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-# Run analyses
-python analyses/token_usage.py
-python analyses/ai_trends.py
-python analyses/forecast_model.py
+UV_CACHE_DIR=.uv-cache uv sync
+MPLCONFIGDIR=/tmp/matplotlib UV_CACHE_DIR=.uv-cache uv run analyses/token_usage.py
+MPLCONFIGDIR=/tmp/matplotlib UV_CACHE_DIR=.uv-cache uv run analyses/ai_trends.py
+MPLCONFIGDIR=/tmp/matplotlib UV_CACHE_DIR=.uv-cache uv run analyses/forecast_model.py
 ```
 
-## Inhoud
+### Native PowerPoint build with `bun`
 
-### Content Files (`content/`)
-| Bestand | Onderwerp | Tijd |
-|---------|-----------|------|
-| `01-intro.md` | Hook, OpenClaw, Moltbook | 0-3 min |
-| `02-ai-agents.md` | Wat is een AI agent, agent netwerken | 3-9 min |
-| `03-agents-md.md` | AGENTS.md, protocol, token analyse | 9-17 min |
-| `04-kritiek.md` | Waarom dit nog geen echt sociaal netwerk is | 17-20 min |
-| `05-trends.md` | AI trend grafieken en analyse | 20-22 min |
-| `06-forecast.md` | Monte Carlo forecasting model | 22-25 min |
-| `07-slot.md` | Conclusie en take-aways | 25 min |
+```bash
+cd /home/ff/Documents/BoostMeUp/MoltBook_Sessie
+BUN_TMPDIR=/tmp BUN_INSTALL_CACHE_DIR=.bun-cache bun install
+BUN_TMPDIR=/tmp BUN_INSTALL_CACHE_DIR=.bun-cache bun run build:deck
+```
 
-### Analyses (`analyses/`)
-- **`token_usage.py`** - Token verbruik analyse voor één "sociale cyclus"
-  - Context loading breakdown
-  - Kosten vergelijking per model
-  - Schaal scenario's
-  
-- **`ai_trends.py`** - AI capability en efficiency trends
-  - Epoch Capabilities Index
-  - Benchmark sprongen
-  - Inference kosten daling
-  - MiniMax vs Claude Opus vergelijking
-  
-- **`forecast_model.py`** - Monte Carlo forecasting model
-  - 7-pilaar readiness index
-  - Drie scenario's (Conservative, Base, Accelerated)
-  - 10,000 simulaties per scenario
+This rebuilds [Moltbook.pptx](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/Moltbook.pptx) as a native `.pptx` via `PptxGenJS`.
 
-### Visualisaties (`assets/`)
+## Repo Layout
 
-**Gegenereerde Analyses:**
-- `token_breakdown.png` - Token usage visualisaties
-- `ai_trends.png` - AI trends dashboard
-- `forecast_distribution.png` - Forecast resultaten
+### Source content
 
-**Screenshots van Bronnen:**
-- `moltbook_homepage.png` - Moltbook homepage
-- `moltbook_terms_eligibility.png` - Moltbook Terms of Service
-- `openclaw_context_docs.png` - OpenClaw context documentatie
-- `stanford_hai_ai_index_2025.png` - Stanford HAI AI Index 2025
-- `epoch_ai_eci.png` - Epoch Capabilities Index
+- [slides/slides-main.md](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/slides/slides-main.md): verified slide outline
+- [content/01-intro.md](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/content/01-intro.md) to [content/07-slot.md](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/content/07-slot.md): audited talk notes
 
-Zie ook: `content/00-screenshots-gallery.md` voor een overzicht van alle screenshots.
+### Analysis code
 
-### Presentatie (`slides/`)
-- `slides-main.md` - 37 slides met sprekersnotities
+- [analyses/token_usage.py](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/analyses/token_usage.py): illustrative token-cost model with explicit assumptions
+- [analyses/ai_trends.py](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/analyses/ai_trends.py): sourced trend summary only
+- [analyses/forecast_model.py](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/analyses/forecast_model.py): assumption-driven Monte Carlo readiness model
 
-## Kernboodschap
+### Data inputs
 
-> **"Moltbook is interessant, niet omdat het al een echt sociaal netwerk voor AI is, maar omdat het toont wat er nog ontbreekt: identiteit, geheugen, governance en economische efficiëntie."**
+- [data/token_usage_assumptions.json](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/data/token_usage_assumptions.json)
+- [data/ai_trends_metrics.json](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/data/ai_trends_metrics.json)
+- [data/forecast_scenarios.json](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/data/forecast_scenarios.json)
 
-### Belangrijkste Inzichten
+### Generated assets
 
-1. **Token verbruik:** ~$0.38 per "sociale cyclus" (vs $0 voor mensen)
-2. **Geheugen:** AI heeft geen stabiel, goedkoop, doorlopend sociaal geheugen
-3. **Forecast:** Median arrival 2036-2039 afhankelijk van scenario
-4. **Bottleneck:** Niet meer alleen ruwe intelligentie, maar continuïteit, coördinatie, governance en kosten
+- [assets/token_breakdown.png](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/assets/token_breakdown.png)
+- [assets/ai_trends.png](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/assets/ai_trends.png)
+- [assets/forecast_distribution.png](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/assets/forecast_distribution.png)
 
-## Forecast Resultaten (Samenvatting)
+### Verification deliverables
 
-| Scenario | P(≤2035) | P(≤2040) | Median |
-|----------|----------|----------|--------|
-| Conservative | 0% | 0.3% | 2039 |
-| Base case | 2.4% | 28.9% | 2038 |
-| Accelerated | 45.5% | 95.2% | 2036 |
+- `VERIFICATION_REPORT.md`
+- `CLAIM_AUDIT.md`
+- `ANALYSIS_AUDIT.md`
+- `SLIDE_SYSTEM_DECISION.md`
 
-*Level-3 reality = globaal, stabiel, economisch levensvatbaar agent netwerk*
+## Current Claim Standard
 
-## Bronnen
+Every non-trivial number in the talk should be read as one of:
 
-- **Stanford HAI AI Index 2025**
-- **Epoch AI**
-- **OpenClaw Documentatie** (docs.openclaw.ai)
-- **Moltbook** (moltbook.com)
-- **Euronews onderzoek** (AI vs Human op Moltbook)
+- reproduced from code and verified against a source
+- reproduced from code but assumption-driven
+- source-supported but not directly reproduced locally
+- ambiguous or source-misaligned
+- unsupported and removed
 
-## Licentie
+## Core Thesis
 
-Dit project is voor educatieve doeleinden.
-
----
-
-*Gemaakt: Maart 2026*
+> Moltbook is interesting less as proof that autonomous digital societies already exist, and more as a live stress test of what is still missing: identity, memory, governance, and cost discipline.

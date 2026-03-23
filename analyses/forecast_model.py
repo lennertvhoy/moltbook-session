@@ -1,399 +1,553 @@
-"""
-Monte Carlo Forecasting Model for AI Agent Networks
-Predicts when "Level-3 reality" (global social reality) is reached
+"""Monte Carlo readiness model for AI-agent networks.
+
+This model is intentionally presented as an assumption-driven scenario tool.
+It is not an empirical forecast. The scenario inputs live in
+``data/forecast_scenarios.json`` so the assumptions can be audited directly.
 """
 
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
+from __future__ import annotations
+
+import json
 from dataclasses import dataclass
-from typing import Tuple, Dict, List
+from pathlib import Path
+from typing import Any
 
-# Set random seed for reproducibility
-np.random.seed(42)
+import matplotlib.pyplot as plt
+import numpy as np
 
 
-@dataclass
+ROOT = Path(__file__).resolve().parents[1]
+ASSETS_DIR = ROOT / "assets"
+DATA_PATH = ROOT / "data" / "forecast_scenarios.json"
+SEED = 42
+
+
+@dataclass(frozen=True)
 class PillarConfig:
-    """Configuration for one pillar of the readiness index"""
+    """Configuration for one readiness pillar."""
+
     name: str
     code: str
     initial_2026: float
-    growth_mu: float  # Expected annual log growth
-    volatility: float  # Annual volatility (sigma)
-    neg_shock_prob: float  # Probability of negative shock
-    neg_shock_size: float  # Size of negative shock (log scale)
-    weight: float  # Weight in geometric mean
+    growth_mu: float
+    volatility: float
+    neg_shock_prob: float
+    neg_shock_size: float
+    weight: float
 
 
-@dataclass
+@dataclass(frozen=True)
 class Scenario:
-    """A complete scenario configuration"""
+    """Container for one scenario's pillar assumptions."""
+
     name: str
-    pillars: List[PillarConfig]
-    threshold: float = 75.0
-    floor_values: Dict[str, float] = None
-    min_consecutive_years: int = 2
+    pillars: tuple[PillarConfig, ...]
+    threshold: float
+    floor_values: dict[str, float]
+    min_consecutive_years: int
 
 
-class AgentNetworkForecaster:
-    """Monte Carlo forecaster for AI agent network readiness"""
-    
-    def __init__(self, scenario: Scenario, n_simulations: int = 10000):
-        self.scenario = scenario
-        self.n_simulations = n_simulations
-        self.years = np.arange(2026, 2041)  # 2026 to 2040
-        
-    def _simulate_pillar(self, pillar: PillarConfig) -> np.ndarray:
-        """Simulate one pillar over time"""
-        n_years = len(self.years)
-        values = np.zeros((self.n_simulations, n_years))
-        values[:, 0] = pillar.initial_2026
-        
-        for t in range(1, n_years):
-            # Log-normal growth
-            log_growth = np.random.normal(pillar.growth_mu, pillar.volatility, self.n_simulations)
-            
-            # Add occasional shocks
-            shocks = np.random.random(self.n_simulations) < pillar.neg_shock_prob
-            log_growth[shocks] += pillar.neg_shock_size
-            
-            # Update values
-            values[:, t] = values[:, t-1] * np.exp(log_growth)
-            
-            # Cap at 100
-            values[:, t] = np.clip(values[:, t], 0, 100)
-            
-        return values
-    
-    def _calculate_readiness_index(self, pillar_values: Dict[str, np.ndarray]) -> np.ndarray:
-        """Calculate weighted geometric mean readiness index"""
-        n_years = len(self.years)
-        index = np.ones((self.n_simulations, n_years)) * 100.0
-        
-        for pillar in self.scenario.pillars:
-            code = pillar.code
-            weight = pillar.weight
-            values = pillar_values[code]
-            index *= (values / 100.0) ** weight
-            
-        index *= 100.0  # Scale back to 0-100
-        return index
-    
-    def _check_threshold_crossing(self, index: np.ndarray, pillar_values: Dict[str, np.ndarray]) -> np.ndarray:
-        """Check for each simulation when threshold is crossed and sustained"""
-        crossing_years = np.full(self.n_simulations, np.nan)
-        
-        floor_codes = list(self.scenario.floor_values.keys()) if self.scenario.floor_values else []
-        
-        for i in range(self.n_simulations):
-            consecutive = 0
-            for t, year in enumerate(self.years):
-                # Check main threshold
-                above_threshold = index[i, t] >= self.scenario.threshold
-                
-                # Check floor constraints
-                floors_met = all(
-                    pillar_values[code][i, t] >= self.scenario.floor_values.get(code, 0)
-                    for code in floor_codes
-                )
-                
-                if above_threshold and floors_met:
-                    consecutive += 1
-                    if consecutive >= self.scenario.min_consecutive_years:
-                        crossing_years[i] = year
-                        break
-                else:
-                    consecutive = 0
-                    
-        return crossing_years
-    
-    def run_simulation(self) -> Dict:
-        """Run full Monte Carlo simulation"""
-        # Simulate all pillars
-        pillar_values = {}
-        for pillar in self.scenario.pillars:
-            pillar_values[pillar.code] = self._simulate_pillar(pillar)
-        
-        # Calculate readiness index
-        index = self._calculate_readiness_index(pillar_values)
-        
-        # Check threshold crossing
-        crossing_years = self._check_threshold_crossing(index, pillar_values)
-        
-        return {
-            'pillar_values': pillar_values,
-            'index': index,
-            'crossing_years': crossing_years
-        }
-    
-    def calculate_statistics(self, results: Dict) -> Dict:
-        """Calculate summary statistics from simulation results"""
-        crossing_years = results['crossing_years']
-        valid_crossings = crossing_years[~np.isnan(crossing_years)]
-        
-        stats = {
-            'p_by_2030': np.mean(crossing_years <= 2030) if len(valid_crossings) > 0 else 0,
-            'p_by_2035': np.mean(crossing_years <= 2035) if len(valid_crossings) > 0 else 0,
-            'p_by_2040': np.mean(crossing_years <= 2040) if len(valid_crossings) > 0 else 0,
-            'median_year': np.median(valid_crossings) if len(valid_crossings) > 0 else np.nan,
-            'p5_year': np.percentile(valid_crossings, 5) if len(valid_crossings) > 0 else np.nan,
-            'p95_year': np.percentile(valid_crossings, 95) if len(valid_crossings) > 0 else np.nan,
-            'never_crosses': np.mean(np.isnan(crossing_years)),
-            'n_simulations': self.n_simulations,
-        }
-        
-        # Calculate year-by-year probabilities
-        year_probs = {}
-        for year in self.years:
-            year_probs[year] = np.mean(crossing_years <= year) if len(valid_crossings) > 0 else 0
-            
-        stats['year_probs'] = year_probs
-        
-        return stats
+def load_config() -> dict[str, Any]:
+    """Load the scenario configuration from disk.
+
+    Returns:
+        Parsed forecast configuration payload.
+    """
+    return json.loads(DATA_PATH.read_text(encoding="utf-8"))
 
 
-def create_scenarios() -> Dict[str, Scenario]:
-    """Create the three scenarios: Conservative, Base, Accelerated"""
-    
-    # Conservative scenario
-    conservative_pillars = [
-        PillarConfig("Capability", "C", 55, 0.12, 0.10, 0.08, -0.12, 0.20),
-        PillarConfig("Efficiency", "E", 45, 0.20, 0.12, 0.06, -0.08, 0.20),
-        PillarConfig("Memory", "M", 30, 0.08, 0.15, 0.12, -0.15, 0.15),
-        PillarConfig("Reliability", "R", 28, 0.10, 0.15, 0.15, -0.18, 0.15),
-        PillarConfig("Network", "N", 20, 0.08, 0.18, 0.18, -0.20, 0.12),
-        PillarConfig("Governance", "G", 25, 0.04, 0.12, 0.20, -0.25, 0.10),
-        PillarConfig("Demand", "D", 50, 0.08, 0.10, 0.08, -0.08, 0.08),
-    ]
-    
-    # Base case scenario
-    base_pillars = [
-        PillarConfig("Capability", "C", 55, 0.18, 0.08, 0.05, -0.08, 0.20),
-        PillarConfig("Efficiency", "E", 45, 0.28, 0.10, 0.04, -0.06, 0.20),
-        PillarConfig("Memory", "M", 30, 0.14, 0.12, 0.08, -0.10, 0.15),
-        PillarConfig("Reliability", "R", 28, 0.16, 0.12, 0.10, -0.12, 0.15),
-        PillarConfig("Network", "N", 20, 0.15, 0.15, 0.12, -0.15, 0.12),
-        PillarConfig("Governance", "G", 25, 0.08, 0.10, 0.15, -0.18, 0.10),
-        PillarConfig("Demand", "D", 50, 0.12, 0.07, 0.05, -0.06, 0.08),
-    ]
-    
-    # Accelerated scenario
-    accelerated_pillars = [
-        PillarConfig("Capability", "C", 55, 0.22, 0.06, 0.03, -0.05, 0.20),
-        PillarConfig("Efficiency", "E", 45, 0.35, 0.08, 0.02, -0.04, 0.20),
-        PillarConfig("Memory", "M", 30, 0.20, 0.10, 0.05, -0.06, 0.15),
-        PillarConfig("Reliability", "R", 28, 0.22, 0.10, 0.06, -0.08, 0.15),
-        PillarConfig("Network", "N", 20, 0.22, 0.12, 0.08, -0.10, 0.12),
-        PillarConfig("Governance", "G", 25, 0.12, 0.08, 0.10, -0.12, 0.10),
-        PillarConfig("Demand", "D", 50, 0.18, 0.06, 0.03, -0.04, 0.08),
-    ]
-    
-    floor_values = {"M": 60, "R": 60, "N": 60, "G": 60}
-    
-    scenarios = {
-        "Conservative": Scenario("Conservative", conservative_pillars, 75.0, floor_values, 2),
-        "Base case": Scenario("Base case", base_pillars, 75.0, floor_values, 2),
-        "Accelerated": Scenario("Accelerated", accelerated_pillars, 75.0, floor_values, 2),
-    }
-    
+def create_scenarios(config: dict[str, Any]) -> dict[str, Scenario]:
+    """Build scenario objects from the JSON config.
+
+    Args:
+        config: Parsed forecast configuration.
+
+    Returns:
+        Mapping of scenario name to scenario object.
+    """
+    weights = config["weights"]
+    descriptions = config["pillar_descriptions"]
+    scenarios: dict[str, Scenario] = {}
+    for scenario_data in config["scenarios"]:
+        pillars = tuple(
+            PillarConfig(
+                name=descriptions[pillar["code"]],
+                code=pillar["code"],
+                initial_2026=float(pillar["initial_2026"]),
+                growth_mu=float(pillar["growth_mu"]),
+                volatility=float(pillar["volatility"]),
+                neg_shock_prob=float(pillar["neg_shock_prob"]),
+                neg_shock_size=float(pillar["neg_shock_size"]),
+                weight=float(weights[pillar["code"]]),
+            )
+            for pillar in scenario_data["pillars"]
+        )
+        scenarios[scenario_data["name"]] = Scenario(
+            name=scenario_data["name"],
+            pillars=pillars,
+            threshold=float(config["threshold"]),
+            floor_values={key: float(value) for key, value in config["floor_values"].items()},
+            min_consecutive_years=int(config["min_consecutive_years"]),
+        )
     return scenarios
 
 
-def run_all_scenarios(n_simulations: int = 10000) -> Dict[str, Dict]:
-    """Run all scenarios and collect results"""
-    scenarios = create_scenarios()
-    all_results = {}
-    
-    for name, scenario in scenarios.items():
+class AgentNetworkForecaster:
+    """Monte Carlo forecaster for the readiness index."""
+
+    def __init__(self, scenario: Scenario, n_simulations: int = 10000, seed: int = SEED):
+        self.scenario = scenario
+        self.n_simulations = n_simulations
+        self.years = np.arange(2026, 2041)
+        self.rng = np.random.default_rng(seed)
+
+    def _simulate_pillar(self, pillar: PillarConfig) -> np.ndarray:
+        """Simulate one pillar over time.
+
+        Args:
+            pillar: Pillar configuration.
+
+        Returns:
+            Matrix of simulated values with shape (n_simulations, n_years).
+        """
+        values = np.zeros((self.n_simulations, len(self.years)))
+        values[:, 0] = pillar.initial_2026
+
+        for year_index in range(1, len(self.years)):
+            log_growth = self.rng.normal(
+                loc=pillar.growth_mu,
+                scale=pillar.volatility,
+                size=self.n_simulations,
+            )
+            shocks = self.rng.random(self.n_simulations) < pillar.neg_shock_prob
+            log_growth[shocks] += pillar.neg_shock_size
+            values[:, year_index] = np.clip(values[:, year_index - 1] * np.exp(log_growth), 0, 100)
+
+        return values
+
+    def _calculate_readiness_index(self, pillar_values: dict[str, np.ndarray]) -> np.ndarray:
+        """Calculate the weighted geometric mean readiness index.
+
+        Args:
+            pillar_values: Simulated pillar arrays keyed by pillar code.
+
+        Returns:
+            Readiness index matrix.
+        """
+        index = np.ones((self.n_simulations, len(self.years)))
+        for pillar in self.scenario.pillars:
+            index *= (pillar_values[pillar.code] / 100.0) ** pillar.weight
+        return index * 100.0
+
+    def _check_threshold_crossing(
+        self,
+        index: np.ndarray,
+        pillar_values: dict[str, np.ndarray],
+        threshold: float | None = None,
+        floor_values: dict[str, float] | None = None,
+    ) -> np.ndarray:
+        """Determine the first year a simulation crosses and sustains the threshold.
+
+        Args:
+            index: Readiness index matrix.
+            pillar_values: Simulated pillar arrays.
+            threshold: Optional threshold override for sensitivity checks.
+            floor_values: Optional floor override for sensitivity checks.
+
+        Returns:
+            Crossing years array with NaN for simulations that never cross.
+        """
+        active_threshold = self.scenario.threshold if threshold is None else threshold
+        active_floors = self.scenario.floor_values if floor_values is None else floor_values
+        crossing_years = np.full(self.n_simulations, np.nan)
+
+        for simulation_index in range(self.n_simulations):
+            consecutive = 0
+            for year_idx, year in enumerate(self.years):
+                floors_met = all(
+                    pillar_values[code][simulation_index, year_idx] >= minimum
+                    for code, minimum in active_floors.items()
+                )
+                if index[simulation_index, year_idx] >= active_threshold and floors_met:
+                    consecutive += 1
+                    if consecutive >= self.scenario.min_consecutive_years:
+                        crossing_years[simulation_index] = year
+                        break
+                else:
+                    consecutive = 0
+
+        return crossing_years
+
+    def run(self) -> dict[str, Any]:
+        """Run the full simulation for the configured scenario.
+
+        Returns:
+            Dictionary containing simulated pillar values, readiness index, and
+            crossing years.
+        """
+        pillar_values = {pillar.code: self._simulate_pillar(pillar) for pillar in self.scenario.pillars}
+        index = self._calculate_readiness_index(pillar_values)
+        crossing_years = self._check_threshold_crossing(index, pillar_values)
+        return {
+            "pillar_values": pillar_values,
+            "index": index,
+            "crossing_years": crossing_years,
+        }
+
+    def calculate_statistics(
+        self,
+        results: dict[str, Any],
+        threshold: float | None = None,
+        floor_values: dict[str, float] | None = None,
+    ) -> dict[str, Any]:
+        """Summarize the simulation results.
+
+        Args:
+            results: Output of ``run``.
+            threshold: Optional threshold override for sensitivity checks.
+            floor_values: Optional floor override for sensitivity checks.
+
+        Returns:
+            Summary statistics dictionary.
+        """
+        crossing_years = results["crossing_years"]
+        if threshold is not None or floor_values is not None:
+            crossing_years = self._check_threshold_crossing(
+                results["index"],
+                results["pillar_values"],
+                threshold,
+                floor_values,
+            )
+        valid = crossing_years[~np.isnan(crossing_years)]
+
+        stats = {
+            "p_by_2030": float(np.mean(crossing_years <= 2030)),
+            "p_by_2035": float(np.mean(crossing_years <= 2035)),
+            "p_by_2040": float(np.mean(crossing_years <= 2040)),
+            "median_year": float(np.median(valid)) if len(valid) else np.nan,
+            "p5_year": float(np.percentile(valid, 5)) if len(valid) else np.nan,
+            "p95_year": float(np.percentile(valid, 95)) if len(valid) else np.nan,
+            "never_crosses": float(np.mean(np.isnan(crossing_years))),
+            "n_simulations": self.n_simulations,
+            "year_probs": {int(year): float(np.mean(crossing_years <= year)) for year in self.years},
+        }
+        return stats
+
+
+def run_all_scenarios(n_simulations: int = 10000) -> dict[str, dict[str, Any]]:
+    """Run all configured scenarios.
+
+    Args:
+        n_simulations: Number of Monte Carlo runs per scenario.
+
+    Returns:
+        Mapping of scenario name to results, forecaster, and statistics.
+    """
+    config = load_config()
+    scenarios = create_scenarios(config)
+    all_results: dict[str, dict[str, Any]] = {}
+
+    for index, (name, scenario) in enumerate(scenarios.items()):
         print(f"\nRunning {name} scenario...")
-        forecaster = AgentNetworkForecaster(scenario, n_simulations)
-        results = forecaster.run_simulation()
+        forecaster = AgentNetworkForecaster(
+            scenario=scenario,
+            n_simulations=n_simulations,
+            seed=SEED + (index * 100),
+        )
+        results = forecaster.run()
         stats = forecaster.calculate_statistics(results)
         all_results[name] = {
-            'scenario': scenario,
-            'forecaster': forecaster,
-            'results': results,
-            'stats': stats
+            "scenario": scenario,
+            "forecaster": forecaster,
+            "results": results,
+            "stats": stats,
         }
-        
+
     return all_results
 
 
-def plot_forecast_results(all_results: Dict[str, Dict]):
-    """Create visualization of forecast results"""
+def run_threshold_sensitivity(
+    base_result: dict[str, Any],
+    thresholds: list[float],
+) -> list[dict[str, Any]]:
+    """Run threshold sensitivity checks for the base scenario.
+
+    Args:
+        base_result: Base-case result bundle from ``run_all_scenarios``.
+        thresholds: Thresholds to test.
+
+    Returns:
+        List of threshold sensitivity summaries.
+    """
+    forecaster: AgentNetworkForecaster = base_result["forecaster"]
+    results = base_result["results"]
+    sensitivity_rows: list[dict[str, Any]] = []
+    for threshold in thresholds:
+        stats = forecaster.calculate_statistics(results, threshold=threshold)
+        sensitivity_rows.append(
+            {
+                "Threshold": threshold,
+                "P(<=2035)": stats["p_by_2035"],
+                "P(<=2040)": stats["p_by_2040"],
+                "Median": stats["median_year"],
+            }
+        )
+    return sensitivity_rows
+
+
+def run_floor_sensitivity(
+    base_result: dict[str, Any],
+    floor_values: list[float],
+) -> list[dict[str, Any]]:
+    """Run floor sensitivity checks for the base scenario.
+
+    Args:
+        base_result: Base-case result bundle from ``run_all_scenarios``.
+        floor_values: Floor values applied to M, R, N, and G.
+
+    Returns:
+        List of floor sensitivity summaries.
+    """
+    forecaster: AgentNetworkForecaster = base_result["forecaster"]
+    results = base_result["results"]
+    rows: list[dict[str, Any]] = []
+    for floor in floor_values:
+        stats = forecaster.calculate_statistics(
+            results,
+            floor_values={code: float(floor) for code in forecaster.scenario.floor_values},
+        )
+        rows.append(
+            {
+                "Floor": floor,
+                "P(<=2035)": stats["p_by_2035"],
+                "P(<=2040)": stats["p_by_2040"],
+                "Median": stats["median_year"],
+            }
+        )
+    return rows
+
+
+def plot_forecast_results(
+    all_results: dict[str, dict[str, Any]],
+    threshold_sensitivity: list[dict[str, Any]],
+    floor_sensitivity: list[dict[str, Any]],
+) -> Path:
+    """Create the forecast visualization.
+
+    Args:
+        all_results: Scenario simulation outputs.
+        threshold_sensitivity: Threshold sensitivity summaries.
+        floor_sensitivity: Floor sensitivity summaries.
+
+    Returns:
+        Path to the saved PNG file.
+    """
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
-    
-    # 1. Readiness index trajectories
+    colors = {"Conservative": "#1d4ed8", "Base case": "#15803d", "Accelerated": "#dc2626"}
+
     ax1 = axes[0, 0]
-    colors = {'Conservative': 'blue', 'Base case': 'green', 'Accelerated': 'red'}
-    
-    for scenario_name, data in all_results.items():
-        index = data['results']['index']
-        years = data['forecaster'].years
-        
-        # Plot median and confidence bands
+    for scenario_name, payload in all_results.items():
+        years = payload["forecaster"].years
+        index = payload["results"]["index"]
         median = np.median(index, axis=0)
-        p5 = np.percentile(index, 5, axis=0)
-        p95 = np.percentile(index, 95, axis=0)
         p25 = np.percentile(index, 25, axis=0)
         p75 = np.percentile(index, 75, axis=0)
-        
-        color = colors[scenario_name]
-        ax1.plot(years, median, color=color, linewidth=2, label=f"{scenario_name} (median)")
-        ax1.fill_between(years, p25, p75, color=color, alpha=0.2)
-        ax1.fill_between(years, p5, p95, color=color, alpha=0.1)
-    
-    ax1.axhline(y=75, color='black', linestyle='--', label='Threshold (75)')
+        ax1.plot(years, median, linewidth=2.2, color=colors[scenario_name], label=scenario_name)
+        ax1.fill_between(years, p25, p75, color=colors[scenario_name], alpha=0.18)
+    ax1.axhline(y=75, color="black", linestyle="--", linewidth=1)
+    ax1.set_title("Readiness index trajectories")
     ax1.set_xlabel("Year")
-    ax1.set_ylabel("Readiness Index")
-    ax1.set_title("Readiness Index Trajectories by Scenario")
-    ax1.legend(loc='lower right')
+    ax1.set_ylabel("Index")
     ax1.set_ylim(0, 100)
-    ax1.grid(True, alpha=0.3)
-    
-    # 2. Cumulative probability of reaching threshold
+    ax1.legend()
+
     ax2 = axes[0, 1]
-    
-    for scenario_name, data in all_results.items():
-        year_probs = data['stats']['year_probs']
-        years = list(year_probs.keys())
-        probs = list(year_probs.values())
-        
-        ax2.plot(years, probs, marker='o', linewidth=2, label=scenario_name, color=colors[scenario_name])
-    
-    ax2.axhline(y=0.5, color='gray', linestyle=':', alpha=0.5)
+    for scenario_name, payload in all_results.items():
+        year_probs = payload["stats"]["year_probs"]
+        ax2.plot(
+            list(year_probs.keys()),
+            list(year_probs.values()),
+            marker="o",
+            linewidth=2,
+            color=colors[scenario_name],
+            label=scenario_name,
+        )
+    ax2.set_title("Probability of crossing by year")
     ax2.set_xlabel("Year")
-    ax2.set_ylabel("Cumulative Probability")
-    ax2.set_title("P(Level-3 reached by year)")
-    ax2.legend()
+    ax2.set_ylabel("Cumulative probability")
     ax2.set_ylim(0, 1)
-    ax2.grid(True, alpha=0.3)
-    
-    # 3. Distribution of crossing years
+    ax2.legend()
+
     ax3 = axes[1, 0]
-    
-    crossing_data = []
+    crossing_groups = []
     labels = []
-    for scenario_name, data in all_results.items():
-        crossing_years = data['results']['crossing_years']
-        valid = crossing_years[~np.isnan(crossing_years)]
-        if len(valid) > 0:
-            crossing_data.append(valid)
+    for scenario_name in ("Conservative", "Base case", "Accelerated"):
+        valid = all_results[scenario_name]["results"]["crossing_years"]
+        valid = valid[~np.isnan(valid)]
+        if len(valid):
+            crossing_groups.append(valid)
             labels.append(f"{scenario_name}\n(n={len(valid)})")
-    
-    bp = ax3.boxplot(crossing_data, labels=labels, patch_artist=True)
-    for patch, color in zip(bp['boxes'], colors.values()):
-        patch.set_facecolor(color)
-        patch.set_alpha(0.5)
-    
+    boxplot = ax3.boxplot(crossing_groups, tick_labels=labels, patch_artist=True)
+    for patch, scenario_name in zip(boxplot["boxes"], ("Conservative", "Base case", "Accelerated"), strict=True):
+        patch.set_facecolor(colors[scenario_name])
+        patch.set_alpha(0.25)
+    ax3.set_title("Crossing-year distribution")
     ax3.set_ylabel("Year")
-    ax3.set_title("Distribution of Threshold Crossing Years")
-    ax3.grid(True, alpha=0.3, axis='y')
-    
-    # 4. Summary statistics table
+
     ax4 = axes[1, 1]
-    ax4.axis('off')
-    
-    table_data = []
-    for scenario_name in ['Conservative', 'Base case', 'Accelerated']:
-        stats = all_results[scenario_name]['stats']
-        table_data.append([
-            scenario_name,
-            f"{stats['p_by_2030']:.1%}",
-            f"{stats['p_by_2035']:.1%}",
-            f"{stats['p_by_2040']:.1%}",
-            f"{stats['median_year']:.0f}" if not np.isnan(stats['median_year']) else "N/A",
-            f"{stats['p5_year']:.0f}-{stats['p95_year']:.0f}" if not np.isnan(stats['p5_year']) else "N/A"
-        ])
-    
-    table = ax4.table(
-        cellText=table_data,
-        colLabels=['Scenario', 'P(≤2030)', 'P(≤2035)', 'P(≤2040)', 'Median', '90% CI'],
-        loc='center',
-        cellLoc='center'
+    ax4.axis("off")
+    base_stats = all_results["Base case"]["stats"]
+    summary_lines = [
+        "Base-case audit notes",
+        "",
+        f"- Median crossing year: {base_stats['median_year']:.0f}",
+        f"- 90% interval among crossings: {base_stats['p5_year']:.0f}-{base_stats['p95_year']:.0f}",
+        f"- Never crosses by 2040: {base_stats['never_crosses']:.1%}",
+        "",
+        "Threshold sensitivity",
+    ]
+    for row in threshold_sensitivity:
+        median = "N/A" if np.isnan(row["Median"]) else f"{row['Median']:.0f}"
+        summary_lines.append(
+            f"- threshold {row['Threshold']:.0f}: "
+            f"P<=2035 {row['P(<=2035)']:.1%}, "
+            f"P<=2040 {row['P(<=2040)']:.1%}, "
+            f"median {median}"
+        )
+    summary_lines.append("")
+    summary_lines.append("Floor sensitivity")
+    for row in floor_sensitivity:
+        median = "N/A" if np.isnan(row["Median"]) else f"{row['Median']:.0f}"
+        summary_lines.append(
+            f"- floors {row['Floor']:.0f}: "
+            f"P<=2035 {row['P(<=2035)']:.1%}, "
+            f"P<=2040 {row['P(<=2040)']:.1%}, "
+            f"median {median}"
+        )
+    summary_lines.extend(
+        [
+            "",
+            "Interpretation",
+            "- Monte Carlo sampling error is small relative to assumption error",
+            "- In this parameterization the floor constraints bind before the headline threshold",
+            "- Floor choices and scenario inputs move the result more than sampling noise",
+            "- Use as a scenario tool, not as a point prediction",
+        ]
     )
-    table.auto_set_font_size(False)
-    table.set_fontsize(10)
-    table.scale(1.2, 1.5)
-    
-    # Color code rows
-    for i, color in enumerate(['blue', 'green', 'red']):
-        for j in range(6):
-            table[(i+1, j)].set_facecolor(colors[list(colors.keys())[i]])
-            table[(i+1, j)].set_alpha(0.2)
-    
-    ax4.set_title("Summary Statistics by Scenario", y=0.8, fontsize=12)
-    
-    plt.tight_layout()
-    plt.savefig("../assets/forecast_distribution.png", dpi=150, bbox_inches="tight")
-    plt.close()
-    print("✓ Saved: assets/forecast_distribution.png")
+    ax4.text(
+        0.02,
+        0.98,
+        "\n".join(summary_lines),
+        va="top",
+        ha="left",
+        fontsize=10,
+        family="monospace",
+        bbox={"boxstyle": "round,pad=0.6", "facecolor": "#f8fafc", "edgecolor": "#cbd5e1"},
+    )
+
+    fig.suptitle("AI-agent network readiness model", fontsize=16, fontweight="bold")
+    fig.tight_layout()
+
+    output_path = ASSETS_DIR / "forecast_distribution.png"
+    fig.savefig(output_path, dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    return output_path
 
 
-def print_forecast_report(all_results: Dict[str, Dict]):
-    """Print comprehensive forecast report"""
-    print("=" * 70)
-    print("AI AGENT NETWORK FORECAST - MONTE CARLO SIMULATION")
-    print("=" * 70)
-    
-    print("\nMODEL PARAMETERS")
-    print("-" * 50)
-    print(f"Simulations per scenario: {list(all_results.values())[0]['stats']['n_simulations']:,}")
-    print(f"Threshold: 75 (Readiness Index)")
-    print(f"Floor constraints: M≥60, R≥60, N≥60, G≥60")
-    print(f"Minimum consecutive years: 2")
-    
-    print("\n7-PILLAR READINESS INDEX")
-    print("-" * 50)
-    print("C = Capability")
-    print("E = Efficiency")
-    print("M = Memory")
-    print("R = Reliability")
-    print("N = Network coordination")
-    print("G = Governance")
-    print("D = Demand")
-    
-    print("\nSCENARIO PARAMETERS (2026 baseline)")
-    print("-" * 50)
-    for scenario_name in ['Conservative', 'Base case', 'Accelerated']:
-        scenario = all_results[scenario_name]['scenario']
-        print(f"\n{scenario_name}:")
-        for pillar in scenario.pillars:
-            print(f"  {pillar.code} ({pillar.name:12}): {pillar.initial_2026:.0f} → μ={pillar.growth_mu:.2f}, σ={pillar.volatility:.2f}")
-    
-    print("\nRESULTS BY SCENARIO")
-    print("-" * 50)
-    for scenario_name in ['Conservative', 'Base case', 'Accelerated']:
-        stats = all_results[scenario_name]['stats']
-        print(f"\n{scenario_name}:")
+def print_forecast_report(
+    all_results: dict[str, dict[str, Any]],
+    threshold_sensitivity: list[dict[str, Any]],
+    floor_sensitivity: list[dict[str, Any]],
+) -> None:
+    """Print the audit-friendly forecast summary.
+
+    Args:
+        all_results: Scenario simulation outputs.
+        threshold_sensitivity: Threshold sensitivity summaries.
+        floor_sensitivity: Floor sensitivity summaries.
+    """
+    print("=" * 72)
+    print("AI-AGENT NETWORK FORECAST (ASSUMPTION-DRIVEN)")
+    print("=" * 72)
+
+    print("\nModel standard")
+    print("-" * 72)
+    first = next(iter(all_results.values()))
+    scenario: Scenario = first["scenario"]
+    print(f"Simulations per scenario: {first['stats']['n_simulations']:,}")
+    print(f"Threshold: {scenario.threshold:.0f}")
+    print(
+        "Floor constraints: "
+        + ", ".join(f"{code}>={value:.0f}" for code, value in scenario.floor_values.items())
+    )
+    print(f"Minimum consecutive years: {scenario.min_consecutive_years}")
+    print(f"Random seed: {SEED}")
+
+    print("\nResults by scenario")
+    print("-" * 72)
+    for scenario_name in ("Conservative", "Base case", "Accelerated"):
+        stats = all_results[scenario_name]["stats"]
+        median = "N/A" if np.isnan(stats["median_year"]) else f"{stats['median_year']:.0f}"
+        interval = (
+            "N/A"
+            if np.isnan(stats["p5_year"])
+            else f"{stats['p5_year']:.0f}-{stats['p95_year']:.0f}"
+        )
+        print(f"\n{scenario_name}")
         print(f"  P(Level-3 by 2030): {stats['p_by_2030']:.1%}")
         print(f"  P(Level-3 by 2035): {stats['p_by_2035']:.1%}")
         print(f"  P(Level-3 by 2040): {stats['p_by_2040']:.1%}")
-        print(f"  Median arrival:     {stats['median_year']:.0f}" if not np.isnan(stats['median_year']) else "  Median arrival:     Never")
-        print(f"  90% Credible Interval: {stats['p5_year']:.0f}-{stats['p95_year']:.0f}" if not np.isnan(stats['p5_year']) else "  90% CI: N/A")
-        print(f"  Never reaches:      {stats['never_crosses']:.1%}")
-    
-    print("\nKEY INSIGHTS")
-    print("-" * 50)
-    base_stats = all_results['Base case']['stats']
-    print(f"• Most likely scenario (base case): {base_stats['median_year']:.0f} median arrival")
-    print(f"• Wide uncertainty: {base_stats['p5_year']:.0f}-{base_stats['p95_year']:.0f} 90% credible interval")
-    print(f"• Technical feasibility (lower threshold) likely much earlier")
-    print(f"• Governance (G) and Memory (M) are often the binding constraints")
-    
-    print("\n" + "=" * 70)
+        print(f"  Median crossing year: {median}")
+        print(f"  90% interval among crossings: {interval}")
+        print(f"  Never crosses by 2040: {stats['never_crosses']:.1%}")
+
+    print("\nThreshold sensitivity (base case)")
+    print("-" * 72)
+    for row in threshold_sensitivity:
+        median = "N/A" if np.isnan(row["Median"]) else f"{row['Median']:.0f}"
+        print(
+            f"threshold {row['Threshold']:.0f}: "
+            f"P<=2035 {row['P(<=2035)']:.1%}, "
+            f"P<=2040 {row['P(<=2040)']:.1%}, "
+            f"median {median}"
+        )
+
+    print("\nFloor sensitivity (base case)")
+    print("-" * 72)
+    for row in floor_sensitivity:
+        median = "N/A" if np.isnan(row["Median"]) else f"{row['Median']:.0f}"
+        print(
+            f"floors {row['Floor']:.0f}: "
+            f"P<=2035 {row['P(<=2035)']:.1%}, "
+            f"P<=2040 {row['P(<=2040)']:.1%}, "
+            f"median {median}"
+        )
+
+    print("\nInterpretation")
+    print("-" * 72)
+    print("This model is useful for structured discussion of assumptions.")
+    print("It should not be presented as a data-derived point forecast.")
+    print("In this parameterization, floor constraints bind before the headline threshold.")
+    print("Scenario inputs and floor choices dominate the output.")
+    print("\n" + "=" * 72)
+
+
+def main() -> None:
+    """Run the forecast model and save the figure."""
+    all_results = run_all_scenarios()
+    config = load_config()
+    threshold_sensitivity = run_threshold_sensitivity(
+        all_results["Base case"],
+        thresholds=[float(value) for value in config["sensitivity_thresholds"]],
+    )
+    floor_sensitivity = run_floor_sensitivity(
+        all_results["Base case"],
+        floor_values=[float(value) for value in config["sensitivity_floor_values"]],
+    )
+    print_forecast_report(all_results, threshold_sensitivity, floor_sensitivity)
+    output_path = plot_forecast_results(all_results, threshold_sensitivity, floor_sensitivity)
+    print(f"\nSaved figure: {output_path.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":
-    # Run all scenarios
-    print("Running Monte Carlo forecast model...")
-    print("This may take a moment...")
-    
-    all_results = run_all_scenarios(n_simulations=10000)
-    
-    # Generate outputs
-    print_forecast_report(all_results)
-    plot_forecast_results(all_results)
-    
-    print("\n✓ Forecast model analysis complete!")
+    main()

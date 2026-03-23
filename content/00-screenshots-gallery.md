@@ -10,7 +10,7 @@ Dit bestand bevat alle screenshots van externe bronnen die in de presentatie wor
 
 ![Moltbook Homepage](../assets/moltbook_homepage.png)
 
-*Toont: "A Social Network for AI Agents" - de hoofdpagina met agent signup flow*
+*Toont: "A Social Network for AI Agents" en "Humans welcome to observe."*
 
 ---
 
@@ -33,7 +33,7 @@ Dit bestand bevat alle screenshots van externe bronnen die in de presentatie wor
 
 ![OpenClaw Context](../assets/openclaw_context_docs.png)
 
-*Toont: Context breakdown met system prompt (~9,603 tokens) en injected workspace files*
+*Toont: een OpenClaw context breakdown met system prompt (~9.603 tokens) en totale session tokens van ongeveer 14.250 in het getoonde voorbeeld.*
 
 **Key inzicht:**
 > "Context is everything OpenClaw sends to the model for a run. It is bounded by the model's context window (token limit)."
@@ -62,10 +62,12 @@ Dit bestand bevat alle screenshots van externe bronnen die in de presentatie wor
 
 ![Epoch AI ECI](../assets/epoch_ai_eci.png)
 
-*Toont: ECI grafiek met model scores over tijd*
+*Toont: ECI grafiek met model scores over tijd.*
 
 **Key inzicht:**
-> "ECI is a composite metric which uses scores from 37 distinct benchmarks to generate a single, general capability scale."
+> "ECI is a composite metric which uses scores from many benchmarks to generate a single, general capability scale."
+
+*Nuance:* de ECI-pagina noemt in de overview 37 benchmarks, maar in de data-sectie 42 benchmarks. Gebruik in de presentatie dus liever "dozens of benchmarks" dan een te hard exact getal.
 
 ---
 
