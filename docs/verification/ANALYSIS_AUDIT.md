@@ -4,7 +4,7 @@
 
 ### Input source
 
-- [data/token_usage_assumptions.json](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/data/token_usage_assumptions.json)
+- [data/token_usage_assumptions.json](../../data/token_usage_assumptions.json)
 - OpenClaw docs anchor for context overhead
 - Anthropic pricing
 - Artificial Analysis pricing for MiniMax-M2.5
@@ -46,7 +46,7 @@ Yes, after the claim was narrowed to: an illustrative social cycle under stated 
 
 ### Input source
 
-- [data/ai_trends_metrics.json](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/data/ai_trends_metrics.json)
+- [data/ai_trends_metrics.json](../../data/ai_trends_metrics.json)
 - Stanford HAI summary metrics
 - Epoch AI methodology and homepage trend snapshot
 - MiniMax official M2.7 model and pricing pages
@@ -89,7 +89,7 @@ Yes, for the narrowed claim that the strongest defendable trends are in cost, co
 
 ### Input source
 
-- [data/forecast_scenarios.json](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/data/forecast_scenarios.json)
+- [data/forecast_scenarios.json](../../data/forecast_scenarios.json)
 
 ### Method summary
 

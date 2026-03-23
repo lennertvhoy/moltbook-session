@@ -2,163 +2,67 @@ import { mkdirSync } from "node:fs";
 import path from "node:path";
 
 import PptxGenJS from "pptxgenjs";
+import {
+  BOOSTMEUP_BRAND,
+  addBoostMeUpBodyText,
+  addBoostMeUpImage,
+  addBoostMeUpPanel,
+  addBoostMeUpQuote,
+  addBoostMeUpShell,
+  configureBoostMeUpPresentation,
+} from "./pptx-brand";
 
 const root = path.resolve(import.meta.dir, "..");
 const asset = (...parts: string[]) => path.join(root, ...parts);
 
 const pptx = new PptxGenJS();
-pptx.layout = "LAYOUT_WIDE";
-pptx.author = "OpenAI Codex";
-pptx.company = "BoostMeUp";
+configureBoostMeUpPresentation(pptx);
 pptx.subject = "Verified Moltbook session";
 pptx.title = "Moltbook: signal, limits, and what still has to be solved";
-pptx.lang = "nl-BE";
-pptx.theme = {
-  headFontFace: "Aptos Display",
-  bodyFontFace: "Aptos",
-  lang: "nl-BE",
-};
 
 const colors = {
-  bg: "F6F1E8",
-  ink: "17212B",
-  muted: "5C6773",
-  accent: "0F766E",
-  accentWarm: "C2410C",
-  line: "D6D3D1",
-  panel: "FBF8F2",
+  bg: BOOSTMEUP_BRAND.colors.white,
+  ink: BOOSTMEUP_BRAND.colors.textDark,
+  muted: BOOSTMEUP_BRAND.colors.textMuted,
+  accent: BOOSTMEUP_BRAND.colors.red,
+  accentWarm: BOOSTMEUP_BRAND.colors.gold,
+  line: BOOSTMEUP_BRAND.colors.lineLight,
+  panel: BOOSTMEUP_BRAND.colors.panelLight,
 };
 
-function addShell(title: string, kicker: string, footer: string) {
-  const slide = pptx.addSlide();
-  slide.background = { color: colors.bg };
-  slide.addShape(pptx.ShapeType.rect, {
-    x: 0,
-    y: 0,
-    w: 13.333,
-    h: 0.28,
-    line: { color: colors.accent, transparency: 100 },
-    fill: { color: colors.accent },
-  });
-  slide.addText(kicker, {
-    x: 0.62,
-    y: 0.42,
-    w: 12,
-    h: 0.22,
-    fontFace: "Aptos",
-    fontSize: 10,
-    color: colors.accent,
-    bold: true,
-    charSpace: 0.4,
-  });
-  slide.addText(title, {
-    x: 0.62,
-    y: 0.66,
-    w: 12.1,
-    h: 0.6,
-    fontFace: "Aptos Display",
-    fontSize: 24,
-    bold: true,
-    color: colors.ink,
-  });
-  slide.addShape(pptx.ShapeType.line, {
-    x: 0.62,
-    y: 6.95,
-    w: 12.05,
-    h: 0,
-    line: { color: colors.line, pt: 1 },
-  });
-  slide.addText(footer, {
-    x: 0.62,
-    y: 7.0,
-    w: 12.05,
-    h: 0.2,
-    fontFace: "Aptos",
-    fontSize: 8,
-    color: colors.muted,
-  });
-  return slide;
-}
-
-function addBodyText(slide: PptxGenJS.Slide, lines: string[], x: number, y: number, w: number, h: number) {
-  slide.addText(
-    lines.map((line) => ({ text: line, options: { breakLine: true } })),
-    {
-      x,
-      y,
-      w,
-      h,
-      fontFace: "Aptos",
-      fontSize: 16,
-      color: colors.ink,
-      breakLine: false,
-      margin: 0,
-      valign: "top",
-      fit: "shrink",
-    },
-  );
-}
-
-function addPanel(slide: PptxGenJS.Slide, x: number, y: number, w: number, h: number) {
-  slide.addShape(pptx.ShapeType.roundRect, {
-    x,
-    y,
-    w,
-    h,
-    rectRadius: 0.08,
-    fill: { color: colors.panel },
-    line: { color: colors.line, pt: 1 },
-  });
-}
-
-function addImage(slide: PptxGenJS.Slide, imagePath: string, x: number, y: number, w: number, h: number) {
-  slide.addImage({ path: imagePath, x, y, w, h });
-}
-
-function addQuote(slide: PptxGenJS.Slide, text: string, x: number, y: number, w: number) {
-  slide.addText(text, {
-    x,
-    y,
-    w,
-    h: 0.7,
-    fontFace: "Aptos",
-    fontSize: 18,
-    italic: true,
-    color: colors.accentWarm,
-    margin: 0,
-    fit: "shrink",
-  });
-}
-
 function buildSlides() {
-  const slide1 = addShell(
-    "Moltbook: signal, limits, and what still has to be solved",
-    "VERIFIED DECK",
-    "Deck rebuilt from repo code, screenshots, and cited sources on 2026-03-23.",
-  );
-  slide1.addText("What an AI-agent social network does and does not prove", {
-    x: 0.62,
-    y: 1.5,
-    w: 6.8,
-    h: 0.45,
-    fontFace: "Aptos",
-    fontSize: 18,
-    color: colors.muted,
+  const slide1 = addBoostMeUpShell(pptx, {
+    title: "Moltbook: signal, limits, and what still has to be solved",
+    kicker: "VERIFIED DECK",
+    footer: "Deck rebuilt from repo code, screenshots, and cited sources on 2026-03-23.",
+    variant: "dark",
+    showFullLogo: true,
   });
-  addPanel(slide1, 0.62, 2.05, 5.95, 2.45);
-  addBodyText(
+  slide1.addText("What an AI-agent social network does and does not prove", {
+    x: 0.78,
+    y: 2.25,
+    w: 6.6,
+    h: 0.45,
+    fontFace: BOOSTMEUP_BRAND.fonts.body,
+    fontSize: 18,
+    color: "D7DCE7",
+    margin: 0,
+  });
+  addBoostMeUpPanel(slide1, 0.78, 2.75, 5.85, 2.3, "dark");
+  addBoostMeUpBodyText(
     slide1,
     [
       "Core thesis",
       "",
       "Moltbook matters less as proof that autonomous digital societies already exist, and more as a live stress test of what is still missing: identity, memory, governance, and cost discipline.",
     ],
-    0.85,
-    2.35,
+    1.02,
+    3.05,
     5.4,
-    1.8,
+    1.7,
+    "dark",
   );
-  addImage(slide1, asset("assets", "moltbook_homepage.png"), 7.0, 1.45, 5.65, 4.95);
+  addBoostMeUpImage(slide1, asset("assets", "moltbook_homepage.png"), 7.0, 1.65, 5.55, 4.75);
   slide1.addNotes(
     [
       "This deck is intentionally narrower than the original markdown source.",
@@ -167,21 +71,21 @@ function buildSlides() {
     ].join("\n"),
   );
 
-  const slide2 = addShell(
-    "What Moltbook officially claims, and what its terms immediately limit",
-    "PRIMARY SOURCES",
-    "Sources: moltbook.com homepage and Terms of Service, both accessed 2026-03-23.",
-  );
-  addPanel(slide2, 0.62, 1.35, 6.0, 5.25);
-  addImage(slide2, asset("assets", "moltbook_terms_eligibility.png"), 0.8, 2.0, 5.6, 3.05);
-  addQuote(
+  const slide2 = addBoostMeUpShell(pptx, {
+    title: "What Moltbook officially claims, and what its terms immediately limit",
+    kicker: "PRIMARY SOURCES",
+    footer: "Sources: moltbook.com homepage and Terms of Service, both accessed 2026-03-23.",
+  });
+  addBoostMeUpPanel(slide2, 0.78, 1.38, 5.95, 5.18);
+  addBoostMeUpImage(slide2, asset("assets", "moltbook_terms_eligibility.png"), 1.0, 2.0, 5.45, 3.0);
+  addBoostMeUpQuote(
     slide2,
     "The homepage says 'A Social Network for AI Agents'; the Terms say AI agents have no legal eligibility and the human remains responsible.",
     6.95,
     1.55,
     5.2,
   );
-  addBodyText(
+  addBoostMeUpBodyText(
     slide2,
     [
       "What this supports",
@@ -202,14 +106,14 @@ function buildSlides() {
     ].join("\n"),
   );
 
-  const slide3 = addShell(
-    "OpenClaw documents the architecture as context, tools, and agent routing",
-    "OPENCLAW DOCS",
-    "Sources: docs.openclaw.ai/concepts/context and docs.openclaw.ai/tools/multi-agent-sandbox-tools.",
-  );
-  addImage(slide3, asset("assets", "openclaw_context_docs.png"), 0.72, 1.42, 5.7, 5.1);
-  addPanel(slide3, 6.75, 1.42, 5.85, 5.1);
-  addBodyText(
+  const slide3 = addBoostMeUpShell(pptx, {
+    title: "OpenClaw documents the architecture as context, tools, and agent routing",
+    kicker: "OPENCLAW DOCS",
+    footer: "Sources: docs.openclaw.ai/concepts/context and docs.openclaw.ai/tools/multi-agent-sandbox-tools.",
+  });
+  addBoostMeUpImage(slide3, asset("assets", "openclaw_context_docs.png"), 0.82, 1.42, 5.55, 5.08);
+  addBoostMeUpPanel(slide3, 6.72, 1.42, 5.88, 5.08);
+  addBoostMeUpBodyText(
     slide3,
     [
       "Documented facts",
@@ -235,14 +139,14 @@ function buildSlides() {
     ].join("\n"),
   );
 
-  const slide4 = addShell(
-    "The cost story is real, but the headline number is a scenario, not a measurement",
-    "TOKEN ANALYSIS",
-    "Source anchors: OpenClaw context docs and Anthropic pricing. Scenario assumptions are explicit in data/token_usage_assumptions.json.",
-  );
-  addImage(slide4, asset("assets", "token_breakdown.png"), 0.62, 1.35, 8.2, 5.4);
-  addPanel(slide4, 9.0, 1.55, 3.55, 4.8);
-  addBodyText(
+  const slide4 = addBoostMeUpShell(pptx, {
+    title: "The cost story is real, but the headline number is a scenario, not a measurement",
+    kicker: "TOKEN ANALYSIS",
+    footer: "Source anchors: OpenClaw context docs and Anthropic pricing. Scenario assumptions are explicit in data/token_usage_assumptions.json.",
+  });
+  addBoostMeUpImage(slide4, asset("assets", "token_breakdown.png"), 0.78, 1.35, 8.05, 5.35);
+  addBoostMeUpPanel(slide4, 8.98, 1.55, 3.58, 4.8);
+  addBoostMeUpBodyText(
     slide4,
     [
       "What we can say cleanly",
@@ -267,13 +171,13 @@ function buildSlides() {
     ].join("\n"),
   );
 
-  const slide5 = addShell(
-    "Identity and governance remain unresolved, even if the behavior looks social",
-    "RED-TEAM CHECK",
-    "Sources: Tsinghua paper 'The Moltbook Illusion' (2026-02-07) and Moltbook Terms.",
-  );
-  addPanel(slide5, 0.62, 1.45, 5.75, 5.2);
-  addBodyText(
+  const slide5 = addBoostMeUpShell(pptx, {
+    title: "Identity and governance remain unresolved, even if the behavior looks social",
+    kicker: "RED-TEAM CHECK",
+    footer: "Sources: Tsinghua paper 'The Moltbook Illusion' (2026-02-07) and Moltbook Terms.",
+  });
+  addBoostMeUpPanel(slide5, 0.78, 1.45, 5.65, 5.2);
+  addBoostMeUpBodyText(
     slide5,
     [
       "Tsinghua paper findings",
@@ -291,8 +195,8 @@ function buildSlides() {
     5.25,
     4.4,
   );
-  addImage(slide5, asset("assets", "moltbook_terms_eligibility.png"), 6.8, 1.75, 5.45, 2.4);
-  addQuote(
+  addBoostMeUpImage(slide5, asset("assets", "moltbook_terms_eligibility.png"), 6.95, 1.78, 5.3, 2.35);
+  addBoostMeUpQuote(
     slide5,
     "The strongest honest framing is 'interesting experiment in AI coordination under heavy human governance and attribution uncertainty.'",
     6.9,
@@ -306,17 +210,17 @@ function buildSlides() {
     ].join("\n"),
   );
 
-  const slide6 = addShell(
-    "What the trend data cleanly supports",
-    "TRENDS",
-    "Source-backed metrics; MiniMax and Opus numbers are official vendor pages, not one neutral matched eval sheet.",
-  );
-  addImage(slide6, asset("assets", "ai_trends.png"), 0.62, 1.35, 12.0, 5.2);
-  addPanel(slide6, 0.85, 6.1, 12.0, 0.58);
+  const slide6 = addBoostMeUpShell(pptx, {
+    title: "What the trend data cleanly supports",
+    kicker: "TRENDS",
+    footer: "Source-backed metrics; MiniMax and Opus numbers are official vendor pages, not one neutral matched eval sheet.",
+  });
+  addBoostMeUpImage(slide6, asset("assets", "ai_trends.png"), 0.78, 1.32, 11.95, 5.18);
+  addBoostMeUpPanel(slide6, 0.95, 6.08, 11.8, 0.56);
   slide6.addText("Method note: source-backed metrics + official vendor snapshots; useful for direction, not a neutral matched leaderboard.", {
-    x: 1.0,
+    x: 1.16,
     y: 6.28,
-    w: 11.6,
+    w: 11.35,
     h: 0.18,
     fontFace: "Aptos",
     fontSize: 9,
@@ -332,13 +236,13 @@ function buildSlides() {
     ].join("\n"),
   );
 
-  const slide7 = addShell(
-    "Use the MiniMax comparison, but keep it on a short analytical leash",
-    "ANTI-HYPE",
-    "Official MiniMax and Anthropic pages make the economics claim clean; the benchmark claim still needs caveats.",
-  );
-  addPanel(slide7, 0.62, 1.45, 5.8, 5.15);
-  addBodyText(
+  const slide7 = addBoostMeUpShell(pptx, {
+    title: "Use the MiniMax comparison, but keep it on a short analytical leash",
+    kicker: "ANTI-HYPE",
+    footer: "Official MiniMax and Anthropic pages make the economics claim clean; the benchmark claim still needs caveats.",
+  });
+  addBoostMeUpPanel(slide7, 0.78, 1.45, 5.72, 5.15);
+  addBoostMeUpBodyText(
     slide7,
     [
       "What is now fair to say",
@@ -353,8 +257,8 @@ function buildSlides() {
     5.2,
     3.4,
   );
-  addPanel(slide7, 6.75, 1.45, 5.85, 5.15);
-  addBodyText(
+  addBoostMeUpPanel(slide7, 6.82, 1.45, 5.76, 5.15);
+  addBoostMeUpBodyText(
     slide7,
     [
       "What still needs caution",
@@ -369,7 +273,7 @@ function buildSlides() {
     5.25,
     3.25,
   );
-  addQuote(
+  addBoostMeUpQuote(
     slide7,
     "If the wording feels punchier than the evidence, narrow the wording instead of defending the punch.",
     7.0,
@@ -383,13 +287,13 @@ function buildSlides() {
     ].join("\n"),
   );
 
-  const slide8 = addShell(
-    "Forecasts: useful scenario discipline, not prophecy",
-    "FORECAST",
-    "Scenario outputs from explicit assumptions; not a deterministic forecast.",
-  );
-  addImage(slide8, asset("assets", "forecast_distribution.png"), 0.62, 1.35, 12.0, 5.2);
-  addPanel(slide8, 0.85, 6.1, 12.0, 0.58);
+  const slide8 = addBoostMeUpShell(pptx, {
+    title: "Forecasts: useful scenario discipline, not prophecy",
+    kicker: "FORECAST",
+    footer: "Scenario outputs from explicit assumptions; not a deterministic forecast.",
+  });
+  addBoostMeUpImage(slide8, asset("assets", "forecast_distribution.png"), 0.78, 1.32, 11.95, 5.18);
+  addBoostMeUpPanel(slide8, 0.95, 6.08, 11.8, 0.56);
   slide8.addText("Barrier model + explicit scenario inputs + floor constraints. Treat this as a structured uncertainty map, not a date promise.", {
     x: 1.0,
     y: 6.28,
@@ -409,97 +313,103 @@ function buildSlides() {
     ].join("\n"),
   );
 
-  const slide9 = addShell(
-    "What still has to be solved before 'agent society' language becomes credible",
-    "SYNTHESIS",
-    "This slide synthesizes the repo's verified findings rather than introducing new sourced numbers.",
-  );
-  addPanel(slide9, 0.62, 1.5, 3.85, 4.9);
-  addPanel(slide9, 4.75, 1.5, 3.85, 4.9);
-  addPanel(slide9, 8.88, 1.5, 3.74, 4.9);
+  const slide9 = addBoostMeUpShell(pptx, {
+    title: "What still has to be solved before 'agent society' language becomes credible",
+    kicker: "SYNTHESIS",
+    footer: "This slide synthesizes the repo's verified findings rather than introducing new sourced numbers.",
+    variant: "dark",
+  });
+  addBoostMeUpPanel(slide9, 0.78, 1.5, 3.82, 4.9, "dark");
+  addBoostMeUpPanel(slide9, 4.76, 1.5, 3.82, 4.9, "dark");
+  addBoostMeUpPanel(slide9, 8.74, 1.5, 3.82, 4.9, "dark");
   slide9.addText("Identity", {
-    x: 0.88,
+    x: 1.02,
     y: 1.82,
     w: 2.8,
     h: 0.3,
-    fontFace: "Aptos Display",
+    fontFace: BOOSTMEUP_BRAND.fonts.head,
     fontSize: 18,
     bold: true,
-    color: colors.accent,
+    color: BOOSTMEUP_BRAND.colors.gold,
   });
   slide9.addText("Memory", {
-    x: 5.0,
+    x: 4.98,
     y: 1.82,
     w: 2.8,
     h: 0.3,
-    fontFace: "Aptos Display",
+    fontFace: BOOSTMEUP_BRAND.fonts.head,
     fontSize: 18,
     bold: true,
-    color: colors.accent,
+    color: BOOSTMEUP_BRAND.colors.gold,
   });
   slide9.addText("Governance + economics", {
-    x: 9.13,
+    x: 8.96,
     y: 1.82,
     w: 3.0,
     h: 0.3,
-    fontFace: "Aptos Display",
+    fontFace: BOOSTMEUP_BRAND.fonts.head,
     fontSize: 18,
     bold: true,
-    color: colors.accent,
+    color: BOOSTMEUP_BRAND.colors.gold,
   });
-  addBodyText(
+  addBoostMeUpBodyText(
     slide9,
     [
       "- Stronger attribution",
       "- More than owner-linked X verification",
       "- Clear separation of human, hybrid, and autonomous activity",
     ],
-    0.88,
+    1.02,
     2.25,
     3.1,
     2.8,
+    "dark",
   );
-  addBodyText(
+  addBoostMeUpBodyText(
     slide9,
     [
       "- Cheaper persistent memory",
       "- Less repeated context loading",
       "- Better continuity across sessions",
     ],
-    5.0,
+    4.98,
     2.25,
     3.05,
     2.8,
+    "dark",
   );
-  addBodyText(
+  addBoostMeUpBodyText(
     slide9,
     [
       "- Human accountability that matches actual control",
       "- Safer incentive design",
       "- Unit economics that survive beyond demos",
     ],
-    9.13,
+    8.96,
     2.25,
     2.9,
     2.8,
+    "dark",
   );
   slide9.addNotes("This is the core thesis slide in structured form.");
 
-  const slide10 = addShell(
-    "Conclusion: Moltbook is a useful signal, not yet a proof",
-    "CLOSING",
-    "Deck generated natively with bun + PptxGenJS. Rebuild with: bun run build:deck",
-  );
-  addPanel(slide10, 0.72, 1.35, 12.0, 1.0);
-  addQuote(
+  const slide10 = addBoostMeUpShell(pptx, {
+    title: "Conclusion: Moltbook is a useful signal, not yet a proof",
+    kicker: "CLOSING",
+    footer: "Deck generated natively with bun + PptxGenJS. Rebuild with: bun run build:deck",
+    variant: "dark",
+  });
+  addBoostMeUpPanel(slide10, 0.78, 1.35, 11.95, 1.0, "dark");
+  addBoostMeUpQuote(
     slide10,
     "Moltbook is interesting because it exposes the design burden behind agent society claims: identity, memory, governance, and cost all remain active bottlenecks.",
     0.9,
     1.6,
     11.5,
+    "dark",
   );
-  addPanel(slide10, 0.72, 2.25, 12.0, 2.35);
-  addBodyText(
+  addBoostMeUpPanel(slide10, 0.78, 2.25, 11.95, 2.35, "dark");
+  addBoostMeUpBodyText(
     slide10,
     [
       "If you remember three things",
@@ -512,19 +422,20 @@ function buildSlides() {
     2.5,
     11.2,
     2.6,
+    "dark",
   );
-  addPanel(slide10, 0.72, 5.35, 12.0, 1.2);
+  addBoostMeUpPanel(slide10, 0.78, 5.35, 11.95, 1.2, "dark");
   slide10.addText("Discussion prompts", {
     x: 0.9,
     y: 5.55,
     w: 3.0,
     h: 0.25,
-    fontFace: "Aptos Display",
+    fontFace: BOOSTMEUP_BRAND.fonts.head,
     fontSize: 16,
     bold: true,
-    color: colors.accentWarm,
+    color: BOOSTMEUP_BRAND.colors.gold,
   });
-  addBodyText(
+  addBoostMeUpBodyText(
     slide10,
     [
       "- Which parts of your own agent stack are still reconstructed every run?",
@@ -535,15 +446,16 @@ function buildSlides() {
     5.9,
     11.2,
     0.9,
+    "dark",
   );
   slide10.addNotes("Close by reminding the audience that this deck deliberately tightened confidence levels.");
 }
 
 async function main() {
   buildSlides();
-  mkdirSync(root, { recursive: true });
-  await pptx.writeFile({ fileName: asset("Moltbook.pptx") });
-  console.log("Saved deck: Moltbook.pptx");
+  mkdirSync(asset("release"), { recursive: true });
+  await pptx.writeFile({ fileName: asset("release", "Moltbook.pptx") });
+  console.log("Saved deck: release/Moltbook.pptx");
 }
 
 main().catch((error) => {

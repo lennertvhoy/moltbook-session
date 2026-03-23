@@ -5,19 +5,18 @@
     {
       "index": 1,
       "title": "VERIFIED DECK",
-      "preview": "qa/previews/slide-01.png",
-      "image_count": 1,
+      "preview": "docs/qa/previews/slide-01.png",
+      "image_count": 2,
       "text_word_count": 64,
       "top_texts": [
-        "VERIFIED DECK",
-        "Moltbook: signal, limits, and what still has to be solved"
+        "VERIFIED DECK"
       ]
     },
     {
       "index": 2,
       "title": "PRIMARY SOURCES",
-      "preview": "qa/previews/slide-02.png",
-      "image_count": 1,
+      "preview": "docs/qa/previews/slide-02.png",
+      "image_count": 2,
       "text_word_count": 83,
       "top_texts": [
         "PRIMARY SOURCES",
@@ -27,8 +26,8 @@
     {
       "index": 3,
       "title": "OPENCLAW DOCS",
-      "preview": "qa/previews/slide-03.png",
-      "image_count": 1,
+      "preview": "docs/qa/previews/slide-03.png",
+      "image_count": 2,
       "text_word_count": 66,
       "top_texts": [
         "OPENCLAW DOCS",
@@ -38,19 +37,19 @@
     {
       "index": 4,
       "title": "TOKEN ANALYSIS",
-      "preview": "qa/previews/slide-04.png",
-      "image_count": 1,
-      "text_word_count": 89,
+      "preview": "docs/qa/previews/slide-04.png",
+      "image_count": 2,
+      "text_word_count": 88,
       "top_texts": [
         "TOKEN ANALYSIS",
-        "The cost story is real, but the exact social-cycle number is a scenario, not a measurement"
+        "The cost story is real, but the headline number is a scenario, not a measurement"
       ]
     },
     {
       "index": 5,
       "title": "RED-TEAM CHECK",
-      "preview": "qa/previews/slide-05.png",
-      "image_count": 1,
+      "preview": "docs/qa/previews/slide-05.png",
+      "image_count": 2,
       "text_word_count": 93,
       "top_texts": [
         "RED-TEAM CHECK",
@@ -59,20 +58,20 @@
     },
     {
       "index": 6,
-      "title": "The strongest defensible trend claims are about cost, compute, and a narrower MiniMax claim",
-      "preview": "qa/previews/slide-06.png",
-      "image_count": 1,
-      "text_word_count": 47,
+      "title": "What the trend data cleanly supports",
+      "preview": "docs/qa/previews/slide-06.png",
+      "image_count": 2,
+      "text_word_count": 39,
       "top_texts": [
         "TRENDS",
-        "The strongest defensible trend claims are about cost, compute, and a narrower MiniMax claim"
+        "What the trend data cleanly supports"
       ]
     },
     {
       "index": 7,
       "title": "ANTI-HYPE",
-      "preview": "qa/previews/slide-07.png",
-      "image_count": 0,
+      "preview": "docs/qa/previews/slide-07.png",
+      "image_count": 1,
       "text_word_count": 155,
       "top_texts": [
         "ANTI-HYPE",
@@ -81,20 +80,20 @@
     },
     {
       "index": 8,
-      "title": "The forecast model is useful as a scenario discipline, not as a prophecy",
-      "preview": "qa/previews/slide-08.png",
-      "image_count": 1,
-      "text_word_count": 43,
+      "title": "Forecasts: useful scenario discipline, not prophecy",
+      "preview": "docs/qa/previews/slide-08.png",
+      "image_count": 2,
+      "text_word_count": 36,
       "top_texts": [
         "FORECAST",
-        "The forecast model is useful as a scenario discipline, not as a prophecy"
+        "Forecasts: useful scenario discipline, not prophecy"
       ]
     },
     {
       "index": 9,
       "title": "SYNTHESIS",
-      "preview": "qa/previews/slide-09.png",
-      "image_count": 0,
+      "preview": "docs/qa/previews/slide-09.png",
+      "image_count": 1,
       "text_word_count": 81,
       "top_texts": [
         "SYNTHESIS",
@@ -104,8 +103,8 @@
     {
       "index": 10,
       "title": "Conclusion: Moltbook is a useful signal, not yet a proof",
-      "preview": "qa/previews/slide-10.png",
-      "image_count": 0,
+      "preview": "docs/qa/previews/slide-10.png",
+      "image_count": 1,
       "text_word_count": 137,
       "top_texts": [
         "CLOSING",
@@ -113,5 +112,5 @@
       ]
     }
   ],
-  "contact_sheet": "qa/previews/contact-sheet.png"
+  "contact_sheet": "docs/qa/previews/contact-sheet.png"
 }

@@ -25,27 +25,14 @@ Het project bevat:
 ## Project Structuur
 
 ```
-/home/ff/Documents/BoostMeUp/MoltBook_Sessie/
+.
 ├── content/           # Markdown content files (01-07)
-│   ├── 01-intro.md
-│   ├── 02-ai-agents.md
-│   ├── 03-agents-md.md
-│   ├── 04-kritiek.md
-│   ├── 05-trends.md
-│   ├── 06-forecast.md
-│   └── 07-slot.md
-├── slides/            # Markdown slide decks
-│   └── slides-main.md
+├── slides/            # Markdown slide outline
 ├── analyses/          # Python analyse scripts
-│   ├── token_usage.py
-│   ├── ai_trends.py
-│   └── forecast_model.py
-├── assets/            # Gegenereerde visualisaties
-│   ├── ai_trends.png
-│   ├── forecast_distribution.png
-│   └── token_breakdown.png
-├── data/              # Ruwe data files
-├── venv/              # Python virtual environment
+├── assets/            # Figuren, screenshots, brand assets
+├── data/              # Ruwe data / expliciete aannames
+├── docs/              # Verification and QA reports
+├── release/           # Final generated .pptx
 └── AGENTS.md          # Dit bestand
 ```
 
@@ -61,15 +48,12 @@ Het project bevat:
 
 ```bash
 # Setup environment
-cd /home/ff/Documents/BoostMeUp/MoltBook_Sessie
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+UV_CACHE_DIR=.uv-cache uv sync
 
 # Run analyses
-python analyses/token_usage.py
-python analyses/ai_trends.py
-python analyses/forecast_model.py
+MPLCONFIGDIR=/tmp/matplotlib UV_CACHE_DIR=.uv-cache uv run analyses/token_usage.py
+MPLCONFIGDIR=/tmp/matplotlib UV_CACHE_DIR=.uv-cache uv run analyses/ai_trends.py
+MPLCONFIGDIR=/tmp/matplotlib UV_CACHE_DIR=.uv-cache uv run analyses/forecast_model.py
 
 # Generated files will be saved to assets/
 ```

@@ -36,10 +36,10 @@ That failed on the key criteria:
 
 ## Implemented Result
 
-- added [package.json](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/package.json)
+- added [package.json](../../package.json)
 - added `bun` lockfile
-- added [scripts/build_deck.ts](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/scripts/build_deck.ts)
-- `bun run build:deck` now rebuilds [Moltbook.pptx](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/Moltbook.pptx)
+- added [scripts/build_deck.ts](../../scripts/build_deck.ts)
+- `bun run build:deck` now rebuilds [release/Moltbook.pptx](../../release/Moltbook.pptx)
 
 ## Build Commands
 

@@ -12,7 +12,7 @@ The main issues were:
 - the original MiniMax M2.7 vs Claude Opus 4.6 comparison was not source-aligned
 - the repo mixed multiple incompatible deck artifacts
 
-The repo now ends in a materially stronger state:
+The repository is in a materially stronger state:
 
 - all three analysis scripts run reproducibly with `uv`
 - all generated figures save correctly from the repo root
@@ -57,7 +57,7 @@ The repo now ends in a materially stronger state:
 - the token-cost section now distinguishes documented anchors from assumptions
 - the forecast model now reports threshold and floor sensitivity
 - the deck now uses safer wording around trend curves and autonomy claims
-- a native PowerPoint build path was implemented in [scripts/build_deck.ts](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/scripts/build_deck.ts)
+- a native PowerPoint build path was implemented in [scripts/build_deck.ts](../../scripts/build_deck.ts)
 
 ## Biggest Credibility Risks Found
 
@@ -79,23 +79,23 @@ The repo now ends in a materially stronger state:
 
 ### OpenClaw context anchor
 
-![OpenClaw context screenshot](assets/openclaw_context_docs.png)
+![OpenClaw context screenshot](../../assets/openclaw_context_docs.png)
 
 ### Moltbook terms anchor
 
-![Moltbook terms screenshot](assets/moltbook_terms_eligibility.png)
+![Moltbook terms screenshot](../../assets/moltbook_terms_eligibility.png)
 
 ### Rebuilt token-cost figure
 
-![Token breakdown](assets/token_breakdown.png)
+![Token breakdown](../../assets/token_breakdown.png)
 
 ### Rebuilt trends figure
 
-![AI trends](assets/ai_trends.png)
+![AI trends](../../assets/ai_trends.png)
 
 ### Rebuilt forecast figure
 
-![Forecast distribution](assets/forecast_distribution.png)
+![Forecast distribution](../../assets/forecast_distribution.png)
 
 ## Remaining Uncertainties
 

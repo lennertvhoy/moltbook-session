@@ -1,4 +1,4 @@
-"""Render low-fidelity PNG previews from the generated Moltbook.pptx.
+"""Render low-fidelity PNG previews from the generated release deck.
 
 The environment does not ship with PowerPoint or LibreOffice, so this script
 uses python-pptx plus Pillow to render layout-faithful previews directly from
@@ -20,8 +20,8 @@ from pptx.enum.shapes import MSO_SHAPE_TYPE
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PPTX_PATH = ROOT / "Moltbook.pptx"
-OUT_DIR = ROOT / "qa" / "previews"
+PPTX_PATH = ROOT / "release" / "Moltbook.pptx"
+OUT_DIR = ROOT / "docs" / "qa" / "previews"
 CONTACT_SHEET = OUT_DIR / "contact-sheet.png"
 META_PATH = OUT_DIR / "preview-metadata.json"
 

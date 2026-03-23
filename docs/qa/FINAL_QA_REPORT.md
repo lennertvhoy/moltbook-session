@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-This was a final pre-talk QA pass on the native [Moltbook.pptx](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/Moltbook.pptx), not another broad rewrite.
+This was a final pre-talk QA pass on the native [release/Moltbook.pptx](../../release/Moltbook.pptx), not another broad rewrite.
 
 The deck now clears the remaining high-risk issues from the prior verification pass:
 
@@ -13,15 +13,33 @@ The deck now clears the remaining high-risk issues from the prior verification p
 
 ## What Changed In This Pass
 
+### 0. The native deck now uses a reusable BoostMeUp housestyle
+
+Updated files:
+
+- [scripts/pptx-brand.ts](../../scripts/pptx-brand.ts)
+- [scripts/build_deck.ts](../../scripts/build_deck.ts)
+- [assets/brand/boostmeup-logo.png](../../assets/brand/boostmeup-logo.png)
+- [assets/brand/boostmeup-mark.png](../../assets/brand/boostmeup-mark.png)
+
+Applied housestyle:
+
+- dark background: `#12192c`
+- light background: `#ffffff`
+- red accent: `#e93325`
+- gold accent: `#f2ad18`
+
+The branding layer is now reusable for future `PptxGenJS` decks instead of being embedded directly in one build script.
+
 ### 1. MiniMax M2.7 was reintroduced carefully
 
 Updated files:
 
-- [data/ai_trends_metrics.json](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/data/ai_trends_metrics.json)
-- [analyses/ai_trends.py](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/analyses/ai_trends.py)
-- [content/05-trends.md](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/content/05-trends.md)
-- [scripts/build_deck.ts](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/scripts/build_deck.ts)
-- [CLAIM_AUDIT.md](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/CLAIM_AUDIT.md)
+- [data/ai_trends_metrics.json](../../data/ai_trends_metrics.json)
+- [analyses/ai_trends.py](../../analyses/ai_trends.py)
+- [content/05-trends.md](../../content/05-trends.md)
+- [scripts/build_deck.ts](../../scripts/build_deck.ts)
+- [CLAIM_AUDIT.md](../verification/CLAIM_AUDIT.md)
 
 New safe deck position:
 
@@ -60,13 +78,13 @@ UV_CACHE_DIR=.uv-cache uv run scripts/export_slide_previews.py
 
 ### Slide inspection method
 
-This environment does not have PowerPoint or LibreOffice.
+PowerPoint or LibreOffice was not available during this QA pass.
 
 So the visual QA used:
 
 1. the final generated `.pptx`
 2. direct XML inspection of slide text in the built deck
-3. low-fidelity PNG preview renders generated from the built `.pptx` via [scripts/export_slide_previews.py](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/scripts/export_slide_previews.py)
+3. low-fidelity PNG preview renders generated from the built `.pptx` via [scripts/export_slide_previews.py](../../scripts/export_slide_previews.py)
 
 That is sufficient for:
 
@@ -81,7 +99,7 @@ It is not a pixel-identical Office renderer, so that residual limitation is stat
 
 ## Slide-By-Slide QA Result
 
-Preview metadata: [qa/previews/preview-metadata.json](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/qa/previews/preview-metadata.json)
+Preview metadata: [docs/qa/previews/preview-metadata.json](previews/preview-metadata.json)
 
 - Slide count inspected: `10`
 - Slides with notes detected: `10`
@@ -105,11 +123,11 @@ Preview metadata: [qa/previews/preview-metadata.json](/home/ff/Documents/BoostMe
 
 ### Contact sheet from the generated deck
 
-![Deck contact sheet](qa/previews/contact-sheet.png)
+![Deck contact sheet](previews/contact-sheet.png)
 
 ### Slide 6: trend slide after MiniMax tightening and visible method note
 
-![Slide 6 preview](qa/previews/slide-06.png)
+![Slide 6 preview](previews/slide-06.png)
 
 What changed:
 
@@ -119,7 +137,7 @@ What changed:
 
 ### Slide 7: explicit MiniMax caution slide
 
-![Slide 7 preview](qa/previews/slide-07.png)
+![Slide 7 preview](previews/slide-07.png)
 
 What changed:
 
@@ -129,7 +147,7 @@ What changed:
 
 ### Slide 8: forecast slide with on-slide methodology disclaimer
 
-![Slide 8 preview](qa/previews/slide-08.png)
+![Slide 8 preview](previews/slide-08.png)
 
 What changed:
 
@@ -138,7 +156,7 @@ What changed:
 
 ### Slide 10: closing slide with improved structure
 
-![Slide 10 preview](qa/previews/slide-10.png)
+![Slide 10 preview](previews/slide-10.png)
 
 What changed:
 
@@ -150,7 +168,7 @@ What changed:
 1. The MiniMax/Opus comparison is still vendor-reported, not a single independent matched eval sheet.
 2. The forecast remains assumption-driven.
 3. The token-cost figure remains an illustrative scenario, not an observed Moltbook trace.
-4. Native Office rendering was not available in this environment, so the visual check used generated previews rather than PowerPoint itself.
+4. Native Office rendering was not available during this QA pass, so the visual check used generated previews rather than PowerPoint itself.
 
 None of those block the deck from presentation use if they are spoken honestly.
 
@@ -167,17 +185,17 @@ Notable reasons:
 
 ## Files Changed In This Pass
 
-- [data/ai_trends_metrics.json](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/data/ai_trends_metrics.json)
-- [analyses/ai_trends.py](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/analyses/ai_trends.py)
-- [content/05-trends.md](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/content/05-trends.md)
-- [scripts/build_deck.ts](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/scripts/build_deck.ts)
-- [scripts/export_slide_previews.py](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/scripts/export_slide_previews.py)
-- [slides/slides-main.md](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/slides/slides-main.md)
-- [CLAIM_AUDIT.md](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/CLAIM_AUDIT.md)
-- [ANALYSIS_AUDIT.md](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/ANALYSIS_AUDIT.md)
-- [VERIFICATION_REPORT.md](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/VERIFICATION_REPORT.md)
-- [assets/ai_trends.png](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/assets/ai_trends.png)
-- [Moltbook.pptx](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/Moltbook.pptx)
+- [data/ai_trends_metrics.json](../../data/ai_trends_metrics.json)
+- [analyses/ai_trends.py](../../analyses/ai_trends.py)
+- [content/05-trends.md](../../content/05-trends.md)
+- [scripts/build_deck.ts](../../scripts/build_deck.ts)
+- [scripts/export_slide_previews.py](../../scripts/export_slide_previews.py)
+- [slides/slides-main.md](../../slides/slides-main.md)
+- [CLAIM_AUDIT.md](../verification/CLAIM_AUDIT.md)
+- [ANALYSIS_AUDIT.md](../verification/ANALYSIS_AUDIT.md)
+- [VERIFICATION_REPORT.md](../verification/VERIFICATION_REPORT.md)
+- [assets/ai_trends.png](../../assets/ai_trends.png)
+- [release/Moltbook.pptx](../../release/Moltbook.pptx)
 
 ## Clean-Worktree Check
 

@@ -1,72 +1,112 @@
 # Moltbook Session
 
-This repository now treats the Moltbook talk as a verification-first presentation project, not a polish-only slide deck.
+This repository contains the source, analysis code, audit trail, and native PowerPoint build for a conference-style talk about Moltbook and AI-agent networks. The project treats the deck as a verification-first artifact: charts are reproducible, assumptions are explicit, and claims are narrowed when the evidence does not support stronger wording.
 
-## What Changed
+The talk’s core argument is simple: Moltbook is interesting less as proof that autonomous digital societies already exist, and more as a live stress test of what is still missing around identity, memory, governance, and cost discipline.
 
-The earlier repo state had three major credibility problems:
+## What Is Verified vs Assumption-Driven
 
-1. `analyses/ai_trends.py` generated sourced-looking curves from synthetic data.
-2. The documented analysis commands did not work from the repo root because the scripts saved to the wrong paths.
-3. The deck text overstated confidence on several points, especially the MiniMax vs Opus comparison and the token-cost framing.
+Verified or source-backed:
 
-The current repo is structured to make those issues visible and auditable.
+- Moltbook product and terms claims
+- OpenClaw architecture framing
+- source-backed trend metrics
+- official pricing snapshots used in the model comparison
 
-## Reproducible Workflow
+Assumption-driven but explicit:
 
-### Python analyses with `uv`
+- illustrative token-cost scenarios
+- Monte Carlo readiness forecasts
+- scenario thresholds, floors, and weighting choices
+
+See the audit set in [docs/verification](docs/verification/README.md) and [docs/qa](docs/qa/FINAL_QA_REPORT.md).
+
+## Quickstart
+
+### Rebuild the analyses with `uv`
 
 ```bash
-cd /home/ff/Documents/BoostMeUp/MoltBook_Sessie
 UV_CACHE_DIR=.uv-cache uv sync
 MPLCONFIGDIR=/tmp/matplotlib UV_CACHE_DIR=.uv-cache uv run analyses/token_usage.py
 MPLCONFIGDIR=/tmp/matplotlib UV_CACHE_DIR=.uv-cache uv run analyses/ai_trends.py
 MPLCONFIGDIR=/tmp/matplotlib UV_CACHE_DIR=.uv-cache uv run analyses/forecast_model.py
 ```
 
-### Native PowerPoint build with `bun`
+### Rebuild the native `.pptx` with `bun`
 
 ```bash
-cd /home/ff/Documents/BoostMeUp/MoltBook_Sessie
 BUN_TMPDIR=/tmp BUN_INSTALL_CACHE_DIR=.bun-cache bun install
 BUN_TMPDIR=/tmp BUN_INSTALL_CACHE_DIR=.bun-cache bun run build:deck
 ```
 
-This rebuilds [Moltbook.pptx](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/Moltbook.pptx) as a native `.pptx` via `PptxGenJS`.
+The production deck is written to [release/Moltbook.pptx](release/Moltbook.pptx).
 
-## Repo Layout
+### Regenerate QA previews
 
-### Source content
+```bash
+UV_CACHE_DIR=.uv-cache uv run scripts/export_slide_previews.py
+```
 
-- [slides/slides-main.md](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/slides/slides-main.md): verified slide outline
-- [content/01-intro.md](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/content/01-intro.md) to [content/07-slot.md](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/content/07-slot.md): audited talk notes
+Preview renders and metadata are written to [docs/qa/previews](docs/qa/previews).
 
-### Analysis code
+## Repository Layout
 
-- [analyses/token_usage.py](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/analyses/token_usage.py): illustrative token-cost model with explicit assumptions
-- [analyses/ai_trends.py](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/analyses/ai_trends.py): sourced trend summary only
-- [analyses/forecast_model.py](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/analyses/forecast_model.py): assumption-driven Monte Carlo readiness model
+```text
+.
+├── analyses/              Python analysis scripts
+├── assets/                Generated figures, screenshots, and brand assets
+├── content/               Audited talk notes
+├── data/                  Explicit source snapshots and scenario inputs
+├── docs/                  Verification, QA, and release notes
+├── release/               Final generated deck output
+├── scripts/               Deck build and QA helper scripts
+└── slides/                Slide outline and narrative source
+```
 
-### Data inputs
+Key entry points:
 
-- [data/token_usage_assumptions.json](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/data/token_usage_assumptions.json)
-- [data/ai_trends_metrics.json](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/data/ai_trends_metrics.json)
-- [data/forecast_scenarios.json](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/data/forecast_scenarios.json)
+- [slides/slides-main.md](slides/slides-main.md): presentation outline
+- [scripts/build_deck.ts](scripts/build_deck.ts): native PowerPoint generator
+- [scripts/pptx-brand.ts](scripts/pptx-brand.ts): reusable BoostMeUp PptxGenJS housestyle
+- [release/Moltbook.pptx](release/Moltbook.pptx): latest committed deck
+- [docs/verification/README.md](docs/verification/README.md): verification and audit index
+- [docs/qa/FINAL_QA_REPORT.md](docs/qa/FINAL_QA_REPORT.md): final presentation QA report
 
-### Generated assets
+## Reusable BoostMeUp Theme
 
-- [assets/token_breakdown.png](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/assets/token_breakdown.png)
-- [assets/ai_trends.png](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/assets/ai_trends.png)
-- [assets/forecast_distribution.png](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/assets/forecast_distribution.png)
+The deck generator uses a shared BoostMeUp theme module for PptxGenJS:
 
-### Verification deliverables
+- house colors: `#12192c`, `#ffffff`, `#e93325`, `#f2ad18`
+- shared slide shells for dark and light slides
+- shared panel, body text, quote, and image helpers
+- vendored brand assets:
+  - [assets/brand/boostmeup-logo.png](assets/brand/boostmeup-logo.png)
+  - [assets/brand/boostmeup-mark.png](assets/brand/boostmeup-mark.png)
 
-- `VERIFICATION_REPORT.md`
-- `CLAIM_AUDIT.md`
-- `ANALYSIS_AUDIT.md`
-- `SLIDE_SYSTEM_DECISION.md`
+## Public Outputs
 
-## Current Claim Standard
+Source inputs:
+
+- [data/token_usage_assumptions.json](data/token_usage_assumptions.json)
+- [data/ai_trends_metrics.json](data/ai_trends_metrics.json)
+- [data/forecast_scenarios.json](data/forecast_scenarios.json)
+
+Generated figures:
+
+- [assets/token_breakdown.png](assets/token_breakdown.png)
+- [assets/ai_trends.png](assets/ai_trends.png)
+- [assets/forecast_distribution.png](assets/forecast_distribution.png)
+
+Verification and QA:
+
+- [docs/verification/VERIFICATION_REPORT.md](docs/verification/VERIFICATION_REPORT.md)
+- [docs/verification/CLAIM_AUDIT.md](docs/verification/CLAIM_AUDIT.md)
+- [docs/verification/ANALYSIS_AUDIT.md](docs/verification/ANALYSIS_AUDIT.md)
+- [docs/verification/SLIDE_SYSTEM_DECISION.md](docs/verification/SLIDE_SYSTEM_DECISION.md)
+- [docs/qa/FINAL_QA_REPORT.md](docs/qa/FINAL_QA_REPORT.md)
+- [docs/PUBLIC_RELEASE_REPORT.md](docs/PUBLIC_RELEASE_REPORT.md)
+
+## Claim Standard
 
 Every non-trivial number in the talk should be read as one of:
 
@@ -75,7 +115,3 @@ Every non-trivial number in the talk should be read as one of:
 - source-supported but not directly reproduced locally
 - ambiguous or source-misaligned
 - unsupported and removed
-
-## Core Thesis
-
-> Moltbook is interesting less as proof that autonomous digital societies already exist, and more as a live stress test of what is still missing: identity, memory, governance, and cost discipline.
