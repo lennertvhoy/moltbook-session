@@ -30,25 +30,25 @@
       "notes": "Used for official Opus 4.6 pricing."
     },
     {
-      "id": "anthropic_sonnet_46",
-      "label": "Anthropic, Introducing Claude Sonnet 4.6",
-      "url": "https://www.anthropic.com/news/claude-sonnet-4-6",
+      "id": "minimax_m27_model",
+      "label": "MiniMax, MiniMax M2.7 model page",
+      "url": "https://www.minimax.io/models/text/m27",
       "accessed_on": "2026-03-23",
-      "notes": "Used for official Sonnet 4.6 pricing."
+      "notes": "Used for official M2.7 description and benchmark claims including GDPval-AA Elo, skill adherence, and the MMClaw/Sonnet 4.6 note."
     },
     {
-      "id": "artificial_analysis_minimax_m25",
-      "label": "Artificial Analysis, MiniMax-M2.5",
-      "url": "https://artificialanalysis.ai/models/minimax-m2-5",
+      "id": "minimax_m27_release",
+      "label": "MiniMax, MiniMax M2.7 release post",
+      "url": "https://www.minimax.io/news/minimax-m27-en",
       "accessed_on": "2026-03-23",
-      "notes": "Used for current MiniMax-M2.5 price and index values. The original repo's MiniMax-M2.7 comparison could not be validated."
+      "notes": "Used as corroborating official release material for M2.7."
     },
     {
-      "id": "artificial_analysis_opus_46",
-      "label": "Artificial Analysis, Claude Opus 4.6",
-      "url": "https://artificialanalysis.ai/models/claude-opus-4-6",
+      "id": "minimax_pricing_paygo",
+      "label": "MiniMax API Docs, Pay as You Go pricing",
+      "url": "https://platform.minimax.io/docs/guides/pricing-paygo",
       "accessed_on": "2026-03-23",
-      "notes": "Used for current Opus 4.6 index and speed values. Comparing these directly to MiniMax still requires caveats about configuration and class."
+      "notes": "Used for official M2.7 and M2.7-highspeed token pricing."
     }
   ],
   "benchmark_jumps": [
@@ -94,25 +94,34 @@
   },
   "model_price_quality_snapshot": {
     "comparison_date": "2026-03-23",
-    "caveat": "This is included for audit purposes only. The original repo's MiniMax-M2.7 vs Claude Opus 4.6 framing was not source-aligned. Current values depend on exact configuration and are not a clean apples-to-apples comparison.",
+    "caveat": "Official vendor pages now make M2.7 real and current enough to mention, but the comparison still needs caution. The price gap is cleanly documented; the quality comparison remains vendor-reported and not a single neutral matched evaluation sheet.",
+    "summary_line": "The price gap is clearer than the quality gap.",
     "models": [
       {
         "name": "Claude Opus 4.6",
-        "configuration": "non-reasoning / high effort listing",
-        "intelligence_index": 46,
-        "output_tokens_per_second": 42.0,
+        "configuration": "official Anthropic page",
+        "terminal_bench": 65.4,
+        "osworld": 72.7,
+        "context_window_note": "1M-token context window in beta on Claude Platform",
         "input_price_per_million": 5.0,
         "output_price_per_million": 25.0,
-        "source_id": "artificial_analysis_opus_46"
+        "source_id": "anthropic_opus_46"
       },
       {
-        "name": "MiniMax-M2.5",
-        "configuration": "reasoning",
-        "intelligence_index": 42,
-        "output_tokens_per_second": 38.5,
+        "name": "MiniMax M2.7",
+        "configuration": "official MiniMax page",
+        "swe_pro": 56.22,
+        "terminal_bench": 57.0,
+        "vibe_pro": 55.6,
+        "gdpval_aa_elo": 1495,
+        "skill_adherence_pct": 97.0,
+        "mmclaw_note": "Approaching the latest Sonnet 4.6 on MMClaw evaluation",
         "input_price_per_million": 0.3,
         "output_price_per_million": 1.2,
-        "source_id": "artificial_analysis_minimax_m25"
+        "highspeed_input_price_per_million": 0.6,
+        "highspeed_output_price_per_million": 2.4,
+        "source_id": "minimax_m27_model",
+        "pricing_source_id": "minimax_pricing_paygo"
       }
     ]
   }

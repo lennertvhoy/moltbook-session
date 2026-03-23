@@ -9,7 +9,7 @@ The main issues were:
 - the AI trends chart was generated from synthetic data that looked empirical
 - the documented analysis commands failed from the repo root
 - the markdown deck overstated confidence on several points
-- the MiniMax M2.7 vs Claude Opus 4.6 comparison was not source-aligned
+- the original MiniMax M2.7 vs Claude Opus 4.6 comparison was not source-aligned
 - the repo mixed multiple incompatible deck artifacts
 
 The repo now ends in a materially stronger state:
@@ -35,7 +35,7 @@ The repo now ends in a materially stronger state:
 
 - `analyses/ai_trends.py` fabricated ECI and saturation curves rather than plotting source data.
 - The old deck treated the `$0.38 per social cycle` number as if it were observed rather than assumed.
-- The old deck's MiniMax M2.7 vs Claude Opus 4.6 claim was too precise and could not be validated.
+- The old deck's MiniMax M2.7 vs Claude Opus 4.6 claim was too precise and could not be validated from the repo's then-current sources.
 - The old scripts wrote to `../assets/...`, which broke the documented root-level commands.
 - The repo contained deck artifacts that were not aligned with the markdown deck.
 
@@ -53,6 +53,7 @@ The repo now ends in a materially stronger state:
 - analysis scripts now load explicit inputs from `data/*.json`
 - figures now save relative to the repo root
 - the trends chart now uses sourced metrics only
+- the MiniMax section now uses official MiniMax and Anthropic pages with narrower wording
 - the token-cost section now distinguishes documented anchors from assumptions
 - the forecast model now reports threshold and floor sensitivity
 - the deck now uses safer wording around trend curves and autonomy claims
@@ -61,7 +62,7 @@ The repo now ends in a materially stronger state:
 ## Biggest Credibility Risks Found
 
 1. Synthetic data presented as if it were sourced.
-2. Source mismatch in the MiniMax comparison.
+2. Source mismatch in the original MiniMax comparison.
 3. Over-strong wording around "AI-only" and social autonomy.
 4. Forecast outputs that looked more precise than the assumptions justified.
 5. Broken reproduction instructions.

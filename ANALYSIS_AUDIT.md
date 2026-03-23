@@ -49,6 +49,8 @@ Yes, after the claim was narrowed to: an illustrative social cycle under stated 
 - [data/ai_trends_metrics.json](/home/ff/Documents/BoostMeUp/MoltBook_Sessie/data/ai_trends_metrics.json)
 - Stanford HAI summary metrics
 - Epoch AI methodology and homepage trend snapshot
+- MiniMax official M2.7 model and pricing pages
+- Anthropic official Opus 4.6 page
 
 ### Method summary
 
@@ -59,7 +61,7 @@ Yes, after the claim was narrowed to: an illustrative social cycle under stated 
 ### Assumptions
 
 - the cost-decline line is a normalization from sourced endpoints, not a digitized original dataset
-- the model comparison panel is retained only as an audit note, not as a presentation claim
+- the MiniMax/Opus section uses official vendor-reported numbers rather than a neutral matched evaluation sheet
 
 ### Validation result
 
@@ -70,16 +72,18 @@ Yes, after the claim was narrowed to: an illustrative social cycle under stated 
 
 - prior script fabricated ECI scores and saturation curves
 - prior script embedded a too-confident model comparison
+- the first verification pass was too conservative on M2.7 because official MiniMax documentation had not yet been incorporated
 
 ### Fixes made
 
 - removed synthetic time series
 - replaced exact ECI benchmark count with an internal-source inconsistency note
 - rewrote comparison framing around what can actually be defended
+- upgraded MiniMax from "unsupported" to a narrow official-source-backed economics/competitiveness claim
 
 ### Does the chart support the slide claim?
 
-Yes, for the narrowed claim that the strongest defendable trends are in cost, compute, efficiency, and broad capability context.
+Yes, for the narrowed claim that the strongest defendable trends are in cost, compute, efficiency, broad capability context, and that MiniMax M2.7 shows a much clearer price advantage than quality gap.
 
 ## `analyses/forecast_model.py`
 

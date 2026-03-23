@@ -84,7 +84,7 @@ def build_growth_dataframe(metrics: dict[str, Any]) -> pd.DataFrame:
 
 
 def build_model_comparison_dataframe(metrics: dict[str, Any]) -> pd.DataFrame:
-    """Build the price-quality comparison table used for audit notes.
+    """Build the official vendor comparison table used for audit notes.
 
     Args:
         metrics: Parsed AI trends metrics JSON.
@@ -95,15 +95,21 @@ def build_model_comparison_dataframe(metrics: dict[str, Any]) -> pd.DataFrame:
     rows = []
     for model in metrics["model_price_quality_snapshot"]["models"]:
         blended = (model["input_price_per_million"] + model["output_price_per_million"]) / 2
-        rows.append(
-            {
-                "Model": model["name"],
-                "Configuration": model["configuration"],
-                "Index": model["intelligence_index"],
-                "Speed": model["output_tokens_per_second"],
-                "Blended price": blended,
-            }
-        )
+        row = {
+            "Model": model["name"],
+            "Configuration": model["configuration"],
+            "Blended price": blended,
+            "Terminal Bench": model["terminal_bench"],
+        }
+        if "swe_pro" in model:
+            row["SWE-Pro"] = model["swe_pro"]
+            row["VIBE-Pro"] = model["vibe_pro"]
+            row["GDPval-AA Elo"] = model["gdpval_aa_elo"]
+            row["Skill adherence"] = model["skill_adherence_pct"]
+        if "osworld" in model:
+            row["OSWorld"] = model["osworld"]
+            row["Context note"] = model["context_window_note"]
+        rows.append(row)
     return pd.DataFrame(rows)
 
 
@@ -182,10 +188,12 @@ def plot_ai_trends(metrics: dict[str, Any]) -> Path:
     ax4 = fig.add_subplot(grid[1, 1])
     ax4.axis("off")
     eci = metrics["epoch_capability_context"]
-    price_ratio = (
-        model_df.loc[model_df["Model"] == "Claude Opus 4.6", "Blended price"].iloc[0]
-        / model_df.loc[model_df["Model"] == "MiniMax-M2.5", "Blended price"].iloc[0]
-    )
+    comparison = metrics["model_price_quality_snapshot"]
+    opus = comparison["models"][0]
+    minimax = comparison["models"][1]
+    input_price_ratio = opus["input_price_per_million"] / minimax["input_price_per_million"]
+    output_price_ratio = opus["output_price_per_million"] / minimax["output_price_per_million"]
+    terminal_gap = opus["terminal_bench"] - minimax["terminal_bench"]
     text = (
         "Audit notes\n\n"
         "ECI framing\n"
@@ -193,11 +201,12 @@ def plot_ai_trends(metrics: dict[str, Any]) -> Path:
         f"- Epoch data section lists {eci['data_section_benchmark_count']} benchmarks\n"
         "- Safe deck wording is 'dozens of benchmarks', not one hard count\n"
         "- ECI exists because single benchmarks saturate\n\n"
-        "MiniMax vs Opus red-team result\n"
-        "- Original repo used MiniMax-M2.7; I could not validate that listing\n"
-        f"- Current sourced snapshot is about {price_ratio:.1f}x cheaper on blended token price\n"
-        "- That supports a 'much cheaper' claim, but not the repo's 'only ~6% worse' claim\n"
-        "- Keep the directional point; drop the over-tight ratio language\n"
+        "MiniMax M2.7 vs Opus 4.6\n"
+        f"- Official pricing gap: {input_price_ratio:.1f}x input, {output_price_ratio:.1f}x output\n"
+        f"- Official Terminal Bench values: {minimax['terminal_bench']:.1f}% vs {opus['terminal_bench']:.1f}%\n"
+        f"- Gap on that benchmark: {terminal_gap:.1f} points\n"
+        "- Safe line: much cheaper and still competitive on some agentic coding tasks\n"
+        "- Unsafe line: basically equal to Opus 4.6\n"
     )
     ax4.text(
         0.02,
@@ -262,13 +271,24 @@ def print_trends_summary(metrics: dict[str, Any]) -> None:
 
     print("\nModel comparison audit")
     print("-" * 72)
-    for row in model_df.itertuples(index=False):
-        print(
-            f"{row.Model:18} {row.Configuration:24} "
-            f"index={row.Index:>3} speed={row.Speed:>5.1f} tok/s "
-            f"blended=${row[4]:.2f}/1M"
-        )
-    print(metrics["model_price_quality_snapshot"]["caveat"])
+    comparison = metrics["model_price_quality_snapshot"]
+    opus = comparison["models"][0]
+    minimax = comparison["models"][1]
+    print(
+        f"{opus['name']:18} Terminal Bench {opus['terminal_bench']:>5.1f}%  "
+        f"OSWorld {opus['osworld']:>5.1f}%  "
+        f"price ${opus['input_price_per_million']:.1f}/${opus['output_price_per_million']:.1f} per 1M"
+    )
+    print(
+        f"{minimax['name']:18} Terminal Bench {minimax['terminal_bench']:>5.1f}%  "
+        f"SWE-Pro {minimax['swe_pro']:>5.2f}%  "
+        f"price ${minimax['input_price_per_million']:.1f}/${minimax['output_price_per_million']:.1f} per 1M"
+    )
+    print(f"MiniMax highspeed tier: ${minimax['highspeed_input_price_per_million']:.1f}/${minimax['highspeed_output_price_per_million']:.1f} per 1M")
+    print(f"MiniMax skill adherence: {minimax['skill_adherence_pct']:.0f}% across 40 complex skills")
+    print(f"MiniMax MMClaw note: {minimax['mmclaw_note']}")
+    print(f"Summary line: {comparison['summary_line']}")
+    print(comparison["caveat"])
 
     print("\n" + "=" * 72)
 

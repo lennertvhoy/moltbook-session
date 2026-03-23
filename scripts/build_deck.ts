@@ -236,7 +236,7 @@ function buildSlides() {
   );
 
   const slide4 = addShell(
-    "The cost story is real, but the exact social-cycle number is a scenario, not a measurement",
+    "The cost story is real, but the headline number is a scenario, not a measurement",
     "TOKEN ANALYSIS",
     "Source anchors: OpenClaw context docs and Anthropic pricing. Scenario assumptions are explicit in data/token_usage_assumptions.json.",
   );
@@ -307,33 +307,46 @@ function buildSlides() {
   );
 
   const slide6 = addShell(
-    "The strongest defensible trend claims are about cost, compute, and broad capability context",
+    "What the trend data cleanly supports",
     "TRENDS",
-    "Sources: Stanford HAI AI Index 2025 summary and Epoch AI trend snapshot, accessed 2026-03-23.",
+    "Source-backed metrics; MiniMax and Opus numbers are official vendor pages, not one neutral matched eval sheet.",
   );
-  addImage(slide6, asset("assets", "ai_trends.png"), 0.62, 1.35, 12.0, 5.65);
+  addImage(slide6, asset("assets", "ai_trends.png"), 0.62, 1.35, 12.0, 5.2);
+  addPanel(slide6, 0.85, 6.1, 12.0, 0.58);
+  slide6.addText("Method note: source-backed metrics + official vendor snapshots; useful for direction, not a neutral matched leaderboard.", {
+    x: 1.0,
+    y: 6.28,
+    w: 11.6,
+    h: 0.18,
+    fontFace: "Aptos",
+    fontSize: 9,
+    color: colors.muted,
+    margin: 0,
+    fit: "shrink",
+  });
   slide6.addNotes(
     [
       "This chart is source-anchored. The prior repo version used synthetic time series.",
-      "The MiniMax-vs-Opus case survives only as an audit note, not as a strong on-stage claim.",
+      "MiniMax M2.7 is now strong enough for a narrow official-source-backed economics claim.",
+      "The safe line is that the price gap is clearer than the quality gap.",
     ].join("\n"),
   );
 
   const slide7 = addShell(
-    "Read curves carefully: not every upward line is an exponential law",
+    "Use the MiniMax comparison, but keep it on a short analytical leash",
     "ANTI-HYPE",
-    "Sources: Epoch ECI methodology and the repo's own red-team review.",
+    "Official MiniMax and Anthropic pages make the economics claim clean; the benchmark claim still needs caveats.",
   );
   addPanel(slide7, 0.62, 1.45, 5.8, 5.15);
   addBodyText(
     slide7,
     [
-      "Safer language",
+      "What is now fair to say",
       "",
-      "- Inference cost decline has been extremely fast.",
-      "- Compute and efficiency trends are compounding strongly.",
-      "- Individual bounded benchmarks can jump, then saturate.",
-      "- ECI exists precisely because single benchmarks stop being informative over longer windows.",
+      "- M2.7 is officially priced at $0.30 / $1.20 per 1M tokens.",
+      "- Opus 4.6 is officially priced at $5 / $25 per 1M tokens.",
+      "- Official Terminal Bench values are 57.0% for M2.7 and 65.4% for Opus 4.6.",
+      "- Safe summary: much cheaper and still competitive on some agentic coding tasks.",
     ],
     0.9,
     1.85,
@@ -344,11 +357,12 @@ function buildSlides() {
   addBodyText(
     slide7,
     [
-      "What was removed from the old deck",
+      "What still needs caution",
       "",
-      "- 'Only ~6% worse' for MiniMax vs Opus.",
-      "- Any implication that one sourced endpoint justifies a full empirical-looking curve.",
-      "- Any use of screenshots as substitutes for the underlying citation.",
+      "- Do not say 'basically equal to Opus 4.6'.",
+      "- MiniMax's MMClaw note references Sonnet 4.6, not Opus 4.6.",
+      "- Vendor pages are not the same thing as one independent matched benchmark sheet.",
+      "- The clean on-stage line is: the price gap is clearer than the quality gap.",
     ],
     7.0,
     1.85,
@@ -357,19 +371,36 @@ function buildSlides() {
   );
   addQuote(
     slide7,
-    "The talk gets stronger when it says less, but says it more carefully.",
+    "If the wording feels punchier than the evidence, narrow the wording instead of defending the punch.",
     7.0,
     5.2,
     5.1,
   );
-  slide7.addNotes("This is the explicit red-team slide that was missing in the earlier repo.");
+  slide7.addNotes(
+    [
+      "This slide restores MiniMax to the deck, but only in its safe official-source-backed form.",
+      "The old ~19x cheaper / ~6% worse framing should stay dead.",
+    ].join("\n"),
+  );
 
   const slide8 = addShell(
-    "The forecast model is useful as a scenario discipline, not as a prophecy",
+    "Forecasts: useful scenario discipline, not prophecy",
     "FORECAST",
-    "Inputs live in data/forecast_scenarios.json. All outputs are reproducible from uv.",
+    "Scenario outputs from explicit assumptions; not a deterministic forecast.",
   );
-  addImage(slide8, asset("assets", "forecast_distribution.png"), 0.62, 1.35, 12.0, 5.65);
+  addImage(slide8, asset("assets", "forecast_distribution.png"), 0.62, 1.35, 12.0, 5.2);
+  addPanel(slide8, 0.85, 6.1, 12.0, 0.58);
+  slide8.addText("Barrier model + explicit scenario inputs + floor constraints. Treat this as a structured uncertainty map, not a date promise.", {
+    x: 1.0,
+    y: 6.28,
+    w: 11.6,
+    h: 0.18,
+    fontFace: "Aptos",
+    fontSize: 9,
+    color: colors.muted,
+    margin: 0,
+    fit: "shrink",
+  });
   slide8.addNotes(
     [
       "I kept the barrier-crossing framing but tightened the rhetoric.",
@@ -459,6 +490,7 @@ function buildSlides() {
     "CLOSING",
     "Deck generated natively with bun + PptxGenJS. Rebuild with: bun run build:deck",
   );
+  addPanel(slide10, 0.72, 1.35, 12.0, 1.0);
   addQuote(
     slide10,
     "Moltbook is interesting because it exposes the design burden behind agent society claims: identity, memory, governance, and cost all remain active bottlenecks.",
@@ -466,6 +498,7 @@ function buildSlides() {
     1.6,
     11.5,
   );
+  addPanel(slide10, 0.72, 2.25, 12.0, 2.35);
   addBodyText(
     slide10,
     [
@@ -480,6 +513,7 @@ function buildSlides() {
     11.2,
     2.6,
   );
+  addPanel(slide10, 0.72, 5.35, 12.0, 1.2);
   slide10.addText("Discussion prompts", {
     x: 0.9,
     y: 5.55,

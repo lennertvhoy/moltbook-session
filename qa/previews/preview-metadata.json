@@ -1,0 +1,117 @@
+{
+  "slide_count": 10,
+  "notes_count": 10,
+  "slides": [
+    {
+      "index": 1,
+      "title": "VERIFIED DECK",
+      "preview": "qa/previews/slide-01.png",
+      "image_count": 1,
+      "text_word_count": 64,
+      "top_texts": [
+        "VERIFIED DECK",
+        "Moltbook: signal, limits, and what still has to be solved"
+      ]
+    },
+    {
+      "index": 2,
+      "title": "PRIMARY SOURCES",
+      "preview": "qa/previews/slide-02.png",
+      "image_count": 1,
+      "text_word_count": 83,
+      "top_texts": [
+        "PRIMARY SOURCES",
+        "What Moltbook officially claims, and what its terms immediately limit"
+      ]
+    },
+    {
+      "index": 3,
+      "title": "OPENCLAW DOCS",
+      "preview": "qa/previews/slide-03.png",
+      "image_count": 1,
+      "text_word_count": 66,
+      "top_texts": [
+        "OPENCLAW DOCS",
+        "OpenClaw documents the architecture as context, tools, and agent routing"
+      ]
+    },
+    {
+      "index": 4,
+      "title": "TOKEN ANALYSIS",
+      "preview": "qa/previews/slide-04.png",
+      "image_count": 1,
+      "text_word_count": 89,
+      "top_texts": [
+        "TOKEN ANALYSIS",
+        "The cost story is real, but the exact social-cycle number is a scenario, not a measurement"
+      ]
+    },
+    {
+      "index": 5,
+      "title": "RED-TEAM CHECK",
+      "preview": "qa/previews/slide-05.png",
+      "image_count": 1,
+      "text_word_count": 93,
+      "top_texts": [
+        "RED-TEAM CHECK",
+        "Identity and governance remain unresolved, even if the behavior looks social"
+      ]
+    },
+    {
+      "index": 6,
+      "title": "The strongest defensible trend claims are about cost, compute, and a narrower MiniMax claim",
+      "preview": "qa/previews/slide-06.png",
+      "image_count": 1,
+      "text_word_count": 47,
+      "top_texts": [
+        "TRENDS",
+        "The strongest defensible trend claims are about cost, compute, and a narrower MiniMax claim"
+      ]
+    },
+    {
+      "index": 7,
+      "title": "ANTI-HYPE",
+      "preview": "qa/previews/slide-07.png",
+      "image_count": 0,
+      "text_word_count": 155,
+      "top_texts": [
+        "ANTI-HYPE",
+        "Use the MiniMax comparison, but keep it on a short analytical leash"
+      ]
+    },
+    {
+      "index": 8,
+      "title": "The forecast model is useful as a scenario discipline, not as a prophecy",
+      "preview": "qa/previews/slide-08.png",
+      "image_count": 1,
+      "text_word_count": 43,
+      "top_texts": [
+        "FORECAST",
+        "The forecast model is useful as a scenario discipline, not as a prophecy"
+      ]
+    },
+    {
+      "index": 9,
+      "title": "SYNTHESIS",
+      "preview": "qa/previews/slide-09.png",
+      "image_count": 0,
+      "text_word_count": 81,
+      "top_texts": [
+        "SYNTHESIS",
+        "What still has to be solved before 'agent society' language becomes credible"
+      ]
+    },
+    {
+      "index": 10,
+      "title": "Conclusion: Moltbook is a useful signal, not yet a proof",
+      "preview": "qa/previews/slide-10.png",
+      "image_count": 0,
+      "text_word_count": 137,
+      "top_texts": [
+        "CLOSING",
+        "Conclusion: Moltbook is a useful signal, not yet a proof"
+      ]
+    }
+  ],
+  "contact_sheet": "qa/previews/contact-sheet.png"
+}
