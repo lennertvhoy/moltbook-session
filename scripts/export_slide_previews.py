@@ -79,6 +79,52 @@ def draw_text_box(
         cursor_y += line_height
 
 
+def slide_background_color(slide) -> str:
+    """Extract the slide background color when available."""
+    fill = slide.background.fill
+    if fill is None:
+        return BACKGROUND
+    fore_color = getattr(fill, "fore_color", None)
+    if fore_color is None:
+        return BACKGROUND
+    rgb = getattr(fore_color, "rgb", None)
+    return f"#{rgb}" if rgb else BACKGROUND
+
+
+def is_dark(color: str) -> bool:
+    """Return True when a hex color is visually dark."""
+    color = color.lstrip("#")
+    if len(color) != 6:
+        return False
+    red = int(color[0:2], 16)
+    green = int(color[2:4], 16)
+    blue = int(color[4:6], 16)
+    luminance = (0.2126 * red) + (0.7152 * green) + (0.0722 * blue)
+    return luminance < 140
+
+
+def extract_text_style(shape, background: str) -> tuple[str, int | None, bool]:
+    """Best-effort extraction of text color, size, and boldness."""
+    default_color = "#F8FAFC" if is_dark(background) else "#17212B"
+
+    try:
+        for paragraph in shape.text_frame.paragraphs:
+            for run in paragraph.runs:
+                if not run.text.strip():
+                    continue
+                font = run.font
+                color_obj = getattr(font, "color", None)
+                rgb = getattr(color_obj, "rgb", None) if color_obj else None
+                color = f"#{rgb}" if rgb else default_color
+                size = int(font.size.pt) if font.size else None
+                bold = bool(font.bold)
+                return color, size, bold
+    except AttributeError:
+        return default_color, None, False
+
+    return default_color, None, False
+
+
 def shape_fill_color(shape) -> str | None:
     """Best-effort shape fill color extraction."""
     fill = shape.fill
@@ -110,7 +156,8 @@ def shape_line_color(shape) -> str:
 
 def render_slide(slide, slide_width: int, slide_height: int, index: int) -> dict[str, object]:
     """Render one slide to a PNG preview."""
-    canvas = Image.new("RGB", (PX_WIDTH, PX_HEIGHT), BACKGROUND)
+    background = slide_background_color(slide)
+    canvas = Image.new("RGB", (PX_WIDTH, PX_HEIGHT), background)
     draw = ImageDraw.Draw(canvas)
 
     title = ""
@@ -164,17 +211,18 @@ def render_slide(slide, slide_width: int, slide_height: int, index: int) -> dict
             if not title and top < 150 and len(text) > 8:
                 title = text
 
+            extracted_color, extracted_size, extracted_bold = extract_text_style(shape, background)
             is_kicker = top < 90 and len(text) < 40
             is_title = top < 150 and len(text) > 20
-            font_size = 13 if is_kicker else 26 if is_title else 18
-            color = "#0F766E" if is_kicker else "#17212B"
+            font_size = extracted_size or (13 if is_kicker else 26 if is_title else 18)
+            color = extracted_color
             draw_text_box(
                 draw,
                 text,
                 (left, top, width, height),
                 font_size=font_size,
                 color=color,
-                bold=is_kicker or is_title,
+                bold=extracted_bold or is_kicker or is_title,
             )
 
     slide_name = f"slide-{index:02d}.png"

@@ -125,10 +125,8 @@ def plot_ai_trends(metrics: dict[str, Any]) -> Path:
     jump_df = pd.DataFrame(metrics["benchmark_jumps"])
     dates, normalized_costs = build_normalized_cost_curve(metrics)
     growth_df = build_growth_dataframe(metrics)
-    model_df = build_model_comparison_dataframe(metrics)
-
-    fig = plt.figure(figsize=(15, 10))
-    grid = fig.add_gridspec(2, 2, hspace=0.28, wspace=0.22)
+    fig = plt.figure(figsize=(15.5, 6.8))
+    grid = fig.add_gridspec(1, 3, wspace=0.28)
 
     ax1 = fig.add_subplot(grid[0, 0])
     bars = ax1.bar(
@@ -136,8 +134,8 @@ def plot_ai_trends(metrics: dict[str, Any]) -> Path:
         jump_df["improvement_points"],
         color=["#0f766e", "#2563eb", "#7c3aed"],
     )
-    ax1.set_ylabel("Score increase (points)")
-    ax1.set_title("New benchmark jumps cited in AI Index 2025")
+    ax1.set_ylabel("Sprong in scorepunten")
+    ax1.set_title("Sprongen op moeilijke benchmarks")
     for bar, value in zip(bars, jump_df["improvement_points"], strict=True):
         ax1.text(
             bar.get_x() + (bar.get_width() / 2),
@@ -153,8 +151,11 @@ def plot_ai_trends(metrics: dict[str, Any]) -> Path:
     ax2.plot(dates, normalized_costs, color="#dc2626", linewidth=2.5)
     ax2.fill_between(dates, normalized_costs, color="#fecaca", alpha=0.55)
     ax2.set_yscale("log")
-    ax2.set_ylabel("Relative cost (log scale)")
-    ax2.set_title("Normalized cost decline to reach GPT-3.5-level quality")
+    ax2.set_ylabel("Relatieve kost (log-schaal)")
+    ax2.set_title("Kost om GPT-3.5-niveau te halen")
+    tick_positions = [dates[0], dates[6], dates[12], dates[18], dates[-1]]
+    ax2.set_xticks(tick_positions)
+    ax2.set_xticklabels([item.strftime("%Y-%m") for item in tick_positions], rotation=0)
     ax2.annotate(
         ">280x decline\nNov 2022 to Oct 2024",
         xy=(dates[len(dates) // 2], normalized_costs[len(normalized_costs) // 2]),
@@ -164,10 +165,10 @@ def plot_ai_trends(metrics: dict[str, Any]) -> Path:
         bbox={"boxstyle": "round,pad=0.4", "facecolor": "#fff7ed", "edgecolor": "#fdba74"},
     )
 
-    ax3 = fig.add_subplot(grid[1, 0])
+    ax3 = fig.add_subplot(grid[0, 2])
     bars = ax3.bar(growth_df["Metric"], growth_df["Annual factor"], color="#334155")
-    ax3.set_ylabel("Annual factor")
-    ax3.set_title("Epoch trend snapshot")
+    ax3.set_ylabel("Jaarfactor")
+    ax3.set_title("Compute en efficiency")
     ax3.set_ylim(0, max(growth_df["Annual factor"]) + 1)
     ax3.tick_params(axis="x", rotation=20)
     for bar, factor, doubling in zip(
@@ -185,42 +186,16 @@ def plot_ai_trends(metrics: dict[str, Any]) -> Path:
             fontsize=9,
         )
 
-    ax4 = fig.add_subplot(grid[1, 1])
-    ax4.axis("off")
-    eci = metrics["epoch_capability_context"]
-    comparison = metrics["model_price_quality_snapshot"]
-    opus = comparison["models"][0]
-    minimax = comparison["models"][1]
-    input_price_ratio = opus["input_price_per_million"] / minimax["input_price_per_million"]
-    output_price_ratio = opus["output_price_per_million"] / minimax["output_price_per_million"]
-    terminal_gap = opus["terminal_bench"] - minimax["terminal_bench"]
-    text = (
-        "Audit notes\n\n"
-        "ECI framing\n"
-        f"- Epoch overview says {eci['overview_benchmark_count']} benchmarks\n"
-        f"- Epoch data section lists {eci['data_section_benchmark_count']} benchmarks\n"
-        "- Safe deck wording is 'dozens of benchmarks', not one hard count\n"
-        "- ECI exists because single benchmarks saturate\n\n"
-        "MiniMax M2.7 vs Opus 4.6\n"
-        f"- Official pricing gap: {input_price_ratio:.1f}x input, {output_price_ratio:.1f}x output\n"
-        f"- Official Terminal Bench values: {minimax['terminal_bench']:.1f}% vs {opus['terminal_bench']:.1f}%\n"
-        f"- Gap on that benchmark: {terminal_gap:.1f} points\n"
-        "- Safe line: much cheaper and still competitive on some agentic coding tasks\n"
-        "- Unsafe line: basically equal to Opus 4.6\n"
-    )
-    ax4.text(
+    fig.suptitle("Brononderbouwde AI-trends", fontsize=18, fontweight="bold")
+    fig.text(
+        0.5,
         0.02,
-        0.98,
-        text,
-        va="top",
-        ha="left",
-        fontsize=10,
-        family="monospace",
-        bbox={"boxstyle": "round,pad=0.6", "facecolor": "#f8fafc", "edgecolor": "#cbd5e1"},
+        "Stanford HAI toont benchmarksprongen en >280x kostdaling. Epoch toont sterke compute- en efficiencygroei.",
+        ha="center",
+        fontsize=11,
+        color="#334155",
     )
-
-    fig.suptitle("AI trends backed by explicit sources", fontsize=16, fontweight="bold")
-    fig.subplots_adjust(top=0.90)
+    fig.subplots_adjust(top=0.84, bottom=0.14)
 
     output_path = ASSETS_DIR / "ai_trends.png"
     fig.savefig(output_path, dpi=150, bbox_inches="tight")

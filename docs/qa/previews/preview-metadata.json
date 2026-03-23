@@ -4,111 +4,111 @@
   "slides": [
     {
       "index": 1,
-      "title": "VERIFIED DECK",
+      "title": "NEDERLANDSTALIGE KEYNOTE",
       "preview": "docs/qa/previews/slide-01.png",
       "image_count": 2,
-      "text_word_count": 64,
+      "text_word_count": 52,
       "top_texts": [
-        "VERIFIED DECK"
+        "NEDERLANDSTALIGE KEYNOTE"
       ]
     },
     {
       "index": 2,
-      "title": "PRIMARY SOURCES",
+      "title": "PRIMAIRE BRONNEN",
       "preview": "docs/qa/previews/slide-02.png",
-      "image_count": 2,
-      "text_word_count": 83,
+      "image_count": 3,
+      "text_word_count": 70,
       "top_texts": [
-        "PRIMARY SOURCES",
-        "What Moltbook officially claims, and what its terms immediately limit"
+        "PRIMAIRE BRONNEN",
+        "Moltbook verkoopt autonomie, maar borgt ze niet"
       ]
     },
     {
       "index": 3,
-      "title": "OPENCLAW DOCS",
+      "title": "Een agentnetwerk is vooral een systeem",
       "preview": "docs/qa/previews/slide-03.png",
       "image_count": 2,
-      "text_word_count": 66,
+      "text_word_count": 89,
       "top_texts": [
-        "OPENCLAW DOCS",
-        "OpenClaw documents the architecture as context, tools, and agent routing"
+        "OPENCLAW",
+        "Een agentnetwerk is vooral een systeem"
       ]
     },
     {
       "index": 4,
-      "title": "TOKEN ANALYSIS",
+      "title": "De kost zit vooral in herladen context",
       "preview": "docs/qa/previews/slide-04.png",
-      "image_count": 2,
-      "text_word_count": 88,
+      "image_count": 1,
+      "text_word_count": 102,
       "top_texts": [
-        "TOKEN ANALYSIS",
-        "The cost story is real, but the headline number is a scenario, not a measurement"
+        "KOSTEN",
+        "De kost zit vooral in herladen context"
       ]
     },
     {
       "index": 5,
-      "title": "RED-TEAM CHECK",
+      "title": "ATTRIBUTIE",
       "preview": "docs/qa/previews/slide-05.png",
       "image_count": 2,
-      "text_word_count": 93,
+      "text_word_count": 80,
       "top_texts": [
-        "RED-TEAM CHECK",
-        "Identity and governance remain unresolved, even if the behavior looks social"
+        "ATTRIBUTIE",
+        "Sociaal gedrag is nog geen heldere autonomie"
       ]
     },
     {
       "index": 6,
-      "title": "What the trend data cleanly supports",
+      "title": "De stevigste signalen zitten in economie en infrastructuur",
       "preview": "docs/qa/previews/slide-06.png",
       "image_count": 2,
-      "text_word_count": 39,
+      "text_word_count": 63,
       "top_texts": [
         "TRENDS",
-        "What the trend data cleanly supports"
+        "De stevigste signalen zitten in economie en infrastructuur"
       ]
     },
     {
       "index": 7,
-      "title": "ANTI-HYPE",
+      "title": "MODELVERGELIJKING",
       "preview": "docs/qa/previews/slide-07.png",
       "image_count": 1,
-      "text_word_count": 155,
+      "text_word_count": 87,
       "top_texts": [
-        "ANTI-HYPE",
-        "Use the MiniMax comparison, but keep it on a short analytical leash"
+        "MODELVERGELIJKING",
+        "MiniMax is een prijsverhaal, geen parity-verhaal"
       ]
     },
     {
       "index": 8,
-      "title": "Forecasts: useful scenario discipline, not prophecy",
+      "title": "VOORUITBLIK",
       "preview": "docs/qa/previews/slide-08.png",
-      "image_count": 2,
-      "text_word_count": 36,
+      "image_count": 1,
+      "text_word_count": 96,
       "top_texts": [
-        "FORECAST",
-        "Forecasts: useful scenario discipline, not prophecy"
+        "VOORUITBLIK",
+        "Forecast: nuttig als scenario-tool"
       ]
     },
     {
       "index": 9,
-      "title": "SYNTHESIS",
+      "title": "Wat nog ontbreekt voor een echte agentsamenleving",
       "preview": "docs/qa/previews/slide-09.png",
       "image_count": 1,
-      "text_word_count": 81,
+      "text_word_count": 99,
       "top_texts": [
-        "SYNTHESIS",
-        "What still has to be solved before 'agent society' language becomes credible"
+        "SYNTHese",
+        "Wat nog ontbreekt voor een echte agentsamenleving"
       ]
     },
     {
       "index": 10,
-      "title": "Conclusion: Moltbook is a useful signal, not yet a proof",
+      "title": "Moltbook is een signaal. Nog geen bewijs.",
       "preview": "docs/qa/previews/slide-10.png",
       "image_count": 1,
-      "text_word_count": 137,
+      "text_word_count": 91,
       "top_texts": [
-        "CLOSING",
-        "Conclusion: Moltbook is a useful signal, not yet a proof"
+        "SLOT",
+        "Moltbook is een signaal. Nog geen bewijs."
       ]
     }
   ],

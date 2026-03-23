@@ -71,6 +71,7 @@ Key entry points:
 - [release/Moltbook.pptx](release/Moltbook.pptx): latest committed deck
 - [docs/verification/README.md](docs/verification/README.md): verification and audit index
 - [docs/qa/FINAL_QA_REPORT.md](docs/qa/FINAL_QA_REPORT.md): final presentation QA report
+- [docs/qa/PRESENTATION_REDESIGN_REPORT.md](docs/qa/PRESENTATION_REDESIGN_REPORT.md): Dutch keynote redesign log
 
 ## Reusable BoostMeUp Theme
 
@@ -104,6 +105,7 @@ Verification and QA:
 - [docs/verification/ANALYSIS_AUDIT.md](docs/verification/ANALYSIS_AUDIT.md)
 - [docs/verification/SLIDE_SYSTEM_DECISION.md](docs/verification/SLIDE_SYSTEM_DECISION.md)
 - [docs/qa/FINAL_QA_REPORT.md](docs/qa/FINAL_QA_REPORT.md)
+- [docs/qa/PRESENTATION_REDESIGN_REPORT.md](docs/qa/PRESENTATION_REDESIGN_REPORT.md)
 - [docs/PUBLIC_RELEASE_REPORT.md](docs/PUBLIC_RELEASE_REPORT.md)
 
 ## Claim Standard
