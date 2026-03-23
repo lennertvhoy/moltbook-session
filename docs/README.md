@@ -13,6 +13,7 @@ This directory contains the public-facing audit trail for the Moltbook session r
 
 - [qa/FINAL_QA_REPORT.md](qa/FINAL_QA_REPORT.md)
 - [qa/PRESENTATION_REDESIGN_REPORT.md](qa/PRESENTATION_REDESIGN_REPORT.md)
+- [qa/FINAL_PRESENTATION_POLISH_REPORT.md](qa/FINAL_PRESENTATION_POLISH_REPORT.md)
 - [qa/previews/contact-sheet.png](qa/previews/contact-sheet.png)
 
 ## Release Cleanup

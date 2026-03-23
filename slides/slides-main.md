@@ -26,11 +26,11 @@ Dit bestand is de Nederlandstalige keynote-outline. De productie-`.pptx` wordt g
 
 ## Slide 3: Architectuur
 
-**Een agentnetwerk is vooral een systeem**
+**Een agentnetwerk is een systeem, geen wezen**
 
-- model + instructies + context + tools + state
-- OpenClaw verankert routing, sandboxes en tool policy
-- takeaway: architectuurverhaal, geen digitaal organisme
+- reductie naar drie live-begrijpbare bouwblokken: context, tools, state
+- OpenClaw blijft de bronanker, maar de slide leest als keynote in plaats van docs-dump
+- takeaway: architectuur is zichtbaar, digitaal organisme nog niet
 
 ---
 
@@ -38,9 +38,9 @@ Dit bestand is de Nederlandstalige keynote-outline. De productie-`.pptx` wordt g
 
 **De kost zit vooral in herladen context**
 
+- één hoofdboodschap: context reload domineert de kost
 - $0,377 blijft scenario-uitkomst, geen meting
-- 87% van de illustratieve cyclus zit in context reload
-- takeaway: richting is belangrijker dan pseudo-precisie
+- takeaway: kostdruk is echt, maar het headline-getal is geen observatie
 
 ---
 
@@ -58,10 +58,9 @@ Dit bestand is de Nederlandstalige keynote-outline. De productie-`.pptx` wordt g
 
 **De stevigste signalen zitten in economie en infrastructuur**
 
-- grote benchmarksprongen
-- >280x kostdaling
-- sterke compute- en efficiencygroei
-- caveat blijft zichtbaar: bounded benchmarks satureren
+- slide focust nu op drie dominante signalen
+- >280x kostdaling, 5x/jaar training compute, benchmarksprongen
+- caveat blijft, maar ondergeschikt aan de hoofdthese
 
 ---
 
@@ -79,9 +78,9 @@ Dit bestand is de Nederlandstalige keynote-outline. De productie-`.pptx` wordt g
 
 **Vooruitblik: nuttig als scenario-tool**
 
-- geen profetie, wel discipline voor aannames
-- base case: 28,1% tegen 2040, mediaan 2038
-- floors wegen hier harder dan de headline threshold
+- primaire les: floors binden eerder dan de headline threshold
+- percentages en jaartallen gedegradeerd tot secundaire context
+- takeaway: orden bottlenecks, voorspel geen lot
 
 ---
 
@@ -94,12 +93,14 @@ Dit bestand is de Nederlandstalige keynote-outline. De productie-`.pptx` wordt g
 - governance
 - economics
 
+**Payoff:** zonder deze vier blijft 'agentsamenleving' vooral taal.
+
 ---
 
 ## Slide 10: Slot
 
 **Moltbook is een signaal. Nog geen bewijs.**
 
-- finale podiumzin in het Nederlands
-- discussievragen secundair gemaakt
-- deck eindigt op de hoofdthese, niet op audit-taal
+- slotzin aangescherpt voor landing
+- discussievragen uit het slide-oppervlak gehaald
+- deck eindigt nu duidelijk op geloofwaardigheid onder schaal en verantwoordelijkheid

@@ -210,6 +210,20 @@ function addMetricBar(
   });
 }
 
+function addSourceTag(
+  slide: PptxGenJS.Slide,
+  text: string,
+  x: number,
+  y: number,
+  variant: SlideVariant,
+): void {
+  addTextBlock(slide, text, x, y, 2.6, 0.16, {
+    size: 9,
+    color: mutedFor(variant),
+    bold: true,
+  });
+}
+
 function addProcessNode(
   slide: PptxGenJS.Slide,
   title: string,
@@ -323,40 +337,42 @@ function buildSlides(): void {
   );
 
   const slide3 = addBoostMeUpShell(pptx, {
-    title: "Een agentnetwerk is vooral een systeem",
+    title: "Een agentnetwerk is een systeem, geen wezen",
     kicker: "OPENCLAW",
     footer: "Bronnen: OpenClaw context docs en multi-agent docs; vereenvoudigde schemaweergave op basis van die documentatie.",
     variant: "dark",
   });
-  addTextBlock(slide3, "De praktische definitie is niet mystiek maar operationeel.", 0.78, 1.28, 5.5, 0.24, {
-    size: 15,
-    color: "D7DCE7",
+  addTextBlock(slide3, "Wat als autonomie voelt, is vaak een georkestreerde loop.", 0.78, 1.32, 6.2, 0.34, {
+    size: 18,
+    color: colors.gold,
+    bold: true,
+    fontFace: BOOSTMEUP_BRAND.fonts.head,
   });
-  addPill(slide3, "model + instructies + context + tools + state", 0.78, 1.64, 3.82, colors.gold, colors.navy);
+  addPill(slide3, "operationele lezing", 0.78, 1.86, 1.42, colors.red, colors.white);
   slide3.addShape("line", {
-    x: 1.24,
-    y: 3.18,
-    w: 10.45,
+    x: 1.5,
+    y: 3.06,
+    w: 8.9,
     h: 0,
     line: { color: colors.red, pt: 2 },
   });
-  addProcessNode(slide3, "Instructies", "rol, regels,\nAGENTS.md", 0.96, 2.56);
-  addProcessNode(slide3, "Context", "geschiedenis,\nretrieval, files", 3.16, 2.56);
-  addProcessNode(slide3, "Tools", "schema's,\nrechten", 5.36, 2.56);
-  addProcessNode(slide3, "Model", "redenatie,\noutput", 7.56, 2.56);
-  addProcessNode(slide3, "State", "routing,\nexterne geheugenlaag", 9.76, 2.56);
-  addBoostMeUpPanel(slide3, 0.78, 4.52, 7.16, 1.38, "dark");
-  addTextBlock(slide3, "Wat OpenClaw expliciet toont", 1.02, 4.8, 2.4, 0.22, {
+  addProcessNode(slide3, "Context", "geschiedenis,\nretrieval,\nfiles", 1.08, 2.42);
+  addProcessNode(slide3, "Tools", "rechten,\nschema's,\nrouting", 4.28, 2.42);
+  addProcessNode(slide3, "State", "sessies,\nexterne\ngeheugenlaag", 7.48, 2.42);
+  addBoostMeUpPanel(slide3, 0.78, 4.32, 7.56, 1.56, "dark");
+  addTextBlock(slide3, "Wat OpenClaw hier hard maakt", 1.04, 4.64, 2.8, 0.22, {
     size: 14,
     color: colors.gold,
     bold: true,
   });
-  addTextBlock(slide3, "Routing, sandboxes en tool policy zijn technisch echt.\nMaar multi-agent setups zijn ook token-heavy en operationeel fragiel.", 1.02, 5.14, 6.4, 0.56, {
-    size: 14,
+  addTextBlock(slide3, "Multi-agent gedrag is technisch echt.\nMaar het blijft opgebouwd uit context, tools, policies en state.", 1.04, 5.0, 6.7, 0.56, {
+    size: 17,
     color: colors.white,
+    bold: true,
+    fontFace: BOOSTMEUP_BRAND.fonts.head,
   });
-  addFramedImage(slide3, asset("assets", "openclaw_context_docs.png"), 8.3, 4.22, 4.28, 2.1, "dark");
-  addTakeawayBand(slide3, "Takeaway: dit is een architectuurverhaal, geen bewijs van één stabiel digitaal organisme.", 6.02, "dark");
+  addFramedImage(slide3, asset("assets", "openclaw_context_docs.png"), 8.68, 2.1, 3.9, 3.78, "dark");
+  addTakeawayBand(slide3, "Takeaway: architectuur is zichtbaar. Een autonoom digitaal organisme nog niet.", 6.02, "dark");
   slide3.addNotes(
     [
       "Zeg expliciet dat dit schema een vereenvoudigde interpretatie is van de docs, geen letterlijk diagram van OpenClaw.",
@@ -372,46 +388,49 @@ function buildSlides(): void {
     kicker: "KOSTEN",
     footer: "OpenClaw voorbeeld + expliciete repo-aannames. $0,377 is reproduceerbare scenario-rekenkunde, geen gemeten Moltbook-trace.",
   });
-  addBoostMeUpPanel(slide4, 0.78, 1.38, 4.58, 4.88);
+  addBoostMeUpPanel(slide4, 0.78, 1.38, 4.22, 4.68);
   addPill(slide4, "scenario, geen meting", 1.04, 1.66, 1.66, colors.gold, colors.navy);
-  addTextBlock(slide4, "87%", 1.0, 2.2, 3.0, 0.78, {
-    size: 42,
+  addTextBlock(slide4, "87%", 1.02, 2.0, 2.8, 0.82, {
+    size: 48,
     color: colors.red,
     bold: true,
     fontFace: BOOSTMEUP_BRAND.fonts.head,
   });
-  addTextBlock(slide4, "van de totale cyclus zit in het herladen van context", 1.02, 3.02, 3.6, 0.6, {
-    size: 18,
+  addTextBlock(slide4, "van de illustratieve cyclus zit in context reload", 1.02, 2.98, 3.2, 0.54, {
+    size: 20,
     bold: true,
+    fontFace: BOOSTMEUP_BRAND.fonts.head,
   });
-  addTextBlock(slide4, "$0,377 per read-reply-post-cyclus op Opus 4.6", 1.02, 4.08, 3.9, 0.34, {
-    size: 18,
+  addTextBlock(slide4, "$0,377 per read-reply-post-cyclus", 1.02, 4.18, 3.2, 0.34, {
+    size: 21,
     color: colors.ink,
     bold: true,
     fontFace: BOOSTMEUP_BRAND.fonts.head,
   });
-  addTextBlock(slide4, "Dat bedrag komt uit expliciete aannames in deze repo.", 1.02, 4.56, 3.6, 0.28, {
+  addTextBlock(slide4, "op Claude Opus 4.6, onder repo-aannames", 1.02, 4.58, 3.2, 0.24, {
     size: 12,
     color: colors.muted,
   });
-  addBoostMeUpPanel(slide4, 5.66, 1.38, 6.82, 4.88);
-  addTextBlock(slide4, "Waar de tokens echt naartoe gaan", 5.96, 1.7, 3.4, 0.24, {
+  addBoostMeUpPanel(slide4, 5.28, 1.38, 7.2, 4.68);
+  addTextBlock(slide4, "Eén groot verschil", 5.58, 1.72, 2.2, 0.24, {
     size: 16,
     bold: true,
     color: colors.ink,
   });
-  addMetricBar(slide4, "Context laden (3x)", "60.900", 0.87, 5.96, 2.14, 5.8, colors.red);
-  addMetricBar(slide4, "Timeline + reply + post", "8.900", 0.13, 5.96, 2.94, 5.8, colors.gold);
-  addMetricBar(slide4, "OpenClaw docs voorbeeld", "~14.250", 0.20, 5.96, 3.74, 5.8, "0F766E");
-  addTextBlock(slide4, "Interpretatie", 5.96, 4.52, 1.8, 0.22, {
+  addMetricBar(slide4, "Context reload (3x)", "60.900 tokens", 0.87, 5.58, 2.26, 6.0, colors.red);
+  addMetricBar(slide4, "Alles daarbuiten", "8.900 tokens", 0.13, 5.58, 3.24, 6.0, colors.gold);
+  addTextBlock(slide4, "De live-les", 5.58, 4.2, 1.6, 0.2, {
     size: 14,
     color: colors.red,
     bold: true,
   });
-  addTextBlock(slide4, "De kost zit hier niet in één slimme reply. Ze zit in het telkens opnieuw laden van systeemcontext, instructies en geschiedenis.", 5.96, 4.86, 5.9, 0.72, {
-    size: 14,
+  addTextBlock(slide4, "Niet de reply domineert de kost.\nHet is het telkens opnieuw laden van systeemcontext, instructies en geschiedenis.", 5.58, 4.52, 6.2, 0.76, {
+    size: 19,
+    bold: true,
+    fontFace: BOOSTMEUP_BRAND.fonts.head,
   });
-  addTakeawayBand(slide4, "Takeaway: kostdruk is echt; het headline-getal blijft een scenario-uitkomst, geen observatie.", 6.02, "light");
+  addSourceTag(slide4, "OpenClaw anchor: ~14.250 sessietokens in docsvoorbeeld", 5.58, 5.56, "light");
+  addTakeawayBand(slide4, "Takeaway: kostdruk is echt; het getal blijft scenario-uitkomst, geen observatie.", 6.02, "light");
   slide4.addNotes(
     [
       "Zeg hier expliciet dat $0,377 niet uit een Moltbook trace komt.",
@@ -470,20 +489,36 @@ function buildSlides(): void {
     kicker: "TRENDS",
     footer: "Bronnen: Stanford HAI, Epoch en officiële vendor pricing. Methodologische nuance blijft zichtbaar op de slide.",
   });
-  addFramedImage(slide6, asset("assets", "ai_trends.png"), 0.78, 1.34, 8.25, 4.96);
-  addBoostMeUpPanel(slide6, 9.24, 1.34, 3.49, 4.96, "dark");
-  addPill(slide6, "wat dit wél toont", 9.48, 1.64, 1.56, colors.red, colors.white);
-  addTextBlock(slide6, "grote benchmarksprongen\n>280x kostdaling\nsterke compute- en efficiencygroei", 9.48, 2.12, 2.8, 1.28, {
-    size: 16,
-    color: colors.white,
+  addTextBlock(slide6, "Wat vandaag het hardst verdedigbaar is, zit niet in hypewoorden maar in infrastructuur en economics.", 0.78, 1.28, 8.6, 0.3, {
+    size: 17,
+    color: colors.ink,
+    bold: true,
+    fontFace: BOOSTMEUP_BRAND.fonts.head,
+  });
+  addStatCard(slide6, ">280x", "kostdaling", "GPT-3.5-kwaliteit, nov 2022 → okt 2024", 0.78, 1.86, 3.34, "light", colors.red);
+  addStatCard(slide6, "5,0x/jaar", "training compute", "Epoch frontier snapshot", 4.34, 1.86, 3.08, "light", colors.gold);
+  addStatCard(slide6, "+67,3", "SWE-bench sprong", "AI Index benchmark jump", 7.64, 1.86, 2.94, "light", "2563EB");
+  addBoostMeUpPanel(slide6, 10.8, 1.86, 1.68, 2.0);
+  addTextBlock(slide6, "bronlijn", 11.02, 2.16, 1.0, 0.16, {
+    size: 10,
+    color: colors.muted,
     bold: true,
   });
-  addPill(slide6, "wat dit níét zegt", 9.48, 3.78, 1.66, colors.gold, colors.navy);
-  addTextBlock(slide6, "niet elke capability-curve blijft netjes exponentieel\nbounded benchmarks kunnen satureren", 9.48, 4.26, 2.82, 0.98, {
+  addTextBlock(slide6, "Stanford + Epoch", 11.02, 2.5, 1.1, 0.4, {
     size: 14,
-    color: colors.white,
+    color: colors.red,
+    bold: true,
   });
-  addTakeawayBand(slide6, "Takeaway: kijk harder naar kosten, compute en efficiency dan naar één spectaculaire scorelijn.", 6.02, "light");
+  addFramedImage(slide6, asset("assets", "ai_trends.png"), 0.78, 4.08, 5.1, 1.96);
+  addBoostMeUpPanel(slide6, 6.1, 4.08, 6.63, 1.96, "dark");
+  addPill(slide6, "voorzichtigheid blijft", 6.34, 4.34, 1.74, colors.gold, colors.navy);
+  addTextBlock(slide6, "Niet elke capability-curve blijft netjes exponentieel.\nBounded benchmarks kunnen satureren, dus lees capability minder hard dan kosten, compute en efficiency.", 6.34, 4.82, 5.88, 0.74, {
+    size: 17,
+    color: colors.white,
+    bold: true,
+    fontFace: BOOSTMEUP_BRAND.fonts.head,
+  });
+  addTakeawayBand(slide6, "Takeaway: onthoud vooral kostdaling, compute en efficiency. Niet één spectaculaire scorelijn.", 6.12, "light");
   slide6.addNotes(
     [
       "Deze slide moet snel landen: de harde curves zitten in economie en infrastructuur.",
@@ -566,41 +601,48 @@ function buildSlides(): void {
     kicker: "VOORUITBLIK",
     footer: "Monte Carlo barrier model met expliciete aannames. Geen deterministische voorspelling.",
   });
-  addTextBlock(slide8, "Niet vragen: welk jaar belooft dit model?\nWel vragen: welke aannames duwen de uitkomst echt?", 0.78, 1.3, 6.2, 0.54, {
-    size: 20,
+  addTextBlock(slide8, "Niet onthouden: één jaartal.\nWel onthouden: welke bottlenecks de uitkomst sturen.", 0.78, 1.3, 7.0, 0.54, {
+    size: 22,
     color: colors.ink,
     bold: true,
     fontFace: BOOSTMEUP_BRAND.fonts.head,
   });
-  addStatCard(slide8, "28,1%", "basisscenario tegen 2040", "kans op crossing", 0.78, 2.1, 3.35, "light", colors.red);
-  addStatCard(slide8, "2038", "mediaan in basisscenario", "geen datum-belofte", 4.34, 2.1, 2.8, "light", colors.gold);
-  addStatCard(slide8, "71,9%", "crosst niet tegen 2040", "onder huidige aannames", 7.36, 2.1, 3.24, "light", "0F766E");
-  addBoostMeUpPanel(slide8, 10.84, 2.1, 1.89, 2.0);
-  addTextBlock(slide8, "label", 11.06, 2.34, 1.2, 0.16, {
-    size: 10,
-    color: colors.muted,
-    bold: true,
-  });
-  addTextBlock(slide8, "assumptie-gedreven", 11.06, 2.66, 1.2, 0.52, {
-    size: 15,
-    color: colors.red,
-    bold: true,
-  });
-  addBoostMeUpPanel(slide8, 0.78, 4.52, 11.95, 1.46, "dark");
-  addTextBlock(slide8, "Belangrijkste modelinzicht", 1.02, 4.82, 2.6, 0.2, {
+  addBoostMeUpPanel(slide8, 0.78, 2.08, 11.95, 2.14, "dark");
+  addTextBlock(slide8, "Belangrijkste modelinzicht", 1.08, 2.42, 2.8, 0.22, {
     size: 14,
     color: colors.gold,
     bold: true,
   });
-  addTextBlock(slide8, "In deze parameterisatie binden floors eerder dan de headline threshold. Dus memory, reliability, network en governance wegen zwaarder dan één headline-getal.", 1.02, 5.16, 10.8, 0.5, {
-    size: 16,
+  addTextBlock(slide8, "In deze parameterisatie binden floors eerder dan de headline threshold.", 1.08, 2.86, 10.8, 0.34, {
+    size: 24,
     color: colors.white,
+    bold: true,
+    fontFace: BOOSTMEUP_BRAND.fonts.head,
   });
-  addPill(slide8, "memory", 1.02, 5.62, 0.9, colors.red, colors.white);
-  addPill(slide8, "reliability", 2.02, 5.62, 1.02, colors.gold, colors.navy);
-  addPill(slide8, "network", 3.16, 5.62, 0.92, "0F766E", colors.white);
-  addPill(slide8, "governance", 4.18, 5.62, 1.12, "2563EB", colors.white);
-  addTakeawayBand(slide8, "Takeaway: gebruik dit model om onzekerheid te ordenen, niet om 2038 als lot uit te spreken.", 6.08, "light");
+  addTextBlock(slide8, "Dus memory, reliability, network en governance wegen zwaarder dan één headline-getal.", 1.08, 3.36, 10.8, 0.28, {
+    size: 17,
+    color: "D7DCE7",
+    bold: true,
+  });
+  addPill(slide8, "memory", 1.08, 3.78, 1.1, colors.red, colors.white);
+  addPill(slide8, "reliability", 2.32, 3.78, 1.2, colors.gold, colors.navy);
+  addPill(slide8, "network", 3.66, 3.78, 1.08, "0F766E", colors.white);
+  addPill(slide8, "governance", 4.88, 3.78, 1.28, "2563EB", colors.white);
+  addStatCard(slide8, "28,1%", "basisscenario tegen 2040", "onder huidige aannames", 0.78, 4.58, 3.34, "light", colors.red);
+  addStatCard(slide8, "2038", "mediaan in basisscenario", "geen datum-belofte", 4.34, 4.58, 3.0, "light", colors.gold);
+  addStatCard(slide8, "71,9%", "haalt drempel niet", "tegen 2040", 7.56, 4.58, 2.8, "light", "0F766E");
+  addBoostMeUpPanel(slide8, 10.58, 4.58, 2.15, 2.0);
+  addTextBlock(slide8, "label", 10.82, 4.84, 1.2, 0.16, {
+    size: 10,
+    color: colors.muted,
+    bold: true,
+  });
+  addTextBlock(slide8, "assumptie-gedreven", 10.82, 5.18, 1.5, 0.36, {
+    size: 15,
+    color: colors.red,
+    bold: true,
+  });
+  addTakeawayBand(slide8, "Takeaway: gebruik dit model om bottlenecks te ordenen, niet om 2038 als lot uit te spreken.", 6.12, "light");
   slide8.addNotes(
     [
       "Deze slide mag bewust minder spreadsheet-achtig zijn dan vroeger.",
@@ -617,9 +659,11 @@ function buildSlides(): void {
     footer: "Synthese van gecontroleerde bevindingen; deze slide introduceert geen nieuwe cijfers.",
     variant: "dark",
   });
-  addTextBlock(slide9, "Dit zijn geen randvoorwaarden. Dit zijn de bottlenecks.", 0.78, 1.28, 6.0, 0.24, {
-    size: 15,
-    color: "D7DCE7",
+  addTextBlock(slide9, "Dit zijn geen randvoorwaarden. Dit zijn de bottlenecks.", 0.78, 1.24, 7.6, 0.36, {
+    size: 22,
+    color: colors.gold,
+    bold: true,
+    fontFace: BOOSTMEUP_BRAND.fonts.head,
   });
   const cardY = 1.76;
   const cardW = 2.75;
@@ -686,6 +730,7 @@ function buildSlides(): void {
     size: 12,
     color: "D7DCE7",
   });
+  addTakeawayBand(slide9, "Takeaway: zonder identiteit, geheugen, governance en economics blijft 'agentsamenleving' vooral taal.", 6.06, "dark");
   slide9.addNotes("Dit is de payoff-slide: vier bottlenecks, geen bijzaken.");
 
   const slide10 = addBoostMeUpShell(pptx, {
@@ -694,41 +739,45 @@ function buildSlides(): void {
     footer: "Native .pptx build via bun + PptxGenJS. Rebuild met: bun run build:deck",
     variant: "dark",
   });
-  addTextBlock(slide10, "De juiste vraag is niet of de demo sociaal oogt.", 0.78, 1.62, 11.0, 0.54, {
-    size: 26,
+  addTextBlock(slide10, "De juiste vraag is niet of de demo sociaal oogt.", 0.78, 1.56, 11.0, 0.54, {
+    size: 28,
     color: colors.white,
     bold: true,
     fontFace: BOOSTMEUP_BRAND.fonts.head,
     align: "center",
   });
-  addTextBlock(slide10, "De juiste vraag is of identiteit, geheugen, governance en kost standhouden zodra je schaal en verantwoordelijkheid serieus neemt.", 1.14, 2.48, 10.3, 0.98, {
-    size: 24,
+  addTextBlock(slide10, "De juiste vraag is of identiteit, geheugen, governance en kost standhouden zodra schaal en verantwoordelijkheid echt meetellen.", 0.96, 2.42, 11.1, 1.0, {
+    size: 27,
     color: colors.gold,
     bold: true,
     fontFace: BOOSTMEUP_BRAND.fonts.head,
     align: "center",
   });
-  addBoostMeUpPanel(slide10, 1.06, 4.18, 11.2, 1.1, "dark");
-  addTextBlock(slide10, "Onthoud dit", 1.38, 4.5, 1.4, 0.2, {
+  addBoostMeUpPanel(slide10, 1.06, 4.28, 11.2, 1.18, "dark");
+  addTextBlock(slide10, "Onthoud dit", 1.38, 4.58, 1.4, 0.2, {
     size: 14,
     color: colors.gold,
     bold: true,
   });
-  addTextBlock(slide10, "Agentnetwerken zijn technisch indrukwekkend. Maar de geloofwaardigheid zit pas in wat standhoudt onder identiteit, governance en economie.", 1.38, 4.82, 10.2, 0.34, {
-    size: 15,
+  addTextBlock(slide10, "Agentnetwerken kunnen indrukwekkend ogen. Geloofwaardigheid begint pas waar identiteit, governance en economie standhouden.", 1.38, 4.92, 10.2, 0.42, {
+    size: 18,
     color: colors.white,
+    bold: true,
+    fontFace: BOOSTMEUP_BRAND.fonts.head,
     align: "center",
   });
-  addBoostMeUpPanel(slide10, 1.06, 5.56, 11.2, 0.76, "dark");
-  addTextBlock(slide10, "Gespreksvragen: welke delen van uw agentstack worden vandaag nog telkens gereconstrueerd? Waar breekt governance eerst? Welke cijfers zijn gemeten, en welke zijn nog scenario-aannames?", 1.3, 5.82, 10.7, 0.2, {
-    size: 11,
+  addTextBlock(slide10, "Gespreksvragen in de notes", 0.78, 6.02, 2.2, 0.16, {
+    size: 9,
     color: "D7DCE7",
-    align: "center",
   });
   slide10.addNotes(
     [
       "Laat deze slide rustig landen. Niet te snel naar de vragen springen.",
       "Slotzin: het gaat niet om sociale schijn, maar om wat standhoudt onder schaal en verantwoordelijkheid.",
+      "Gespreksvragen",
+      "- Welke delen van uw agentstack worden vandaag nog telkens gereconstrueerd?",
+      "- Waar breekt governance eerst?",
+      "- Welke cijfers zijn gemeten, en welke zijn nog scenario-aannames?",
     ].join("\n"),
   );
 }
