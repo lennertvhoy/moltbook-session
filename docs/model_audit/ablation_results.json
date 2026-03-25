@@ -1,0 +1,89 @@
+{
+  "aggregation": {
+    "geometric": {
+      "p_cross": 0.0903,
+      "median_year": 2039.0
+    },
+    "arithmetic": {
+      "p_cross": 0.0909,
+      "median_year": 2039.0
+    },
+    "ces": {
+      "p_cross": 0.0888,
+      "median_year": 2039.0
+    },
+    "softmin": {
+      "p_cross": 0.0561,
+      "median_year": 2040.0
+    }
+  },
+  "floors": {
+    "no_floors": {
+      "p_cross": 0.4715,
+      "median_year": 2039.0
+    },
+    "floors_50": {
+      "p_cross": 0.271,
+      "median_year": 2039.0
+    },
+    "floors_55": {
+      "p_cross": 0.1738,
+      "median_year": 2039.0
+    },
+    "floors_60": {
+      "p_cross": 0.0903,
+      "median_year": 2039.0
+    },
+    "floors_65": {
+      "p_cross": 0.036,
+      "median_year": 2040.0
+    },
+    "index_only": {
+      "p_cross": 0.4715,
+      "median_year": 2039.0
+    }
+  },
+  "consecutive": {
+    "1year": {
+      "p_cross": 0.1473,
+      "median_year": 2039.0
+    },
+    "strict": {
+      "p_cross": 0.0903,
+      "median_year": 2039.0
+    },
+    "2of3": {
+      "p_cross": 0.0918,
+      "median_year": 2039.0
+    },
+    "rolling": {
+      "p_cross": 0.0903,
+      "median_year": 2039.0
+    }
+  },
+  "horizon": {
+    "2040": {
+      "p_cross": 0.0903,
+      "median_year": 2039.0,
+      "p_by_2040": 0.0903
+    },
+    "2045": {
+      "p_cross": 0.3746,
+      "median_year": 2042.0,
+      "p_by_2040": 0.0935
+    },
+    "2050": {
+      "p_cross": 0.624,
+      "median_year": 2045.0,
+      "p_by_2040": 0.088
+    },
+    "2060": {
+      "p_cross": 0.8815,
+      "median_year": 2047.0,
+      "p_by_2040": 0.084
+    }
+  },
+  "deterministic": {
+    "crossing_year": 2039.0
+  }
+}

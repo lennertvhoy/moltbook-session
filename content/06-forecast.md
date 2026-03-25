@@ -168,16 +168,42 @@ De voorwaarde van **twee opeenvolgende jaren** verhindert dat het model zichzelf
 
 ## Waarom de floors inhoudelijk zo belangrijk zijn
 
-De floors zijn in feite het morele en institutionele hart van het model.
+De floors zijn in feite het morele en institutionele hart van het model. **Ze zijn ook de dominante driver van de uitkomst.**
 
-Ze zeggen: zelfs als capability en efficiency indrukwekkend stijgen, noem je het nog geen echte readiness wanneer:
+### De floors domineren de threshold
 
-- geheugen te zwak blijft
-- betrouwbaarheid te grillig blijft
-- netwerkcoördinatie te fragiel blijft
-- governance achterblijft
+Ablatie-analyse toont:
 
-Dat past perfect bij de rest van de talk. De bottlenecks die in de kritiekhoofdstukken centraal staan, worden hier niet alleen retorisch genoemd maar ook structureel ingebouwd.
+| Configuratie | P(cross by 2040) | Verschil |
+|--------------|------------------|----------|
+| Geen floors (alleen index ≥ 75) | 47,1% | +38,1pp |
+| **Floors 60 (baseline)** | **9,0%** | — |
+
+De threshold van 75 op de readiness index is praktisch **decoratief** — de floors falen eerder dan dat de index onder de 75 komt. Dit maakt het model in de praktijk een **floor-gated coordination model**, niet een threshold model.
+
+### Wat de floors zeggen
+
+Zelfs als capability en efficiency indrukwekkend stijgen, noem je het nog geen echte readiness wanneer:
+
+- geheugen te zwak blijft (< 60)
+- betrouwbaarheid te grillig blijft (< 60)
+- netwerkcoördinatie te fragiel blijft (< 60)
+- governance achterblijft (< 60)
+
+### Waarom 60?
+
+**De keuze voor 60 als floor is expert judgment, niet empirisch gefit.**
+
+De ablatie toont extreme gevoeligheid:
+- Floors 55 → 17,4% crossing (+8,4pp)
+- Floors 60 → 9,0% crossing
+- Floors 65 → 3,6% crossing (-5,4pp)
+
+Dit betekent: **de forecast hangt bijna volledig af van deze ene onzekere parameter.**
+
+De vraag "wanneer komt agent-samenleving?" reduceert in dit model grotendeels tot: "wanneer halen M, R, N, G gelijktijdig de 60?"
+
+Dat is een sterke structurele keuze die de rest van de analyse domineert.
 
 ## De drie scenario’s
 
@@ -236,11 +262,18 @@ De base case zegt dus impliciet:
 
 Met het nieuwe state-space model (Model C) zijn de base-case resultaten:
 
-- kans om tegen **2040** de voorwaarden te halen: ongeveer **8,4%**
-- mediane crossing year (onder de runs die wel halen): **2039**
-- kans dat het scenario **nooit** crossed tegen 2040: **91,6%**
+| Horizon | Kans op crossing | Cumulatief |
+|---------|------------------|------------|
+| Tegen **2040** | **9,0%** | 9,0% |
+| Tegen **2045** | **28,5%** | 37,5% |
+| Tegen **2050** | **24,9%** | 62,4% |
+| Tegen **2060** | **25,7%** | 88,1% |
 
-Dit is significant conservatiever dan het oude model (~28% in de vorige versie).
+*Mediane crossing year (onder runs die halen binnen horizon): **2039***
+
+**Belangrijk:** De uitkomst hangt sterk af van de gekozen horizon. "91% crossed niet tegen 2040" betekent niet "91% crossed nooit" — het betekent "91% crossed pas na 2040". Tegen 2050 heeft een meerderheid (62%) de drempel gehaald.
+
+Dit is significant conservatiever dan het oude model (~28% tegen 2040 in de vorige versie).
 
 ### Waarom het model conservatiever is geworden
 
