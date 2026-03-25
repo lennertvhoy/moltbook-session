@@ -222,7 +222,7 @@ echo "Converting to PDF..."
     --headless \
     --disable-gpu \
     --print-to-pdf="$PDF_PATH" \
-    --print-to-pdf-no-header \
+    --no-pdf-header-footer \
     --run-all-compositor-stages-before-draw \
     "$HTML_PATH" \
     2>/dev/null || {
