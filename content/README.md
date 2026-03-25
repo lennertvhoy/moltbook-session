@@ -1,105 +1,77 @@
-# Moltbook Session: Tekstboekversie
+# Moltbook Session: Content Guide
 
-Deze map is de uitgebreide leerlaag van het project. De slides in [`slides/slides-main.md`](../slides/slides-main.md) zijn bewust kort en podiumgericht; de hoofdstukken hieronder leggen de argumenten, aannames, analyses en caveats volledig uit.
+This directory contains the main content for the Moltbook session — the "textbook layer" of the talk. The slides in [`slides/slides-main.md`](../slides/slides-main.md) are intentionally brief and stage-focused; the chapters here provide the full reasoning, assumptions, and caveats.
 
-Gebruik deze map als je:
+## How to Read This
 
-- de presentatie inhoudelijk wilt beheersen in plaats van alleen onthouden
-- wilt begrijpen welke claims hard geverifieerd zijn en welke assumption-driven zijn
-- de analyses, grafieken en methodologische keuzes wilt kunnen uitleggen
-- de kernthese van de talk wilt kunnen verdedigen in gesprek of Q&A
+### Quick route (4 chapters)
+1. [`01-intro.md`](01-intro.md) — Why Moltbook matters
+2. [`04-kritiek.md`](04-kritiek.md) — Why it's not yet autonomous
+3. [`05-trends.md`](05-trends.md) — What trends are real
+4. [`07-slot.md`](07-slot.md) — What to remember
 
-## Hoe je dit best leest
+### Full route (all 8 chapters)
+1. [`01-intro.md`](01-intro.md) — Introduction and core thesis
+2. [`02-ai-agents.md`](02-ai-agents.md) — What is an AI agent? (system view)
+3. [`03-agents-md.md`](03-agents-md.md) — Context, memory, and token costs
+4. [`04-kritiek.md`](04-kritiek.md) — Attribution, identity, and governance limits
+5. [`05-trends.md`](05-trends.md) — Verified trends in AI capability and economics
+6. [`06-forecast.md`](06-forecast.md) — Forecast model: bounded-scope emergence
+7. [`07-slot.md`](07-slot.md) — Synthesis and conclusions
+8. [`08-bronnen-qa-spreekspiekbrief.md`](08-bronnen-qa-spreekspiekbrief.md) — Sources, Q&A, and speaker notes
 
-### Snelle route
+## Core Thesis
 
-1. [`01-intro.md`](01-intro.md)
-2. [`04-kritiek.md`](04-kritiek.md)
-3. [`05-trends.md`](05-trends.md)
-4. [`06-forecast.md`](06-forecast.md)
-5. [`07-slot.md`](07-slot.md)
+> Moltbook is interesting, not because it is already a real social network for AI, but because it reveals what is still missing: identity, memory, governance, and economic efficiency.
 
-### Volledige route
+This thesis guides every chapter. The content builds from:
+- **What Moltbook claims** (homepage, marketing)
+- **What Moltbook actually is** (terms, architecture, costs)
+- **What's missing** (identity, attribution, governance, economics)
+- **Where things might go** (trends, forecasts, bounded-scope emergence)
 
-1. [`01-intro.md`](01-intro.md)  
-   Wat Moltbook is, waarom het interessant is, en wat de centrale these van de sessie is.
-2. [`02-ai-agents.md`](02-ai-agents.md)  
-   Een praktische definitie van AI-agents en waarom "agent" meestal een systeemterm is, geen mystieke categorie.
-3. [`03-agents-md.md`](03-agents-md.md)  
-   Hoe context, tools, state en tokenkosten samenhangen, en waarom context reload economisch zo belangrijk is.
-4. [`04-kritiek.md`](04-kritiek.md)  
-   Waarom Moltbook nog geen overtuigend autonoom sociaal netwerk is: identiteit, attributie, governance en aansprakelijkheid.
-5. [`05-trends.md`](05-trends.md)  
-   Welke technologische en economische trends vandaag echt verdedigbaar zijn, en welke taal te hard wordt.
-6. [`06-forecast.md`](06-forecast.md)  
-   Hoe het Monte Carlo-model werkt, wat het wel en niet zegt, en waarom floors belangrijker blijken dan headline thresholds.
-7. [`07-slot.md`](07-slot.md)  
-   De synthese van de sessie en de implicaties voor builders, operators, governance en strategie.
-8. [`08-bronnen-qa-spreekspiekbrief.md`](08-bronnen-qa-spreekspiekbrief.md)  
-   Een compacte bronkaart, veelgestelde kritische vragen en een spreekhouvast per deel van de talk.
+## Reading Tips
 
-## Kernthese van het project
+- Screenshots and figures are inline where they belong
+- Each figure includes: what you see, what not to overestimate, what to remember
+- Explicit separation between: source anchor, derived calculation, and scenario assumption
+- Key takeaways at the end of each chapter
 
-> Moltbook is interessant, niet omdat het al een echt sociaal netwerk voor AI is, maar omdat het zichtbaar maakt wat er nog ontbreekt: identiteit, geheugen, governance en economische efficiëntie.
+## Verification
 
-Die these loopt door de hele repo:
+For the audit trail and verification reports, see:
+- [`docs/verification/`](docs/verification/) — Claim-by-claim verification
+- [`docs/README.md`](../docs/README.md) — Documentation index
 
-- de slides maken ze podiumgeschikt
-- de analyses maken ze reproduceerbaar
-- de verificatiedocs maken ze auditbaar
-- deze `content/`-map maakt ze leerbaar
+**Note:** The detailed model audit in `docs/model_audit/` is internal documentation for transparency, not part of the public-facing narrative.
 
-## Wat hier nu extra in zit
+## Generated Assets
 
-De hoofdstukken in deze map zijn bewust uitgebreid met:
+Figures referenced in these chapters:
+- [`assets/moltbook_homepage.png`](../assets/moltbook_homepage.png)
+- [`assets/moltbook_terms_eligibility.png`](../assets/moltbook_terms_eligibility.png)
+- [`assets/openclaw_context_docs.png`](../assets/openclaw_context_docs.png)
+- [`assets/stanford_hai_ai_index_2025.png`](../assets/stanford_hai_ai_index_2025.png)
+- [`assets/epoch_ai_eci.png`](../assets/epoch_ai_eci.png)
+- [`assets/token_breakdown.png`](../assets/token_breakdown.png)
+- [`assets/ai_trends.png`](../assets/ai_trends.png)
+- [`assets/forecast_distribution.png`](../assets/forecast_distribution.png)
 
-- inline screenshots en grafieken waar ze inhoudelijk horen
-- uitleg per figuur: wat je ziet, wat je niet mag overschatten, en wat je moet onthouden
-- uitgewerkte analyse-redeneringen in plaats van alleen conclusies
-- expliciete scheiding tussen bronanker, afgeleide berekening en scenario-aanname
-- een extra hoofdstuk met bronnen, Q&A en spreekspiekbrief
+## Data Sources
 
-## Wat hier als hard geldt, en wat niet
+Explicit inputs:
+- [`data/token_usage_assumptions.json`](../data/token_usage_assumptions.json)
+- [`data/ai_trends_metrics.json`](../data/ai_trends_metrics.json)
+- [`data/forecast_scenarios.json`](../data/forecast_scenarios.json)
 
-### Hard geverifieerd in deze repo
+## Tone and Approach
 
-- Moltbook positioneert zichzelf publiek als een sociaal netwerk voor AI-agents.
-- Moltbook houdt juridisch de mens verantwoordelijk; agents krijgen geen eigen legal eligibility.
-- OpenClaw documenteert context, multi-agent routing, tools en sandboxing als expliciete systeemonderdelen.
-- Frontier-modelprestaties, compute-trends en kostdalingen tonen sterke vooruitgang, maar niet op een manier die elke hypeclaim rechtvaardigt.
+- Take demos seriously
+- Read claims narrowly
+- Separate architecture from anthropomorphic language
+- Separate reproducible math from observed reality
+- Treat forecasts as discipline for thinking, not as oracles
 
-### Expliciet assumption-driven
+---
 
-- de illustratieve kost van een sociale agentcyclus
-- het Monte Carlo readiness-model
-- elk exact forecast-percentage of jaartal
-
-### Expliciet vernauwd om eerlijk te blijven
-
-- MiniMax M2.7 versus Claude Opus 4.6
-- claims over "exponentiële" groei
-- claims over echte autonome agentsamenlevingen
-
-## Waar je de auditsporen vindt
-
-- [`../docs/verification/VERIFICATION_REPORT.md`](../docs/verification/VERIFICATION_REPORT.md)
-- [`../docs/verification/CLAIM_AUDIT.md`](../docs/verification/CLAIM_AUDIT.md)
-- [`../docs/verification/ANALYSIS_AUDIT.md`](../docs/verification/ANALYSIS_AUDIT.md)
-- [`../docs/verification/SLIDE_SYSTEM_DECISION.md`](../docs/verification/SLIDE_SYSTEM_DECISION.md)
-
-## Waar je de analyses en outputs vindt
-
-- analyses: [`../analyses/`](../analyses/)
-- data-inputs: [`../data/`](../data/)
-- grafieken: [`../assets/`](../assets/)
-- deck output: [`../release/Moltbook.pptx`](../release/Moltbook.pptx)
-
-## Leeshouding
-
-Lees deze map niet als marketingtekst en ook niet als pure sceptische teardown. De goede houding is:
-
-- neem demo’s serieus
-- lees claims smal
-- scheid architectuur van antropomorf taalgebruik
-- scheid reproduceerbare rekenkunde van geobserveerde werkelijkheid
-- behandel forecasts als discipline voor denken, niet als orakel
+*Start reading: [`01-intro.md`](01-intro.md)*

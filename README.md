@@ -1,29 +1,25 @@
 # Moltbook Session
 
-This repository contains the source, analysis code, audit trail, and native PowerPoint build for a conference-style talk about Moltbook and AI-agent networks. The project treats the deck as a verification-first artifact: charts are reproducible, assumptions are explicit, and claims are narrowed when the evidence does not support stronger wording.
+This repository contains the source, analysis code, and materials for a conference-style talk about Moltbook and AI-agent networks. The project treats the deck as a verification-first artifact: charts are reproducible, assumptions are explicit, and claims are narrowed when the evidence does not support stronger wording.
 
-The talk’s core argument is simple: Moltbook is interesting less as proof that autonomous digital societies already exist, and more as a live stress test of what is still missing around identity, memory, governance, and cost discipline.
-
-## What Is Verified vs Assumption-Driven
-
-Verified or source-backed:
-
-- Moltbook product and terms claims
-- OpenClaw architecture framing
-- source-backed trend metrics
-- official pricing snapshots used in the model comparison
-
-Assumption-driven but explicit:
-
-- illustrative token-cost scenarios
-- Monte Carlo readiness forecasts
-- scenario thresholds, floors, and weighting choices
-
-See the audit set in [docs/verification](docs/verification/README.md) and [docs/qa](docs/qa/FINAL_QA_REPORT.md).
+The talk's core argument is simple: Moltbook is interesting less as proof that autonomous digital societies already exist, and more as a live stress test of what is still missing around identity, memory, governance, and cost discipline.
 
 ## Quickstart
 
-### Rebuild the analyses with `uv`
+### Read the content
+
+The main content is in [`content/`](content/):
+
+1. [`content/01-intro.md`](content/01-intro.md) — Introduction and core thesis
+2. [`content/02-ai-agents.md`](content/02-ai-agents.md) — What is an AI agent?
+3. [`content/03-agents-md.md`](content/03-agents-md.md) — Context, memory, and token costs
+4. [`content/04-kritiek.md`](content/04-kritiek.md) — Why this isn't yet convincing autonomy
+5. [`content/05-trends.md`](content/05-trends.md) — Trends in AI capability and economics
+6. [`content/06-forecast.md`](content/06-forecast.md) — Forecast model and scenario analysis
+7. [`content/07-slot.md`](content/07-slot.md) — Synthesis and conclusions
+8. [`content/08-bronnen-qa-spreekspiekbrief.md`](content/08-bronnen-qa-spreekspiekbrief.md) — Sources and speaker notes
+
+### Rebuild the analyses
 
 ```bash
 UV_CACHE_DIR=.uv-cache uv sync
@@ -32,90 +28,98 @@ MPLCONFIGDIR=/tmp/matplotlib UV_CACHE_DIR=.uv-cache uv run analyses/ai_trends.py
 MPLCONFIGDIR=/tmp/matplotlib UV_CACHE_DIR=.uv-cache uv run analyses/forecast_model.py
 ```
 
-### Rebuild the native `.pptx` with `bun`
+### Rebuild the deck
 
 ```bash
 BUN_TMPDIR=/tmp BUN_INSTALL_CACHE_DIR=.bun-cache bun install
 BUN_TMPDIR=/tmp BUN_INSTALL_CACHE_DIR=.bun-cache bun run build:deck
 ```
 
-The production deck is written to [release/Moltbook.pptx](release/Moltbook.pptx).
-
-### Regenerate QA previews
-
-```bash
-UV_CACHE_DIR=.uv-cache uv run scripts/export_slide_previews.py
-```
-
-Preview renders and metadata are written to [docs/qa/previews](docs/qa/previews).
+Output: [`release/Moltbook.pptx`](release/Moltbook.pptx)
 
 ## Repository Layout
 
 ```text
 .
-├── analyses/              Python analysis scripts
-├── assets/                Generated figures, screenshots, and brand assets
-├── content/               Audited talk notes
-├── data/                  Explicit source snapshots and scenario inputs
-├── docs/                  Verification, QA, and release notes
-├── release/               Final generated deck output
-├── scripts/               Deck build and QA helper scripts
-└── slides/                Slide outline and narrative source
+├── analyses/              Python analysis scripts (reproducible)
+├── assets/                Generated figures and screenshots
+├── content/               Main content (chapters 01-08)
+├── data/                  Explicit assumptions and inputs
+├── docs/                  Internal documentation (audit trail)
+├── release/               Final generated deck
+├── scripts/               Deck build scripts
+└── slides/                Slide outline
 ```
 
-Key entry points:
+## Verified vs Assumption-Driven
 
-- [slides/slides-main.md](slides/slides-main.md): presentation outline
-- [scripts/build_deck.ts](scripts/build_deck.ts): native PowerPoint generator
-- [scripts/pptx-brand.ts](scripts/pptx-brand.ts): reusable BoostMeUp PptxGenJS housestyle
-- [release/Moltbook.pptx](release/Moltbook.pptx): latest committed deck
-- [docs/verification/README.md](docs/verification/README.md): verification and audit index
-- [docs/qa/FINAL_QA_REPORT.md](docs/qa/FINAL_QA_REPORT.md): final presentation QA report
-- [docs/qa/PRESENTATION_REDESIGN_REPORT.md](docs/qa/PRESENTATION_REDESIGN_REPORT.md): Dutch keynote redesign log
-- [docs/qa/FINAL_PRESENTATION_POLISH_REPORT.md](docs/qa/FINAL_PRESENTATION_POLISH_REPORT.md): final keynote polish log
+**Verified or source-backed:**
+- Moltbook product and terms claims
+- OpenClaw architecture framing
+- Source-backed trend metrics (Stanford HAI, Epoch)
+- Official pricing snapshots
 
-## Reusable BoostMeUp Theme
+**Assumption-driven but explicit:**
+- Illustrative token-cost scenarios
+- Monte Carlo readiness forecasts
+- Scenario thresholds and parameters
 
-The deck generator uses a shared BoostMeUp theme module for PptxGenJS:
+## Core Thesis
 
-- house colors: `#12192c`, `#ffffff`, `#e93325`, `#f2ad18`
-- shared slide shells for dark and light slides
-- shared panel, body text, quote, and image helpers
-- vendored brand assets:
-  - [assets/brand/boostmeup-logo.png](assets/brand/boostmeup-logo.png)
-  - [assets/brand/boostmeup-mark.png](assets/brand/boostmeup-mark.png)
+> Moltbook is interesting, not because it is already a real social network for AI, but because it reveals what is still missing: identity, memory, governance, and economic efficiency.
 
-## Public Outputs
+This thesis runs through the entire project:
+- The content makes it learnable
+- The analyses make it reproducible
+- The audit trail makes it transparent
 
-Source inputs:
+## What This Project Does Not Claim
 
-- [data/token_usage_assumptions.json](data/token_usage_assumptions.json)
-- [data/ai_trends_metrics.json](data/ai_trends_metrics.json)
-- [data/forecast_scenarios.json](data/forecast_scenarios.json)
+- ❌ That Moltbook proves autonomous digital societies already exist
+- ❌ That current agents have stable institutional identity
+- ❌ That governance is already solved
+- ❌ That the economic cost structure is already sustainable
+- ❌ That forecasts predict the future with high confidence
 
-Generated figures:
+## Internal Documentation
 
-- [assets/token_breakdown.png](assets/token_breakdown.png)
-- [assets/ai_trends.png](assets/ai_trends.png)
-- [assets/forecast_distribution.png](assets/forecast_distribution.png)
+The following are available for transparency but are **not** part of the public-facing narrative:
 
-Verification and QA:
+- [`docs/verification/`](docs/verification/) — Verification and audit reports
+- [`docs/qa/`](docs/qa/) — QA reports and process documentation
+- [`docs/model_audit/`](docs/model_audit/) — Detailed model audit (internal)
 
-- [docs/verification/VERIFICATION_REPORT.md](docs/verification/VERIFICATION_REPORT.md)
-- [docs/verification/CLAIM_AUDIT.md](docs/verification/CLAIM_AUDIT.md)
-- [docs/verification/ANALYSIS_AUDIT.md](docs/verification/ANALYSIS_AUDIT.md)
-- [docs/verification/SLIDE_SYSTEM_DECISION.md](docs/verification/SLIDE_SYSTEM_DECISION.md)
-- [docs/qa/FINAL_QA_REPORT.md](docs/qa/FINAL_QA_REPORT.md)
-- [docs/qa/PRESENTATION_REDESIGN_REPORT.md](docs/qa/PRESENTATION_REDESIGN_REPORT.md)
-- [docs/qa/FINAL_PRESENTATION_POLISH_REPORT.md](docs/qa/FINAL_PRESENTATION_POLISH_REPORT.md)
-- [docs/PUBLIC_RELEASE_REPORT.md](docs/PUBLIC_RELEASE_REPORT.md)
+See [`docs/README.md`](docs/README.md) for the internal documentation index.
 
 ## Claim Standard
 
 Every non-trivial number in the talk should be read as one of:
 
-- reproduced from code and verified against a source
-- reproduced from code but assumption-driven
-- source-supported but not directly reproduced locally
-- ambiguous or source-misaligned
-- unsupported and removed
+- Reproduced from code and verified against a source
+- Reproduced from code but assumption-driven
+- Source-supported but not directly reproduced locally
+
+When in doubt, check the content chapters for explicit caveats.
+
+## Generated Artifacts
+
+### Figures
+- [`assets/token_breakdown.png`](assets/token_breakdown.png) — Token cost analysis
+- [`assets/ai_trends.png`](assets/ai_trends.png) — AI trend visualization
+- [`assets/forecast_distribution.png`](assets/forecast_distribution.png) — Forecast output
+
+### Data Inputs
+- [`data/token_usage_assumptions.json`](data/token_usage_assumptions.json)
+- [`data/ai_trends_metrics.json`](data/ai_trends_metrics.json)
+- [`data/forecast_scenarios.json`](data/forecast_scenarios.json)
+
+## License and Usage
+
+This repository is provided as a transparent, reproducible research artifact. When citing or referencing:
+- Prefer linking to the content chapters
+- Distinguish between verified claims and scenario analyses
+- Note the date of access (the project evolves)
+
+---
+
+*Last updated: March 2026*
