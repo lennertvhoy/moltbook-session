@@ -216,18 +216,30 @@ def simulate_trajectory(
     years: np.ndarray,
     rng: np.random.Generator,
     phi: float = 0.9,
+    enable_coupling: bool = True,
+    regime_switch: str | None = None,
 ) -> dict[str, np.ndarray]:
     """Simulate one trajectory with local linear trend model.
+    
+    Includes light coupling (C/E → D → N) and optional regime switches.
+    
+    Args:
+        scenario: Scenario configuration
+        years: Array of years to simulate
+        rng: Random number generator
+        phi: Growth persistence parameter
+        enable_coupling: If True, apply C/E → D → N feedback
+        regime_switch: None, 'interop', or 'regulatory' for discrete boosts
     
     Returns dict with pillar trajectories and emergence probability.
     """
     n_years = len(years)
-    year_indices = years - 2026
     
     # Initialize storage
     pillars: dict[str, np.ndarray] = {}
     logit_pillars: dict[str, np.ndarray] = {}
     
+    # First pass: simulate base dynamics for all pillars
     for pillar in scenario.pillars:
         z = np.zeros(n_years)
         g = np.zeros(n_years)
@@ -255,6 +267,43 @@ def simulate_trajectory(
         
         logit_pillars[pillar.code] = z
         pillars[pillar.code] = from_logit(z)
+    
+    # Second pass: apply coupling if enabled (C/E → D → N)
+    if enable_coupling:
+        for t in range(1, n_years):
+            # Demand gets boost from Capability and Efficiency
+            c_boost = 0.15 * (pillars["C"][t-1] - 50) / 50  # +15% effect
+            e_boost = 0.15 * (pillars["E"][t-1] - 40) / 40
+            total_d_boost = c_boost + e_boost
+            
+            # Apply demand boost (modest, capped)
+            logit_pillars["D"][t] += total_d_boost * 0.3  # Dampened effect
+            pillars["D"][t] = from_logit(logit_pillars["D"][t])
+            
+            # Network gets boost from Demand (standardization pressure)
+            d_level = pillars["D"][t]
+            if d_level > 45:  # Only when demand is substantial
+                n_boost = 0.10 * (d_level - 45) / 55  # +10% at high demand
+                logit_pillars["N"][t] += n_boost * 0.25
+                pillars["N"][t] = from_logit(logit_pillars["N"][t])
+    
+    # Apply regime switches (discrete events)
+    if regime_switch == "interop":
+        # MCP/A2A adoption boost around 2028-2029
+        for i, year in enumerate(years):
+            if 2028 <= year <= 2029:
+                # Network gets step boost from standardization
+                logit_pillars["N"][i] += 0.3  # ~7 point boost on 0-100 scale
+                pillars["N"][i] = from_logit(logit_pillars["N"][i])
+    
+    elif regime_switch == "regulatory":
+        # AI Act phased implementation boosts Governance
+        for i, year in enumerate(years):
+            if year == 2026:
+                logit_pillars["G"][i] += 0.15  # Entry into force
+            elif year == 2027:
+                logit_pillars["G"][i] += 0.25  # Full applicability
+                pillars["G"][i] = from_logit(logit_pillars["G"][i])
     
     return {"pillars": pillars, "logit_pillars": logit_pillars}
 
@@ -298,8 +347,17 @@ def run_monte_carlo(
     scenario: Scenario,
     n_sims: int = 5000,
     years: np.ndarray | None = None,
+    enable_coupling: bool = True,
+    regime_switch: str | None = None,
 ) -> dict[str, Any]:
     """Run Monte Carlo simulation for a scenario.
+    
+    Args:
+        scenario: Scenario configuration
+        n_sims: Number of Monte Carlo simulations
+        years: Years to simulate (default 2026-2040)
+        enable_coupling: Enable C/E → D → N feedback
+        regime_switch: None, 'interop', or 'regulatory'
     
     Returns emergence probability distributions over time.
     """
@@ -313,7 +371,11 @@ def run_monte_carlo(
     all_probs = np.zeros((n_sims, n_years))
     
     for i in range(n_sims):
-        trajectory = simulate_trajectory(scenario, years, rng)
+        trajectory = simulate_trajectory(
+            scenario, years, rng,
+            enable_coupling=enable_coupling,
+            regime_switch=regime_switch
+        )
         all_probs[i, :] = compute_emergence_probability(scenario, years, trajectory)
     
     return {
@@ -408,8 +470,31 @@ def print_summary_table(results: dict[str, Any]) -> None:
     print("=" * 80 + "\n")
 
 
+def print_regime_comparison_table(baseline: dict, interop: dict) -> None:
+    """Print comparison between baseline and interop regime scenarios."""
+    print("\n" + "=" * 80)
+    print("REGIME SWITCH COMPARISON (Base case)")
+    print("=" * 80)
+    print("\nEffect of 'interop convergence' regime (MCP/A2A standardization 2028-2029):")
+    print("-" * 70)
+    print(f"{'Year':<8} {'Baseline':<20} {'+Interop':<20} {'Difference':<20}")
+    print("-" * 70)
+    
+    years = baseline["years"]
+    for i, year in enumerate(years):
+        if year % 2 == 0:
+            base_prob = baseline["median"][i] * 100
+            interop_prob = interop["median"][i] * 100
+            diff = interop_prob - base_prob
+            print(f"{year:<8} {base_prob:>6.1f}%{'':<13} {interop_prob:>6.1f}%{'':<13} +{diff:>5.1f}%")
+    
+    print("-" * 70)
+    print("\nNote: Interop regime assumes successful MCP/A2A adoption around 2028-2029")
+    print("=" * 80 + "\n")
+
+
 def main() -> None:
-    """Run the full forecast analysis."""
+    """Run the full forecast analysis with structural improvements."""
     ASSETS_DIR.mkdir(parents=True, exist_ok=True)
     
     config = load_config()
@@ -417,15 +502,40 @@ def main() -> None:
     
     years = np.arange(2026, 2041)
     
+    print("=" * 80)
+    print("BOUNDED-SCOPE EMERGENCE FORECAST")
+    print("Model: Hazard rate with soft feasibility + light coupling + regime switches")
+    print("=" * 80)
+    print("\nStructural features:")
+    print("  • Soft feasibility: φ(y; θ, k) — gradual emergence, no hard floors")
+    print("  • Light coupling: C/E → D → N (capability drives demand drives network)")
+    print("  • Regime switches: Optional discrete boosts for standards/regulation")
+    print("=" * 80 + "\n")
+    
+    # Run baseline scenarios (with coupling, no regime switches)
+    print("Running BASELINE scenarios (with coupling)...")
     results = {}
     for scenario_name, scenario in scenarios.items():
-        print(f"Running {scenario_name} scenario...")
-        results[scenario_name] = run_monte_carlo(scenario, n_sims=5000, years=years)
+        print(f"  Running {scenario_name}...")
+        results[scenario_name] = run_monte_carlo(
+            scenario, n_sims=5000, years=years,
+            enable_coupling=True, regime_switch=None
+        )
+    
+    # Run interop regime scenario for comparison
+    print("\nRunning INTEROP REGIME scenario (Base case + MCP/A2A boost)...")
+    interop_result = run_monte_carlo(
+        scenarios["Base case"], n_sims=5000, years=years,
+        enable_coupling=True, regime_switch="interop"
+    )
     
     plot_scenario_comparison(results)
     print_summary_table(results)
+    print_regime_comparison_table(results["Base case"], interop_result)
     
     print("\n✓ Forecast analysis complete")
+    print("\nNote: This is a simplified structural model, not a fully calibrated forecast.")
+    print("      See content/06-forecast.md Section 7 for limitations.")
 
 
 if __name__ == "__main__":

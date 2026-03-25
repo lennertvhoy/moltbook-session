@@ -159,13 +159,35 @@ Wij rapporteren deze als **secundaire mijlpaal**, niet als hoofdvoorspelling.
 
 ---
 
-## 7. Samenvatting
+## 7. Model beperkingen (disclaimer)
+
+Dit model is **bewust vereenvoudigd**:
+
+| Aspect | Huidige modellering | Echte wereld |
+|--------|---------------------|--------------|
+| Pilaren | Onafhankelijke processen | Gekoppelde dynamiek (C/E drijven D, D drijft N) |
+| Groei | Gladde logit-trends | Regime-shifts (standaarden, wetgeving) |
+| Governance | Graduele φ(y) | Fasering (EU AI Act: 2025, 2026, 2027) |
+| Network | Lineaire groei | Percolatie (netwerkexternaliteiten) |
+
+Het model is bedoeld als **discipline for thinking**, niet als volledig gekalibreerde forecast. Echte adoptie van agentnetwerken wordt waarschijnlijk mede bepaald door:
+- **Regime shifts** (A2A/MCP standaardisatie, AI Act toepassing)
+- **Feedback loops** (lagere kosten → meer vraag → meer standaardisatie)
+- **Percolatie** (tipping points in adoptie)
+
+Deze factoren zijn hier slechts beperkt gemodelleerd.
+
+---
+
+## 8. Samenvatting
 
 Het canonieke model voorspelt **eerste bounded-scope emergentie** van nuttige agent netwerken — niet volledige mature deployability.
 
 Het gebruikt:
 - **Soft feasibility** ipv harde floors
 - **Time-to-event** ipv "jaar X of nooit"
+- **Lichte coupling** tussen pilaren (C/E → D → N)
+- **Regime-switch scenario's** (interop convergence, regulatory clarity)
 - **Parameter ranges** ipv schijnprecisie
 - **Expliciete onzekerheid** over empirisch vs expert components
 
