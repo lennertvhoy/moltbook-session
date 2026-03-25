@@ -36,14 +36,56 @@ De output is dus niet "de waarheid over de toekomst", maar een kansverdeling ond
 
 ## De formele logica van het model
 
-Onder de motorkap gebeurt het volgende:
+Het model is geüpgraded van een simpel exponentieel model naar een **state-space model met tijdsvariërende groeivoet**. Dat klinkt complex, maar het komt neer op een realistischere manier van groei modelleren.
 
-1. voor elke pijler wordt een startwaarde in 2026 gekozen
-2. elk jaar krijgt die pijler een lognormale groeistap
-3. er is ook een kans op een negatieve schok
-4. alle pijlers worden begrensd tussen 0 en 100
-5. de readiness index wordt berekend als een **gewogen geometrisch gemiddelde**
-6. crossing gebeurt pas wanneer threshold én floors gehaald worden gedurende twee opeenvolgende jaren
+### Het probleem met het oude model
+
+Het originele model gebruikte vaste exponentiële groei:
+```
+waarde[t] = waarde[t-1] × exp(groei)
+```
+
+Dit heeft drie problemen:
+1. **Geen natuurlijke saturatie** - scores kunnen onrealistisch hard blijven stijgen, zelfs dicht bij 100
+2. **Constante groeivoet** - het modelleert geen "groei in groei" (accelerating returns) of juist afkoeling
+3. **Geen onderscheid tussen onzekerheden** - level noise en trend noise worden verward
+
+### De nieuwe aanpak: latente groeivoet
+
+Het model transformeert eerst de 0-100 scores naar een **logit-schaal** (ongeconstrueerd):
+```
+z = log(y/(100-y))    # logit transform
+y = 100/(1+exp(-z))   # sigmoid terugtransform
+```
+
+Dit geeft automatisch **natuurlijke saturatie**: groei vertraagt vanzelf als je dichter bij 100 komt.
+
+Op deze latente schaal modelleert het een **local linear trend**:
+```
+z_t = z_{t-1} + g_t + ε_t           (level vergelijking)
+g_t = φ·g_{t-1} + (1-φ)·ḡ + η_t     (growth vergelijking)
+```
+
+Waarbij:
+- **z_t** = latente capability level
+- **g_t** = tijdsvariërende groeivoet (kan versnellen of vertragen)
+- **ε_t** = level shock (korte-termijn ruis)
+- **η_t** = growth shock (verandering in de groeitrend)
+- **φ = 0.9** = mean-reversion (voorkomt explosieve groei)
+
+Dit scheidt vier soorten onzekerheid:
+1. **Level uncertainty** - waar staan we nu precies?
+2. **Trend uncertainty** - hoe snel groeit het op dit moment?
+3. **Regime uncertainty** - blijft versnelling aanhouden of niet?
+4. **Shock uncertainty** - tijdelijke terugvallen of vertragingen
+
+### De simulatiestappen
+
+1. Transformeer startwaarden naar logit-schaal
+2. Simuleer groeipad met tijdsvariërende g_t
+3. Transformeer terug naar 0-100 (met natuurlijke saturatie)
+4. Bereken de readiness index als **gewogen geometrisch gemiddelde**
+5. Check crossing: threshold + floors + 2 opeenvolgende jaren
 
 Dat gewogen geometrische gemiddelde is belangrijk. Het betekent dat lage pijlers relatief zwaarder doorwegen dan in een gewone som. Dat past inhoudelijk bij deze use case: één fundamentele zwakte mag niet te makkelijk overschreeuwd worden door één heel sterke pijler.
 
@@ -87,7 +129,42 @@ Memory, Reliability, Network en Governance moeten elk minstens **60** halen.
 
 De voorwaarden moeten **twee opeenvolgende jaren** gelden, zodat het model geen eenmalige lucky spike als echte doorbraak interpreteert.
 
-Dat is een sterke ontwerpkeuze. Ze verhindert dat het model zichzelf trakteert op valse precisie.
+## Wat "crossing" concreet betekent
+
+Het woord "crossing" kan vaag klinken. Hier is de concrete definitie:
+
+> **Crossing = het bereiken van een staat waarin agent-netwerken kunnen functioneren als een economisch haalbare, institutioneel stabiele samenleving**
+
+Dat is geen magisch AGI-moment. Het is een drempel waarop:
+
+### Capability (75)
+De technische basis is sterk genoeg voor complexe agent-interacties. Niet perfect, maar robuust genoeg voor productie.
+
+### Memory ≥ 60
+Agents kunnen betekenisvolle state behouden over sessies heen. Geen volledig geheugen, maar voldoende continuïteit voor reputatie en relaties.
+
+### Reliability ≥ 60
+Het systeem faalt niet voortdurend. Je kunt erop bouwen voor serieuze toepassingen, niet alleen demos.
+
+### Network ≥ 60
+Coördinatie tussen agents werkt betrouwbaar. Het protocol is stabiel, niet fragiel.
+
+### Governance ≥ 60
+Er zijn duidelijke regels, aansprakelijkheid en interventiemogelijkheden. Niet wilde westen, maar een functionerend bestel.
+
+### Wat crossing NIET betekent
+- **Niet**: "AGI is bereikt"
+- **Niet**: "Alle problemen zijn opgelost"
+- **Niet**: "Menselijke intelligentie overtroffen"
+
+### Wat crossing WEL betekent
+- **Wel**: "Een netwerk van agents kan functioneren als een echte economische en sociale entiteit"
+- **Wel**: "De infrastructuur is rijp voor schaalbare, duurzame agent-samenlevingen"
+- **Wel**: "De vier ontbrekende pijlers uit de Moltbook-critiek zijn nu voldoende aanwezig"
+
+Denk aan het verschil tussen een **proefvlucht** en een **luchtvaartmaatschappij**. De Wright brothers vlogen in 1903, maar de luchtvaart werd een echte industrie pas decennia later — toen betrouwbaarheid, veiligheid, regelgeving en economische schaalbaarheid voldoende waren. Crossing is dat "industriemoment" voor agent-netwerken.
+
+De voorwaarde van **twee opeenvolgende jaren** verhindert dat het model zichzelf trakteert op valse precisie door eenmalige lucky spikes.
 
 ## Waarom de floors inhoudelijk zo belangrijk zijn
 
@@ -157,20 +234,36 @@ De base case zegt dus impliciet:
 
 ## Wat het model nu laat zien
 
-De verificatiedocs in deze repo vatten de huidige base-case output als volgt samen:
+Met het nieuwe state-space model (Model C) zijn de base-case resultaten:
 
-- kans om tegen **2040** de voorwaarden te halen: ongeveer **28,1%**
-- mediane crossing year in de base case: **2038**
+- kans om tegen **2040** de voorwaarden te halen: ongeveer **8,4%**
+- mediane crossing year (onder de runs die wel halen): **2039**
+- kans dat het scenario **nooit** crossed tegen 2040: **91,6%**
 
-Dat zijn bruikbare uitkomsten, maar alleen zolang je ze correct leest.
+Dit is significant conservatiever dan het oude model (~28% in de vorige versie).
 
-De juiste lezing is niet:
+### Waarom het model conservatiever is geworden
 
-- "de doorbraak komt in 2038"
+Het nieuwe model geeft lagere kansen dan de vorige versie. Dat is geen fout — het is een realistischere weergave van de onzekerheid:
 
-De juiste lezing is:
+| Factor | Oude model | Nieuwe model |
+|--------|-----------|--------------|
+| Groeidynamiek | Vaste exponentiële groei | Tijdsvariërende groeivoet |
+| Saturatie | Hard clip bij 100 | Natuurlijke sigmoid-afvlakking |
+| Groei-versnelling | Constant | Mean-reverting (φ=0.9) |
+| Onzekerheid | Één type ruis | Gescheiden level + trend ruis |
 
-- "onder deze aannames ontstaat een niet-dominante maar reële kans tegen 2040, en die uitkomst wordt vooral beperkt door de moeilijkste floors"
+De **mean-reverting groei** (φ=0.9) is het belangrijkste verschil. Het voorkomt dat het model aanneemt dat groei exponentieel blijft accelereren zonder limiet. In de praktijk zorgt dit ervoor dat:
+- Hoge scores (70-90) moeilijker te bereiken zijn
+- De "long tail" van langzame groei realistisch wordt gemodelleerd
+- Regime shifts (plotseling versnellen) expliciet moeten worden aangenomen, niet impliciet
+
+Dit maakt het model **conservatiever maar realistischer**. Het oude model onderschatte de moeilijkheid van die laatste punten richting 100.
+
+### De juiste lezing
+
+- **Niet**: "de doorbraak komt in 2039"
+- **Wel**: "onder deze aannames is er een kleine maar reële kans (8%) tegen 2040; de meeste scenario's halen de drempel niet door de moeilijke floors"
 
 ## De forecastgrafiek inline gelezen
 

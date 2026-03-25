@@ -26,10 +26,10 @@ Het project bevat:
 
 ```
 .
-├── content/           # Markdown content files (01-07 + sidebar)
+├── content/           # Markdown content files (01-08)
 │   ├── 01_*.md       # Intro content
 │   ├── ...
-│   └── 07_forecast_aggi_sidebar.md  # AGI als voorwaarde/volg vraag
+│   └── 08-bronnen-qa-spreekspiekbrief.md  # Bronnen en Q&A
 ├── slides/            # Markdown slide outline
 ├── analyses/          # Python analyse scripts
 ├── assets/            # Figuren, screenshots, brand assets
@@ -92,7 +92,22 @@ MPLCONFIGDIR=/tmp/matplotlib UV_CACHE_DIR=.uv-cache uv run analyses/forecast_mod
 
 > **"Moltbook is interessant, niet omdat het al een echt sociaal netwerk voor AI is, maar omdat het toont wat er nog ontbreekt: identiteit, geheugen, governance en economische efficiëntie."**
 
-## Forecast Model Parameters
+## Forecast Model (V2 - State-Space)
+
+Het forecasting model is geüpgraded van een simpel exponentieel model naar een **state-space model met tijdsvariërende groeivoet**.
+
+### Wiskundige basis
+```
+z_t = logit(y_t/100)                    # latente capability (logit schaal)
+z_t = z_{t-1} + g_t + ε_t               # level vergelijking
+g_t = φ·g_{t-1} + (1-φ)·ḡ + η_t         # growth vergelijking (φ=0.9)
+y_t = 100 × sigmoid(z_t)                # bounded score
+```
+
+Dit geeft:
+- Natuurlijke saturatie richting 100 (geen hard clipping)
+- Mean-reverting groei (voorkomt explosieve acceleratie)
+- Gescheiden level uncertainty (ε) en trend uncertainty (η)
 
 ### 7 Pilaren (Gewichten):
 - **C**apability: 20%
@@ -103,15 +118,26 @@ MPLCONFIGDIR=/tmp/matplotlib UV_CACHE_DIR=.uv-cache uv run analyses/forecast_mod
 - **G**overnance: 10%
 - **D**emand: 8%
 
-### Threshold:
+### Threshold ("Crossing"):
 - Readiness Index ≥ 75
 - M, R, N, G ≥ 60 (floors)
 - 2 opeenvolgende jaren
 
-### Scenarios:
+Crossing = het bereiken van een staat waarin agent-netwerken kunnen functioneren als een economisch haalbare, institutioneel stabiele samenleving.
+
+### Scenarios (Model C - Local Linear Trend):
 1. **Conservative**: Lage groei, hoge volatiliteit
-2. **Base case**: Moderate groei, moderate volatiliteit
+2. **Base case**: Moderate groei, moderate volatiliteit  
+   - P(crossing by 2040) ≈ 8.4%
+   - Median crossing year: 2039 (voor runs die halen)
 3. **Accelerated**: Hoge groei, lage volatiliteit
+
+### Model varianten
+- **Model A**: Fixed Log-Growth (backward compatible)
+- **Model B**: Piecewise Growth (breakpoint ~2028)
+- **Model C**: Local Linear Trend (default, recommended)
+
+Run met: `uv run analyses/forecast_model.py [A|B|C]`
 
 ## Contact
 
@@ -119,5 +145,5 @@ Voor vragen over dit project of de sessie content.
 
 ---
 
-*Laatste update: 23 Maart 2026*
-*Status: Compleet - Forecast model bijgewerkt (G governance growth 0.08→0.12)*
+*Laatste update: 25 Maart 2026*
+*Status: Compleet - Forecast model V2 (state-space) + ant colony content geïntegreerd*
