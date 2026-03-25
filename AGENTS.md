@@ -92,52 +92,44 @@ MPLCONFIGDIR=/tmp/matplotlib UV_CACHE_DIR=.uv-cache uv run analyses/forecast_mod
 
 > **"Moltbook is interessant, niet omdat het al een echt sociaal netwerk voor AI is, maar omdat het toont wat er nog ontbreekt: identiteit, geheugen, governance en economische efficiëntie."**
 
-## Forecast Model (V2 - State-Space)
+## Forecast Model (Canoniek)
 
-Het forecasting model is geüpgraded van een simpel exponentieel model naar een **state-space model met tijdsvariërende groeivoet**.
+**Wat we voorspellen:** Eerste betekenisvolle bounded-scope emergentie van Level-3-achtige AI agent netwerken.
 
-### Wiskundige basis
+**Niet:** Brede volwassen deployability, cross-vendor ubiquity, of volledige institutionele maturiteit.
+
+### Wiskundige vorm
+
+Discrete-time hazard met soft feasibility:
 ```
-z_t = logit(y_t/100)                    # latente capability (logit schaal)
-z_t = z_{t-1} + g_t + ε_t               # level vergelijking
-g_t = φ·g_{t-1} + (1-φ)·ḡ + η_t         # growth vergelijking (φ=0.9)
-y_t = 100 × sigmoid(z_t)                # bounded score
+h(t) = h0 × exp(λ_C·z_C + λ_E·z_E + λ_D·z_D + λ_M·z_M) 
+       × φ_G(y_G) × φ_N(y_N) × φ_R(y_R)
+
+φ(y; θ, k) = 1 / (1 + exp(-k × (y - θ) / 10))
 ```
 
-Dit geeft:
-- Natuurlijke saturatie richting 100 (geen hard clipping)
-- Mean-reverting groei (voorkomt explosieve acceleratie)
-- Gescheiden level uncertainty (ε) en trend uncertainty (η)
+**Output:** Time-to-event distributie (survival curve), niet "jaar X of nooit".
 
-### 7 Pilaren (Gewichten):
-- **C**apability: 20%
-- **E**fficiency: 20%
-- **M**emory: 15%
-- **R**eliability: 15%
-- **N**etwork: 12%
-- **G**overnance: 10%
-- **D**emand: 8%
+### Parameters
 
-### Threshold ("Crossing"):
-- Readiness Index ≥ 75
-- M, R, N, G ≥ 60 (floors)
-- 2 opeenvolgende jaren
+| Component | Status | Voorbeeld ranges |
+|-----------|--------|------------------|
+| C, E (Capability, Efficiency) | Empirisch | Uit Stanford HAI, Epoch |
+| D (Demand) | Proxy | Investeringen, adoptie |
+| M, N, R, G | Expert judgment | Ranges, geen punten |
 
-Crossing = het bereiken van een staat waarin agent-netwerken kunnen functioneren als een economisch haalbare, institutioneel stabiele samenleving.
+**Belangrijk:** Output is distribution met expliciete uncertainty, geen schijnprecisie.
 
-### Scenarios (Model C - Local Linear Trend):
-1. **Conservative**: Lage groei, hoge volatiliteit
-2. **Base case**: Moderate groei, moderate volatiliteit  
-   - P(crossing by 2040) ≈ 8.4%
-   - Median crossing year: 2039 (voor runs die halen)
-3. **Accelerated**: Hoge groei, lage volatiliteit
+### Historische context
 
-### Model varianten
-- **Model A**: Fixed Log-Growth (backward compatible)
-- **Model B**: Piecewise Growth (breakpoint ~2028)
-- **Model C**: Local Linear Trend (default, recommended)
+- **V1 (oud):** Harde floors op 60, "91% never crosses by 2040", te streng
+- **Audit:** Floors domineerden uitkomst (38pp effect); horizon truncatie creëerde kunstmatig "never"
+- **Huidig (canoniek):** Soft feasibility, time-to-event framing, expliciete onzekerheid
 
-Run met: `uv run analyses/forecast_model.py [A|B|C]`
+### Rauwe audit documenten
+
+Volledige ablaties, V2 specificaties, en research notities staan in:
+`docs/model_audit/` (niet canoniek, wel beschikbaar voor referentie)
 
 ## Contact
 
