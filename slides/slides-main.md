@@ -76,11 +76,13 @@ Dit bestand is de Nederlandstalige keynote-outline. De productie-`.pptx` wordt g
 
 ## Slide 8: Forecast
 
-**Vooruitblik: nuttig als scenario-tool**
+**Vooruitblik: bounded-scope emergence vs broad viability**
 
-- primaire les: floors binden eerder dan de headline threshold
-- percentages en jaartallen gedegradeerd tot secundaire context
-- takeaway: orden bottlenecks, voorspel geen lot
+- **Bounded-scope emergence** (~2030–2035): eerste functionele netwerken, beperkte scope, menselijk toezicht
+- **Broad viability** (~2040+): mature cross-sectorale deployability, minimale oversight
+- onderscheid is belangrijker dan exacte jaren
+- model is scenario-simulatie, geen gekalibreerde forecast
+- takeaway: orden bottlenecks in tijd, voorspel geen specifiek lot
 
 ---
 
