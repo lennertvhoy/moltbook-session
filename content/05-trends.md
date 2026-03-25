@@ -22,13 +22,13 @@ Er zijn duidelijke sprongen op moeilijke benchmarks, waaronder:
 - GPQA
 - SWE-bench
 
-In `data/ai_trends_metrics.json` worden die verbeteringen als puntenstijgingen vastgelegd:
+De Stanford HAI AI Index 2025 rapporteert dat binnen **één jaar** na introductie van deze benchmarks (2023→2024) frontier-modellen substantiële verbeteringen lieten zien:
 
 - MMMU: **+18,8 punten**
-- GPQA: **+48,9 punten**
+- GPQA: **+48,9 punten**  
 - SWE-bench: **+67,3 punten**
 
-Dat is belangrijk, omdat het laat zien dat frontier-modellen op complexe taken niet alleen marginaal beter worden, maar op sommige evaluaties grote sprongen maken.
+**Belangrijke caveat:** Deze cijfers vertegenwoordigen de verbetering van het beste beschikbare frontier-model op elk moment, niet één specifiek model. De sprongen komen door nieuwere modelgeneraties (GPT-4 → GPT-4V, Gemini 1.0 → 1.5, etc.) en verbeterde prompting-technieken. Het zijn geen vergelijkingen tussen twee specifieke modellen.
 
 ### Kostdaling
 
@@ -106,13 +106,15 @@ De grafiek in [`../assets/ai_trends.png`](../assets/ai_trends.png) vat de hele t
 
 ### Paneel 1: benchmarksprongen
 
-Links staan drie puntverbeteringen uit de Stanford HAI-samenvatting:
+Links staan drie puntverbeteringen uit de Stanford HAI-samenvatting (periode **2023→2024**):
 
-- MMMU: **+18,8**
-- GPQA: **+48,9**
-- SWE-bench: **+67,3**
+- MMMU: **+18,8** percentagepunten
+- GPQA: **+48,9** percentagepunten
+- SWE-bench: **+67,3** percentagepunten
 
-Dit paneel toont dat er echte capabilitysprongen zijn op zware evaluaties. Het beweert niet dat capability als geheel in één nette exponentiële curve past.
+**Wat dit wel zegt:** Frontier AI-systemen maakten binnen één jaar na introductie van deze benchmarks grote sprongen, door betere modellen en prompting-technieken.
+
+**Wat dit niet zegt:** Het zijn geen vergelijkingen tussen twee specifieke modellen. Het toont de progressie van het beste beschikbare resultaat op elk moment. Het beweert ook niet dat capability als geheel in één nette exponentiële curve past.
 
 ### Paneel 2: kostdaling
 

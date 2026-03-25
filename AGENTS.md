@@ -26,11 +26,15 @@ Het project bevat:
 
 ```
 .
-├── content/           # Markdown content files (01-07)
+├── content/           # Markdown content files (01-07 + sidebar)
+│   ├── 01_*.md       # Intro content
+│   ├── ...
+│   └── 07_forecast_aggi_sidebar.md  # AGI als voorwaarde/volg vraag
 ├── slides/            # Markdown slide outline
 ├── analyses/          # Python analyse scripts
 ├── assets/            # Figuren, screenshots, brand assets
 ├── data/              # Ruwe data / expliciete aannames
+│   └── forecast_scenarios.json      # Scenario parameters
 ├── docs/              # Verification and QA reports
 ├── release/           # Final generated .pptx
 └── AGENTS.md          # Dit bestand
@@ -78,6 +82,12 @@ MPLCONFIGDIR=/tmp/matplotlib UV_CACHE_DIR=.uv-cache uv run analyses/forecast_mod
    - Meerdere model prijzen vergelijken
    - Schaal scenario's tonen
 
+## Verificatie Documenten
+
+- `docs/verification/VERIFICATION_REPORT.md` - Repo state audit
+- `docs/verification/ANALYSIS_AUDIT.md` - Per-script validatie
+- `FORECAST_MODEL_CONTEXT_HANDOFF.md` - **Externe review** van forecast model (624 regels, incl. bottleneck analyse en sensitivity checks)
+
 ## Kernboodschap van dit Project
 
 > **"Moltbook is interessant, niet omdat het al een echt sociaal netwerk voor AI is, maar omdat het toont wat er nog ontbreekt: identiteit, geheugen, governance en economische efficiëntie."**
@@ -109,5 +119,5 @@ Voor vragen over dit project of de sessie content.
 
 ---
 
-*Laatste update: Maart 2026*
-*Status: Compleet*
+*Laatste update: 23 Maart 2026*
+*Status: Compleet - Forecast model bijgewerkt (G governance growth 0.08→0.12)*

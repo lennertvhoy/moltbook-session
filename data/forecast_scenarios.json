@@ -48,7 +48,7 @@
         {"code": "M", "initial_2026": 30, "growth_mu": 0.14, "volatility": 0.12, "neg_shock_prob": 0.08, "neg_shock_size": -0.1},
         {"code": "R", "initial_2026": 28, "growth_mu": 0.16, "volatility": 0.12, "neg_shock_prob": 0.1, "neg_shock_size": -0.12},
         {"code": "N", "initial_2026": 20, "growth_mu": 0.15, "volatility": 0.15, "neg_shock_prob": 0.12, "neg_shock_size": -0.15},
-        {"code": "G", "initial_2026": 25, "growth_mu": 0.08, "volatility": 0.1, "neg_shock_prob": 0.15, "neg_shock_size": -0.18},
+        {"code": "G", "initial_2026": 25, "growth_mu": 0.12, "volatility": 0.1, "neg_shock_prob": 0.15, "neg_shock_size": -0.18},
         {"code": "D", "initial_2026": 50, "growth_mu": 0.12, "volatility": 0.07, "neg_shock_prob": 0.05, "neg_shock_size": -0.06}
       ]
     },

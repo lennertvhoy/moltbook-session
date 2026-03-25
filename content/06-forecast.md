@@ -244,6 +244,64 @@ en toch loopt het systeem vast zolang memory, reliability, network en governance
 
 Dat maakt de forecast onverwacht consistent met de rest van de repo. Ze eindigt niet in "meer modelkracht lost alles op", maar in "de bottlenecks blijven institutioneel en architectonisch."
 
+## De AGI paradox: voorwaarde of gevolg?
+
+Een vraag die deze forecast uitlokt maar niet volledig beantwoordt:
+
+> Hebben we AGI nodig om agent-netwerken te bouwen, of ontstaat AGI juist *door* agent-netwerken?
+
+Er zijn twee lezingen mogelijk.
+
+### Lezing A: AGI eerst
+
+Een echt functionerend agent-netwerk vereist agents die autonoom beslissen, zich aanpassen, en creatief problemen oplossen. Dat zijn precies de kenmerken van AGI. Zonder AGI heb je hooguit scripted bots, geen levend ecosysteem.
+
+### Lezing B: Emergentie
+
+Net zoals een mierenkolonie intelligent gedrag toont zonder individuele super-mieren, kan een netwerk van gespecialiseerde narrow-AI agents collectieve intelligentie produceren. De coördinatie, het protocol, de marktdynamiek — dat *is* de intelligentie, niet de individuele agent.
+
+#### De mierenkolonie als analogie
+
+Een individuele mier heeft ongeveer **250.000 neuronen**. Ter vergelijking: een mens heeft er 86 miljard. Er is geen centrale leiding, geen "super-mier" die het overzicht houdt. Toch vertonen mierenkolonies verbluffend complex gedrag:
+
+- **Padoptimalisatie** - de kortste route naar voedsel wordt efficiënt gevonden
+- **Taakspecialisatie** - werkers, soldaten, zorgverleners, voedselverwerkers
+- **Landbouw** - sommige soorten kweiden schimmels of houden "veestapel"
+- **Oorlogsvoering** - georganiseerde aanvallen op naburige kolonies
+
+Het mechanisme is verrassend eenvoudig: **feromonen**. Een mier die voedsel vindt, legt een geurspoor terug naar het nest. Andere mieren volgen dit spoor. Meer verkeer = sterker spoor. Kortere route = sneller versterkt. Het "geheugen" van de kolonie zit niet in individuele mieren, maar in de **persistentie van chemische signalen** in de omgeving.
+
+Dit is een cruciaal inzicht voor agent-netwerken: **intelligentie kan in het protocol zitten, niet in de deelnemers.**
+
+### Wat het model impliceert
+
+De keuze voor floors op governance en network — niet alleen op capability — suggereert impliciet dat Lezing B plausibel is. De bottleneck zit niet in "hoe slim is één agent", maar in "hoe coördineren velen".
+
+Kijk naar de parallel met de mierenkolonie:
+
+| Mierenkolonie | Agent-netwerk |
+|--------------|---------------|
+| Feromonen (chemische sporen) | Memory & state (persistente data) |
+| Redundantie (veel mieren, één taak) | Reliability (falende agents opvangen) |
+| Directe communicatie nabijgelegen mieren | Network (coördinatieprotocol) |
+| Ingroeiende gedragsregels | Governance (regels en afspraken) |
+
+De floors in het forecast model komen overeen met wat een kolonie minimaal nodig heeft om te functioneren — niet met hoe slim individuele deelnemers zijn.
+
+### De open vraag
+
+Als agent-netwerken eerst moeten werken voordat AGI ontstaat, dan zijn de lange tijdlijnen in ons model (2038, afhankelijk van governance) misschien optimistisch. Maar als AGI eerst moet bestaan om die netwerken te bouwen, dan zijn dezelfde tijdlijnen misschien te laat — want dan is het AGI-moment zelf al het keerpunt.
+
+Het model zegt hier niets expliciets over. Maar het feit dat we floors nodig achten, geeft wel een hint over welke richting we realistischer vinden.
+
+### De les uit de natuur
+
+Natuurlijke systemen tonen dat coördinatie individuele intelligentie kan compenseren. Een kolonie van eenvoudige agents met goede protocellen kan meer dan een enkele "slimme" agent zonder infrastructuur.
+
+Maar er is een belangrijk verschil: **de natuur had miljoenen jaren evolutie.** Wij proberen vergelijkbare coördinatie te engineeren in decennia. Dat is waarom governance en network zo'n cruciale bottleneck blijven — we kunnen niet eenvoudigweg wachten op emergent gedrag; we moeten het ontwerpen.
+
+> De forecast is dus niet alleen een voorspelling over technologische vooruitgang, maar ook een meting van ons vermogen om coördinatie-infrastructuur te bouwen die de natuur miljoenen jaren gaf om te evolueren.
+
 ## Hoe je deze slide op het podium moet lezen
 
 De beste manier om dit hoofdstuk mondeling over te brengen is niet door percentages op te dreunen. Het publiek hoeft geen modeloperator te worden. Het publiek moet vooral onthouden:
