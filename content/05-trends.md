@@ -8,7 +8,7 @@ Deze repo probeert precies die fout te vermijden.
 
 De juiste vraag is niet: "kunnen we een zo indrukwekkend mogelijke groeicurve tekenen?" De juiste vraag is: "welke trends zijn vandaag echt bronmatig en methodologisch stevig genoeg om in deze discussie te gebruiken?"
 
-Het antwoord is: de hardste signalen zitten vooral in **economie, compute en efficiency**. Capability gaat ook vooruit, maar is moeilijker te lezen, vooral omdat benchmarks kunnen satureren of van samenstelling veranderen.
+Het antwoord is: de hardste signalen zitten vooral in **economie, compute en efficiency**. Capability gaat ook vooruit, maar is moeilijker te lezen, vooral omdat benchmarks kunnen verzadigen (satureren) of van samenstelling veranderen.
 
 ## 1. Wat Stanford HAI veilig laat zien
 
@@ -18,9 +18,9 @@ De Stanford HAI-bron die in deze repo gebruikt wordt, ondersteunt twee soorten c
 
 Er zijn duidelijke sprongen op moeilijke benchmarks, waaronder:
 
-- MMMU
-- GPQA
-- SWE-bench
+- **MMMU** — multimodal reasoning (beeld + tekst begrijpen en redeneren)
+- **GPQA** — wetenschappelijke vragen van PhD-niveau
+- **SWE-bench** — programmeertaken en software engineering
 
 De Stanford HAI AI Index 2025 rapporteert dat binnen **één jaar** na introductie van deze benchmarks (2023→2024) frontier-modellen substantiële verbeteringen lieten zien:
 
@@ -59,7 +59,7 @@ Voor agentnetwerken is dat cruciaal. Lagere kosten, betere chips en efficiënter
 
 ![Epoch ECI](../assets/epoch_ai_eci.png)
 
-De ECI-screenshot is nuttig omdat ze laat zien waarom composietmetrics bestaan: individuele benchmarks raken na verloop van tijd verzadigd. Maar ze is ook precies waarom we voorzichtig blijven. De pagina geeft intern al variatie in benchmarktelling, dus de goede houding is methodologisch respect zonder overdreven exactheid.
+De ECI-screenshot is nuttig omdat ze laat zien waarom samenstellende metrieken (composietmetrics) bestaan: individuele benchmarks raken na verloop van tijd verzadigd. Maar ze is ook precies waarom we voorzichtig blijven. De pagina geeft intern al variatie in benchmarktelling, dus de goede houding is methodologisch respect zonder overdreven exactheid.
 
 ## 3. Waarom we geen "alles is exponentieel"-taal meer gebruiken
 
@@ -67,13 +67,13 @@ Een eerdere zwakte van dit project was dat trendmateriaal te makkelijk in een al
 
 Daar zijn goede redenen voor.
 
-### Benchmarks kunnen satureren
+### Benchmarks kunnen verzadigen (satureren)
 
 Een benchmark meet vaak een taak of taakcluster binnen een bepaald bereik. Als modellen dat bereik steeds beter beheersen, dan kan de benchmark zijn onderscheidend vermogen verliezen. De curve zegt dan minder over "algemene intelligentie" dan mensen graag denken.
 
 ### Samengestelde indices vragen voorzichtigheid
 
-Epoch’s ECI is juist interessant omdat de organisatie zelf erkent dat individuele benchmarks kunnen satureren. Daarom probeert ECI bredere capability-beweging te vatten via een composiet. Maar ook daar moet je voorzichtig blijven in de formulering.
+Epoch’s ECI is juist interessant omdat de organisatie zelf erkent dat individuele benchmarks kunnen verzadigen (satureren). Daarom probeert ECI bredere capability-beweging te vatten via een composiet. Maar ook daar moet je voorzichtig blijven in de formulering.
 
 ### Broninconsistentie bestaat
 
@@ -89,7 +89,7 @@ Vandaar de bewust smallere formulering in deze repo:
 
 De kernzin van de trendslide is daarom bewust smal:
 
-> De hardste verdedigbare curve zit vandaag in kosten, compute en efficiency. Capability gaat ook vooruit, maar bounded benchmarks satureren en moeten voorzichtig gelezen worden.
+> De hardste verdedigbare curve zit vandaag in kosten, compute en efficiency. Capability gaat ook vooruit, maar bounded benchmarks verzadigen (satureren) en moeten voorzichtig gelezen worden.
 
 Die zin is sterk omdat ze twee dingen tegelijk doet:
 
@@ -209,7 +209,7 @@ Anthropic rapporteert daarnaast voor Opus 4.6:
 - OSWorld: **72,7%**
 - context window: **1M tokens in beta**
 
-### Waarom dit nog steeds geen parity-slide is
+### Waarom dit nog steeds geen slide die gelijkwaardigheid suggereert (parity-slide) is
 
 Er zijn drie redenen waarom deze repo parity vermijdt:
 

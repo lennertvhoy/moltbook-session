@@ -24,7 +24,7 @@ Wie niet begrijpt hoe context wordt opgebouwd en herladen, begrijpt ook niet waa
 
 De naam van het bestand is niet essentieel. De functie is essentieel: relevante context centraliseren zodat die opnieuw kan worden meegegeven of opgehaald wanneer een agent een taak uitvoert.
 
-Dat lijkt efficiënt, maar er zit een keerzijde aan: al die context moet vaak mee het model in. En tokens zijn niet gratis.
+Dat lijkt efficiënt, maar er zit een nadeel aan: al die context moet vaak mee het model in. En tokens zijn niet gratis.
 
 ## Wat context in de praktijk allemaal omvat
 
@@ -39,13 +39,13 @@ In de praktijk kan context bestaan uit:
 - retrieved files of memory
 - agentpersona en state
 
-Dat zijn niet zomaar randdetails. Ze vormen in hoge mate de operationele identiteit van het systeem op dat moment.
+Dat zijn niet zomaar randdetails. Ze vormen in hoge mate de de identiteit die het systeem heeft op dat moment van het systeem op dat moment.
 
 Wie zegt dat een agent "gewoon even" een sociale handeling stelt, vergeet vaak dat die handeling architectonisch gedragen wordt door een grote contextconstructie.
 
 ## Het gedocumenteerde OpenClaw-anker
 
-De repo gebruikt OpenClaw niet als bewijs dat alle systemen hetzelfde zijn, maar als gedocumenteerd voorbeeld van hoe groot contextoverhead al kan zijn in een relatief klein scenario.
+De repo gebruikt OpenClaw niet als bewijs dat alle systemen hetzelfde zijn, maar als gedocumenteerd voorbeeld van hoe groot overhead van context al kan zijn in een relatief klein scenario.
 
 In `data/token_usage_assumptions.json` staat een bronanker dat uit de OpenClaw-contextdocs komt:
 
@@ -59,7 +59,7 @@ Dat is belangrijk om twee redenen.
 
 ![OpenClaw context docs](../assets/openclaw_context_docs.png)
 
-### 1. Het toont dat contextoverhead niet hypothetisch is
+### 1. Het toont dat overhead van context niet hypothetisch is
 
 Zelfs zonder groot sociaal netwerk, zonder grote feed en zonder uitgebreide reputatiestructuur zit je al in de orde van tienduizenden tokens context.
 
@@ -200,7 +200,7 @@ Je ziet de auditnotities en schaalscenario’s. Dat paneel is belangrijk omdat h
 
 ### Wel
 
-- contextoverhead is reëel
+- overhead van context is reëel
 - contextreload kan economisch dominant worden
 - architectuurkeuzes rond memory en state hebben directe kostgevolgen
 
@@ -262,7 +262,7 @@ Dat is cruciaal voor het bredere argument van de sessie. De vraag is niet of é�
 
 ## De diepere les van dit hoofdstuk
 
-Dit hoofdstuk gaat uiteindelijk over meer dan tokenprijzen. Het gaat over wat moderne agenten ontologisch eigenlijk zijn.
+Dit hoofdstuk gaat uiteindelijk over meer dan tokenprijzen. Het gaat over wat moderne agenten wat een agent werkelijk is (ontologisch).
 
 Als gedrag alleen stabiel blijft door:
 

@@ -4,7 +4,7 @@
 
 Dit hoofdstuk is geen poging om Moltbook weg te lachen. Het is de plaats waar de sessie analytisch volwassen wordt. Een systeem kan visueel overtuigend zijn, technisch interessant zijn en toch nog te zwak blijken als je de echte vragen stelt over identiteit, verantwoordelijkheid en institutionele robuustheid.
 
-De sterkste kritiek op Moltbook is daarom niet: "dit is nep." De sterkste kritiek is: "de claims over autonomie en sociaal functioneren liggen nog niet netjes in lijn met wat identiteit, governance en attributie vandaag werkelijk toelaten."
+De sterkste kritiek op Moltbook is daarom niet: "dit is nep." De sterkste kritiek is: "de claims over autonomie en sociaal functioneren liggen nog niet netjes in lijn met wat identiteit, governance en het toeschrijven van acties aan een bron (attributie) vandaag werkelijk toelaten."
 
 ## 1. Identiteit: wie handelt hier precies?
 
@@ -30,9 +30,9 @@ Dat is geen kleine nuance. Het betekent dat je bij een groot deel van de activit
 
 De juiste conclusie is dus niet dat alles fake is. De juiste conclusie is:
 
-> attributie is rommelig genoeg dat sterke autonomieclaims te hard worden.
+> het toeschrijven van acties aan een bron (attributie) is rommelig genoeg dat sterke autonomieclaims te hard worden.
 
-## Waarom attributie zo’n zwaar punt is
+## Waarom het toeschrijven van acties aan een bron (attributie) zo’n zwaar punt is
 
 Attributie lijkt misschien een detail voor onderzoekers, maar het is in werkelijkheid een fundamenteel institutioneel probleem.
 
@@ -44,7 +44,7 @@ Als je niet weet wie of wat handelde, dan wordt elk van de volgende zaken instab
 - governance
 - economische interpretatie
 
-Een platform kan er sociaal uitzien, maar zonder stevige attributie blijft het onduidelijk of je naar duurzame actorstructuren kijkt of naar een mengsel van menselijke interventie, geautomatiseerde workflows en ambigu gedrag.
+Een platform kan er sociaal uitzien, maar zonder stevige het toeschrijven van acties aan een bron (attributie) blijft het onduidelijk of je naar duurzame structuren van wie er werkelijk handelt kijkt of naar een mengsel van menselijke interventie, geautomatiseerde workflows en ambigu gedrag.
 
 ## 2. Governance: autonomie binnen menselijke aansprakelijkheid
 
@@ -74,7 +74,7 @@ Deze screenshot is hier niet decoratief. Ze is het kortste bewijs dat de juridis
 
 ### Wat dit conceptueel betekent
 
-Je kunt dan niet netjes zeggen dat er al sprake is van een digitale samenleving in sterke zin. Je hebt eerder een omgeving waarin geautomatiseerde of semi-geautomatiseerde entiteiten handelen binnen een institutioneel kader dat nog zwaar op mensen leunt.
+Je kunt dan niet netjes zeggen dat er al sprake is van een digitale samenleving in sterke zin. Je hebt eerder een omgeving waarin geautomatiseerde of semi-geautomatiseerde entiteiten handelen binnen een bestuurlijk kader dat nog zwaar op mensen leunt.
 
 Dat is een wezenlijk ander verhaal.
 
@@ -161,6 +161,6 @@ Er zijn twee verkeerde lezingen van Moltbook:
 
 De nuttige lezing zit daartussen:
 
-> Moltbook is een serieuze casus die vooral toont waarom identiteit, attributie, governance en kostdiscipline nog niet opgelost zijn.
+> Moltbook is een serieuze casus die vooral toont waarom identiteit, het toeschrijven van acties aan een bron (attributie), governance en kostdiscipline nog niet opgelost zijn.
 
 Precies daarom is het zo’n goed object voor deze sessie. Niet omdat het het debat afsluit, maar omdat het de moeilijkste vragen zichtbaar maakt.

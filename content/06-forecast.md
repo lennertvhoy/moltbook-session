@@ -1,5 +1,7 @@
 # Deel 6: Forecast Model
 
+> **Van trends naar forecast:** Deel 5 liet zien dat onderliggende voorwaarden (capability, efficiency, compute) snel verbeteren. Maar wanneer leidt dit tot echte doorbraak? Dat hangt af van méér dan losse benchmarks — het vereist samenwerking tussen capabilities, governance, reliability en netwerkeffecten. Dit deel vertaalt die complexiteit naar een voorzichtig forecastmodel.
+
 ## 1. Wat we proberen te voorspellen
 
 > **Eerste betekenisvolle bounded-scope emergentie van een Level-3-achtig AI agent netwerk**
@@ -47,6 +49,11 @@ We gebruiken een **discrete-time hazard model** met **soft feasibility**:
 ```
 h(t) = h0 × exp(λ_C·z_C + λ_E·z_E + λ_D·z_D + λ_M·z_M) 
        × φ_G(y_G) × φ_N(y_N) × φ_R(y_R)
+
+**Wat dit betekent in gewone taal:** De kans op emergentie stijgt wanneer capabilities, 
+efficiency, demand en memory toenemen, maar wordt ook mee bepaald door de haalbaarheid 
+van governance, network en reliability. Geen enkele pijler is allesbepalend, maar alle 
+maken ze deel uit van het totaalplaatje.
 ```
 
 Waarbij:
@@ -68,20 +75,20 @@ Dit geeft:
 
 **Waarom deze vorm?**
 - Natuurlijke saturatie (sigmoid)
-- Parameters hebben intuïtieve betekenis (θ = inflection point, k = steepness)
+- Parameters hebben intuïtieve betekenis (θ = kantelpunt (inflection) point, k = steepness)
 - Geen harde clipping (geen 59=fail, 60=pass)
 
 ### 3.3 Parameter ranges (niet punten)
 
-| Parameter | Type | Range/Best Guess | Bron |
-|-----------|------|------------------|------|
-| **h0** (baseline hazard) | Calibratie | [0.01, 0.10] per jaar | Historische analogies |
-| **λ_C, λ_E, λ_D** (capability loadings) | Gewichten | ~0.3 elk, som = 1 | Normalisatie |
-| **λ_M** (memory loading) | Gewicht | ~0.2 | Expert judgment |
-| **θ_G** (governance inflection) | Expert judgment | 35-50 (best: 40) | Wat is "voldoende"? |
-| **θ_N** (network inflection) | Expert judgment | 40-55 (best: 45) | Wat is "bruikbaar"? |
-| **θ_R** (reliability inflection) | Expert judgment | 45-60 (best: 50) | Wat is "betrouwbaar genoeg"? |
-| **k_G, k_N, k_R** (steepness) | Expert judgment | 0.08-0.15 | Hoe "scharp" is de drempel? |
+| Parameter | Type | Range/Best Guess | Bron | Wat dit betekent |
+|-----------|------|------------------|------|------------------|
+| **h0** (baseline hazard) | Calibratie | [0.01, 0.10] per jaar | Historische analogies | Kans op doorbraak zonder specifieke factoren |
+| **λ_C, λ_E, λ_D** (capability loadings) | Gewichten | ~0.3 elk, som = 1 | Normalisatie | Hoeveel capabilities, efficiency en demand bijdragen |
+| **λ_M** (memory loading) | Gewicht | ~0.2 | Expert judgment | Hoeveel geheugen bijdraagt aan doorbraak |
+| **θ_G** (governance inflection) | Expert judgment | 35-50 (best: 40) | Wat is "voldoende"? | Het governance-niveau waar haalbaarheid 50% is |
+| **θ_N** (network inflection) | Expert judgment | 40-55 (best: 45) | Wat is "bruikbaar"? | Het netwerk-niveau waar haalbaarheid 50% is |
+| **θ_R** (reliability inflection) | Expert judgment | 45-60 (best: 50) | Wat is "betrouwbaar genoeg"? | Het reliability-niveau waar haalbaarheid 50% is |
+| **k_G, k_N, k_R** (steepness) | Expert judgment | 0.08-0.15 | Hoe "scharp" is de drempel? | Hoe snel haalbaarheid stijgt rond het kantelpunt |
 
 **Belangrijk:** Waar geen directe data is, gebruiken we ranges en expliciteren we de onzekerheid. Geen schijnprecisie.
 
@@ -149,7 +156,7 @@ Wij rapporteren deze als **secundaire mijlpaal**, niet als hoofdvoorspelling.
 
 ## 6. Open onzekerheden
 
-1. **Geen historische precedent** — We hebben geen Level-3 agent netwerken gezien. Alle analogies (cloud, mobile) zijn imperfect.
+1. **Geen historische voorbeeld uit het verleden (precedent)** — We hebben geen Level-3 agent netwerken gezien. Alle analogies (cloud, mobile) zijn imperfect.
 
 2. **Expert judgment domineert** — Voor governance, network, en reliability hebben we geen sterke empirische ankers. De ranges zijn breed.
 

@@ -83,7 +83,7 @@ De stap van "multi-agent systeem" naar "agentsamenleving" lijkt klein in taal, m
 
 ### 1. Stabiele identiteit
 
-Niet alleen een naam of persona op een profiel, maar een consistent en verantwoordbaar actorbegrip.
+Niet alleen een naam of persona op een profiel, maar een consistent en duidelijk idee van wie de actor is en wat die verantwoordt (verantwoordbaar actorbegrip).
 
 ### 2. Geheugen over tijd
 
@@ -109,7 +109,7 @@ Een subtiele maar belangrijke les uit moderne agentsystemen is dat gedrag vaak n
 - veiligheidsgrenzen
 - taakverdeling
 
-Dat betekent dat agentgedrag in de praktijk deels afhangt van hoe goed zulke contextbestanden de omgeving beschrijven. Het zijn geen versieringen; het zijn operationele onderdelen van het systeem.
+Dat betekent dat agentgedrag in de praktijk deels afhangt van hoe goed zulke contextbestanden de omgeving beschrijven. Het zijn geen versieringen; het zijn praktische bouwstenen van het systeem van het systeem.
 
 Tegelijk versterken ze een belangrijke conclusie: veel zogenaamde autonomie hangt op gereconstrueerde context. Zonder die context valt het gedrag snel uiteen.
 
