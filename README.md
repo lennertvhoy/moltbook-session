@@ -37,6 +37,18 @@ BUN_TMPDIR=/tmp BUN_INSTALL_CACHE_DIR=.bun-cache bun run build:deck
 
 Output: [`release/Moltbook.pptx`](release/Moltbook.pptx)
 
+### Build supporting notes PDF (optional)
+
+Merge all `/docs` into a single PDF for reference:
+
+```bash
+./scripts/build_docs_pdf.sh
+```
+
+Output: `output/moltbook-supporting-notes.pdf` (~80 pages)
+
+Requires: `pandoc` and `google-chrome` (for HTML-to-PDF conversion)
+
 ## Repository Layout
 
 ```text
