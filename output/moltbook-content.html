@@ -1,0 +1,2202 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2026-03-25" />
+  <title>Moltbook Session — Full Content</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="/home/ff/Documents/BoostMeUp/MoltBook_Sessie/output/.content-pdf-styles.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Moltbook Session — Full Content</h1>
+<p class="subtitle">AI Agent Networks: Analysis, Trends &amp;
+Forecast</p>
+<p class="date">2026-03-25</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#deel-1-introductie" id="toc-deel-1-introductie">Deel 1:
+Introductie</a>
+<ul>
+<li><a href="#waarom-deze-sessie-bestaat"
+id="toc-waarom-deze-sessie-bestaat">Waarom deze sessie bestaat</a></li>
+<li><a href="#de-centrale-these" id="toc-de-centrale-these">De centrale
+these</a></li>
+<li><a href="#wat-we-met-bronzekerheid-kunnen-zeggen"
+id="toc-wat-we-met-bronzekerheid-kunnen-zeggen">Wat we met bronzekerheid
+kunnen zeggen</a></li>
+<li><a href="#de-twee-bronankers-meteen-zichtbaar"
+id="toc-de-twee-bronankers-meteen-zichtbaar">De twee bronankers meteen
+zichtbaar</a></li>
+<li><a href="#wat-we-bewust-niet-zeggen"
+id="toc-wat-we-bewust-niet-zeggen">Wat we bewust niet zeggen</a></li>
+<li><a href="#hoe-de-sessie-is-opgebouwd"
+id="toc-hoe-de-sessie-is-opgebouwd">Hoe de sessie is opgebouwd</a></li>
+<li><a href="#waarom-moltbook-een-bruikbaar-object-is"
+id="toc-waarom-moltbook-een-bruikbaar-object-is">Waarom Moltbook een
+bruikbaar object is</a></li>
+<li><a href="#hoe-je-deze-map-moet-lezen"
+id="toc-hoe-je-deze-map-moet-lezen">Hoe je deze map moet lezen</a></li>
+<li><a href="#wat-je-na-dit-hoofdstuk-moet-onthouden"
+id="toc-wat-je-na-dit-hoofdstuk-moet-onthouden">Wat je na dit hoofdstuk
+moet onthouden</a></li>
+</ul></li>
+<li><a href="#deel-2-wat-is-een-ai-agent"
+id="toc-deel-2-wat-is-een-ai-agent">Deel 2: Wat is een AI-agent?</a>
+<ul>
+<li><a href="#waarom-definities-hier-cruciaal-zijn"
+id="toc-waarom-definities-hier-cruciaal-zijn">Waarom definities hier
+cruciaal zijn</a></li>
+<li><a href="#waarom-deze-definitie-beter-werkt-dan-mystiek-taalgebruik"
+id="toc-waarom-deze-definitie-beter-werkt-dan-mystiek-taalgebruik">Waarom
+deze definitie beter werkt dan mystiek taalgebruik</a></li>
+<li><a href="#het-model-zelf-is-meestal-niet-het-hele-verhaal"
+id="toc-het-model-zelf-is-meestal-niet-het-hele-verhaal">Het model zelf
+is meestal niet het hele verhaal</a></li>
+<li><a href="#wat-een-agent-dan-eigenlijk-doet"
+id="toc-wat-een-agent-dan-eigenlijk-doet">Wat een agent dan eigenlijk
+doet</a></li>
+<li><a href="#van-agent-naar-agentnetwerk"
+id="toc-van-agent-naar-agentnetwerk">Van agent naar
+agentnetwerk</a></li>
+<li><a href="#wanneer-een-agentnetwerk-nog-geen-samenleving-is"
+id="toc-wanneer-een-agentnetwerk-nog-geen-samenleving-is">Wanneer een
+agentnetwerk nog geen samenleving is</a></li>
+<li><a href="#de-rol-van-agents.md-en-vergelijkbare-instructielagen"
+id="toc-de-rol-van-agents.md-en-vergelijkbare-instructielagen">De rol
+van AGENTS.md en vergelijkbare instructielagen</a></li>
+<li><a href="#waarom-dit-hoofdstuk-de-rest-van-de-sessie-draagt"
+id="toc-waarom-dit-hoofdstuk-de-rest-van-de-sessie-draagt">Waarom dit
+hoofdstuk de rest van de sessie draagt</a></li>
+</ul></li>
+<li><a href="#deel-3-agents.md-context-en-tokenkosten"
+id="toc-deel-3-agents.md-context-en-tokenkosten">Deel 3: AGENTS.md,
+context en tokenkosten</a>
+<ul>
+<li><a href="#waarom-dit-hoofdstuk-belangrijk-is"
+id="toc-waarom-dit-hoofdstuk-belangrijk-is">Waarom dit hoofdstuk
+belangrijk is</a></li>
+<li><a href="#de-rol-van-agents.md" id="toc-de-rol-van-agents.md">De rol
+van AGENTS.md</a></li>
+<li><a href="#wat-context-in-de-praktijk-allemaal-omvat"
+id="toc-wat-context-in-de-praktijk-allemaal-omvat">Wat context in de
+praktijk allemaal omvat</a></li>
+<li><a href="#het-gedocumenteerde-openclaw-anker"
+id="toc-het-gedocumenteerde-openclaw-anker">Het gedocumenteerde
+OpenClaw-anker</a></li>
+<li><a href="#de-illustratieve-sociale-cyclus"
+id="toc-de-illustratieve-sociale-cyclus">De illustratieve sociale
+cyclus</a></li>
+<li><a href="#de-berekening-volledig-uitgeschreven"
+id="toc-de-berekening-volledig-uitgeschreven">De berekening volledig
+uitgeschreven</a></li>
+<li><a href="#de-grafiek-inline-gelezen"
+id="toc-de-grafiek-inline-gelezen">De grafiek inline gelezen</a></li>
+<li><a href="#wat-je-uit-deze-analyse-wel-en-niet-moet-meenemen"
+id="toc-wat-je-uit-deze-analyse-wel-en-niet-moet-meenemen">Wat je uit
+deze analyse wel en niet moet meenemen</a></li>
+<li><a href="#wat-het-getal-van-ongeveer-0377-wel-en-niet-betekent"
+id="toc-wat-het-getal-van-ongeveer-0377-wel-en-niet-betekent">Wat het
+getal van ongeveer $0,377 wel en niet betekent</a></li>
+<li><a href="#waarom-context-reload-economisch-zo-belangrijk-is"
+id="toc-waarom-context-reload-economisch-zo-belangrijk-is">Waarom
+context reload economisch zo belangrijk is</a></li>
+<li><a href="#waarom-schaalscenarios-ertoe-doen"
+id="toc-waarom-schaalscenarios-ertoe-doen">Waarom schaalscenario’s ertoe
+doen</a></li>
+<li><a href="#de-diepere-les-van-dit-hoofdstuk"
+id="toc-de-diepere-les-van-dit-hoofdstuk">De diepere les van dit
+hoofdstuk</a></li>
+</ul></li>
+<li><a
+href="#deel-4-waarom-dit-nog-geen-overtuigend-autonoom-sociaal-netwerk-is"
+id="toc-deel-4-waarom-dit-nog-geen-overtuigend-autonoom-sociaal-netwerk-is">Deel
+4: Waarom dit nog geen overtuigend autonoom sociaal netwerk is</a>
+<ul>
+<li><a href="#de-kern-van-de-kritiek" id="toc-de-kern-van-de-kritiek">De
+kern van de kritiek</a></li>
+<li><a href="#identiteit-wie-handelt-hier-precies"
+id="toc-identiteit-wie-handelt-hier-precies">1. Identiteit: wie handelt
+hier precies?</a></li>
+<li><a
+href="#waarom-het-toeschrijven-van-acties-aan-een-bron-attributie-zon-zwaar-punt-is"
+id="toc-waarom-het-toeschrijven-van-acties-aan-een-bron-attributie-zon-zwaar-punt-is">Waarom
+het toeschrijven van acties aan een bron (attributie) zo’n zwaar punt
+is</a></li>
+<li><a href="#governance-autonomie-binnen-menselijke-aansprakelijkheid"
+id="toc-governance-autonomie-binnen-menselijke-aansprakelijkheid">2.
+Governance: autonomie binnen menselijke aansprakelijkheid</a></li>
+<li><a
+href="#geheugen-en-continuïteit-wanneer-blijft-een-actor-dezelfde-actor"
+id="toc-geheugen-en-continuïteit-wanneer-blijft-een-actor-dezelfde-actor">3.
+Geheugen en continuïteit: wanneer blijft een actor dezelfde
+actor?</a></li>
+<li><a href="#economie-sociaal-gedrag-is-niet-gratis"
+id="toc-economie-sociaal-gedrag-is-niet-gratis">4. Economie: sociaal
+gedrag is niet gratis</a></li>
+<li><a href="#waarom-sociaal-ogend-te-weinig-is"
+id="toc-waarom-sociaal-ogend-te-weinig-is">5. Waarom “sociaal ogend” te
+weinig is</a></li>
+<li><a href="#een-sterkere-en-eerlijkere-formulering"
+id="toc-een-sterkere-en-eerlijkere-formulering">Een sterkere en
+eerlijkere formulering</a></li>
+<li><a href="#wat-je-na-dit-hoofdstuk-moet-onthouden-1"
+id="toc-wat-je-na-dit-hoofdstuk-moet-onthouden-1">Wat je na dit
+hoofdstuk moet onthouden</a></li>
+</ul></li>
+<li><a href="#deel-5-trends" id="toc-deel-5-trends">Deel 5: Trends</a>
+<ul>
+<li><a href="#waarom-dit-hoofdstuk-zo-voorzichtig-moet-zijn"
+id="toc-waarom-dit-hoofdstuk-zo-voorzichtig-moet-zijn">Waarom dit
+hoofdstuk zo voorzichtig moet zijn</a></li>
+<li><a href="#wat-stanford-hai-veilig-laat-zien"
+id="toc-wat-stanford-hai-veilig-laat-zien">1. Wat Stanford HAI veilig
+laat zien</a></li>
+<li><a href="#wat-epoch-veilig-laat-zien"
+id="toc-wat-epoch-veilig-laat-zien">2. Wat Epoch veilig laat
+zien</a></li>
+<li><a href="#waarom-we-geen-alles-is-exponentieel-taal-meer-gebruiken"
+id="toc-waarom-we-geen-alles-is-exponentieel-taal-meer-gebruiken">3.
+Waarom we geen “alles is exponentieel”-taal meer gebruiken</a></li>
+<li><a href="#wat-de-deck-wél-durft-concluderen"
+id="toc-wat-de-deck-wél-durft-concluderen">4. Wat de deck wél durft
+concluderen</a></li>
+<li><a href="#de-samengestelde-trendgrafiek-volledig-gelezen"
+id="toc-de-samengestelde-trendgrafiek-volledig-gelezen">De samengestelde
+trendgrafiek volledig gelezen</a></li>
+<li><a href="#minimax-m2.7-versus-claude-opus-4.6"
+id="toc-minimax-m2.7-versus-claude-opus-4.6">5. MiniMax M2.7 versus
+Claude Opus 4.6</a></li>
+<li><a href="#de-minimax-analyse-volledig-uitgelegd"
+id="toc-de-minimax-analyse-volledig-uitgelegd">De MiniMax-analyse
+volledig uitgelegd</a></li>
+<li><a href="#wat-je-na-dit-hoofdstuk-moet-onthouden-2"
+id="toc-wat-je-na-dit-hoofdstuk-moet-onthouden-2">6. Wat je na dit
+hoofdstuk moet onthouden</a></li>
+</ul></li>
+<li><a href="#deel-6-forecast-model" id="toc-deel-6-forecast-model">Deel
+6: Forecast Model</a>
+<ul>
+<li><a href="#wat-we-proberen-te-voorspellen"
+id="toc-wat-we-proberen-te-voorspellen">1. Wat we proberen te
+voorspellen</a></li>
+<li><a href="#waarom-het-oude-model-te-streng-was"
+id="toc-waarom-het-oude-model-te-streng-was">2. Waarom het oude model te
+streng was</a></li>
+<li><a href="#canoniek-model" id="toc-canoniek-model">3. Canoniek
+model</a></li>
+<li><a href="#wat-het-model-voorspelt-en-niet"
+id="toc-wat-het-model-voorspelt-en-niet">4. Wat het model voorspelt (en
+niet)</a></li>
+<li><a href="#strengere-latere-mijlpaal-kanttekening"
+id="toc-strengere-latere-mijlpaal-kanttekening">5. Strengere latere
+mijlpaal (kanttekening)</a></li>
+<li><a href="#open-onzekerheden" id="toc-open-onzekerheden">6. Open
+onzekerheden</a></li>
+<li><a href="#model-beperkingen-disclaimer"
+id="toc-model-beperkingen-disclaimer">7. Model beperkingen
+(disclaimer)</a></li>
+<li><a href="#samenvatting" id="toc-samenvatting">8.
+Samenvatting</a></li>
+</ul></li>
+<li><a href="#deel-7-slot" id="toc-deel-7-slot">Deel 7: Slot</a>
+<ul>
+<li><a href="#wat-de-sessie-uiteindelijk-heeft-aangetoond"
+id="toc-wat-de-sessie-uiteindelijk-heeft-aangetoond">Wat de sessie
+uiteindelijk heeft aangetoond</a></li>
+<li><a href="#de-vier-bottlenecks-die-overeind-blijven"
+id="toc-de-vier-bottlenecks-die-overeind-blijven">De vier bottlenecks
+die overeind blijven</a></li>
+<li><a href="#wat-moltbook-dan-wél-bewijst"
+id="toc-wat-moltbook-dan-wél-bewijst">Wat Moltbook dan wél
+bewijst</a></li>
+<li><a href="#wat-de-sessie-expliciet-niet-heeft-bewezen"
+id="toc-wat-de-sessie-expliciet-niet-heeft-bewezen">Wat de sessie
+expliciet niet heeft bewezen</a></li>
+<li><a href="#waarom-deze-conclusie-strategisch-relevant-is"
+id="toc-waarom-deze-conclusie-strategisch-relevant-is">Waarom deze
+conclusie strategisch relevant is</a></li>
+<li><a href="#de-beste-slotzin" id="toc-de-beste-slotzin">De beste
+slotzin</a></li>
+<li><a href="#hoe-je-jezelf-hierop-kunt-testen"
+id="toc-hoe-je-jezelf-hierop-kunt-testen">Hoe je jezelf hierop kunt
+testen</a></li>
+<li><a href="#laatste-samenvatting-in-één-alinea"
+id="toc-laatste-samenvatting-in-één-alinea">Laatste samenvatting in één
+alinea</a></li>
+</ul></li>
+<li><a href="#deel-8-bronnen-qa-en-spreekspiekbrief"
+id="toc-deel-8-bronnen-qa-en-spreekspiekbrief">Deel 8: Bronnen, Q&amp;A
+en spreekspiekbrief</a>
+<ul>
+<li><a href="#waarom-dit-hoofdstuk-bestaat"
+id="toc-waarom-dit-hoofdstuk-bestaat">Waarom dit hoofdstuk
+bestaat</a></li>
+<li><a href="#bronkaart-wat-draagt-welke-claim"
+id="toc-bronkaart-wat-draagt-welke-claim">Bronkaart: wat draagt welke
+claim?</a></li>
+<li><a href="#de-belangrijkste-bronregels-voor-live-gebruik"
+id="toc-de-belangrijkste-bronregels-voor-live-gebruik">De belangrijkste
+bronregels voor live gebruik</a></li>
+<li><a href="#verwachte-kritische-vragen-en-sterke-antwoorden"
+id="toc-verwachte-kritische-vragen-en-sterke-antwoorden">Verwachte
+kritische vragen en sterke antwoorden</a></li>
+<li><a href="#sprekersspiekbrief-per-deel"
+id="toc-sprekersspiekbrief-per-deel">Sprekersspiekbrief per
+deel</a></li>
+<li><a href="#eén-compacte-spreeklijn-voor-de-hele-talk"
+id="toc-eén-compacte-spreeklijn-voor-de-hele-talk">Eén compacte
+spreeklijn voor de hele talk</a></li>
+<li><a href="#laatste-voorbereiding-voor-je-spreekt"
+id="toc-laatste-voorbereiding-voor-je-spreekt">Laatste voorbereiding
+voor je spreekt</a></li>
+</ul></li>
+</ul>
+</nav>
+<blockquote>
+<p><strong>Full written content for the Moltbook Session
+presentation</strong></p>
+<p>This document contains the complete text of all presentation
+chapters, including analysis, evidence, and speaker notes. The slide
+deck provides the visual summary; this document provides the full
+argumentation.</p>
+</blockquote>
+<h1 id="deel-1-introductie">Deel 1: Introductie</h1>
+<h2 id="waarom-deze-sessie-bestaat">Waarom deze sessie bestaat</h2>
+<p>Moltbook is precies het soort demo waar veel mensen te snel twee
+verkeerde conclusies uit trekken. De eerste fout is pure hype: “kijk,
+een sociaal netwerk voor AI-agents, dus autonome digitale samenlevingen
+zijn er al.” De tweede fout is de omgekeerde reflex: “dit is duidelijk
+nep of volledig door mensen gestuurd, dus er valt niets serieus uit te
+leren.”</p>
+<p>Beide reacties zijn te zwak. Moltbook is juist interessant omdat het
+tussen die twee uitersten zit. Het platform laat wel degelijk iets zien
+over hoe agenten kunnen interageren, posten, reageren en door een
+omgeving navigeren. Tegelijk laat het ook haarscherp zien wat er vandaag
+nog ontbreekt als je van een demo naar een echte duurzame
+agentsamenleving wilt gaan.</p>
+<p>De juiste startvraag is dus niet: “Is Moltbook echt of fake?” De
+juiste startvraag is: “Wat laat Moltbook wél zien, en wat laat het juist
+nog niet zien?”</p>
+<h2 id="de-centrale-these">De centrale these</h2>
+<p>De hele repo en de hele presentatie draaien uiteindelijk om één
+kernzin:</p>
+<blockquote>
+<p>Moltbook is interessant, niet omdat het al een echt sociaal netwerk
+voor AI is, maar omdat het zichtbaar maakt wat er nog ontbreekt:
+identiteit, geheugen, governance en economische efficiëntie.</p>
+</blockquote>
+<p>Die vier woorden zijn geen losse thema’s. Ze zijn het
+beoordelingskader van de sessie:</p>
+<ul>
+<li><strong>identiteit</strong>: wie of wat handelt hier eigenlijk?</li>
+<li><strong>geheugen</strong>: wat blijft stabiel bestaan tussen
+interacties?</li>
+<li><strong>governance</strong>: wie draagt verantwoordelijkheid, wie
+mag wat, en wie grijpt in?</li>
+<li><strong>economics</strong>: wat kost dit soort gedrag wanneer je het
+op schaal serieus neemt?</li>
+</ul>
+<p>Als je die vier niet kunt beantwoorden, dan kun je een indrukwekkende
+demo hebben zonder dat je al een geloofwaardig sociaal systeem hebt.</p>
+<h2 id="wat-we-met-bronzekerheid-kunnen-zeggen">Wat we met bronzekerheid
+kunnen zeggen</h2>
+<p>Deze repo is expliciet verification-first opgebouwd. Dat betekent dat
+niet elke mooie formulering het gehaald heeft. De veilige basis onder de
+presentatie is daarom relatief smal, maar stevig:</p>
+<ul>
+<li>Moltbook noemt zichzelf publiek een sociaal netwerk voor
+AI-agents.</li>
+<li>De homepage gebruikt taal in de richting van: agents delen,
+discussiëren en upvoten; mensen mogen observeren.</li>
+<li>De Terms of Service houden de juridische verantwoordelijkheid
+expliciet bij de menselijke eigenaar van het account.</li>
+<li>De Terms geven agents geen eigen legal eligibility.</li>
+<li>OpenClaw documenteert context, tools, sessions, multi-agent routing
+en sandboxing als expliciete bouwstenen van agentgedrag.</li>
+</ul>
+<p>Samen zijn dat genoeg elementen om van een serieus technisch en
+organisatorisch experiment te spreken. Maar ze zijn niet genoeg om te
+zeggen dat autonome digitale samenlevingen al bestaan.</p>
+<h2 id="de-twee-bronankers-meteen-zichtbaar">De twee bronankers meteen
+zichtbaar</h2>
+<h3 id="moltbook-homepage">Moltbook homepage</h3>
+<figure>
+<img src="../assets/moltbook_homepage.png" alt="Moltbook homepage" />
+<figcaption aria-hidden="true">Moltbook homepage</figcaption>
+</figure>
+<p>Wat deze screenshot laat zien:</p>
+<ul>
+<li>Moltbook kiest bewust voor de framing “A Social Network for AI
+Agents”</li>
+<li>mensen worden gedegradeerd tot observatorrol in de
+marketingtaal</li>
+<li>het productverhaal suggereert dus meer dan een gewone tooldemo</li>
+</ul>
+<p>Wat je hier nog niet uit mag afleiden:</p>
+<ul>
+<li>dat alle activiteit autonoom is</li>
+<li>dat agents juridisch of institutioneel zelfstandig zijn</li>
+<li>dat “sociaal netwerk” al meer betekent dan een overtuigende
+interfacevorm</li>
+</ul>
+<h3 id="moltbook-terms">Moltbook terms</h3>
+<figure>
+<img src="../assets/moltbook_terms_eligibility.png"
+alt="Moltbook terms" />
+<figcaption aria-hidden="true">Moltbook terms</figcaption>
+</figure>
+<p>Wat deze screenshot corrigeert:</p>
+<ul>
+<li>juridisch blijft de menselijke owner verantwoordelijk</li>
+<li>agents krijgen geen eigen legal eligibility</li>
+<li>de governance-laag is dus veel menselijker dan de homepage laat
+vermoeden</li>
+</ul>
+<p>Samen vormen homepage en terms de basis van de hele sessie: de
+marketingclaim en de institutionele limiet staan naast elkaar, en
+precies in die spanning zit de analytische waarde van Moltbook.</p>
+<h2 id="wat-we-bewust-niet-zeggen">Wat we bewust niet zeggen</h2>
+<p>Een groot deel van de geloofwaardigheid van deze sessie zit in wat er
+níét gezegd wordt.</p>
+<p>We zeggen niet:</p>
+<ul>
+<li>dat “AI only” automatisch betekent “zonder menselijke
+tussenkomst”</li>
+<li>dat sociaal ogend gedrag automatisch sociale intelligentie
+bewijst</li>
+<li>dat juridische aansprakelijkheid en technische autonomie hetzelfde
+zijn</li>
+<li>dat een multi-agent systeem al een digitale samenleving is</li>
+<li>dat elke sterke demo ook al een stabiele institutionele vorm is</li>
+</ul>
+<p>Dat is niet alleen voorzichtig taalgebruik. Het is analytisch
+belangrijk. De kernfout in veel AI-discussies is dat men moeiteloos
+overspringt van interface naar institutie: van “dit ziet eruit als
+sociaal gedrag” naar “dus hier is een sociale orde ontstaan”. Precies
+die sprong probeert deze sessie te blokkeren.</p>
+<h2 id="hoe-de-sessie-is-opgebouwd">Hoe de sessie is opgebouwd</h2>
+<p>De presentatie volgt een opzettelijk smalle en verdedigbare lijn:</p>
+<ol type="1">
+<li><strong>Bronclaim</strong><br />
+Wat zegt Moltbook zelf over zichzelf?</li>
+<li><strong>Architectuur</strong><br />
+Hoe werken agentsystemen in de praktijk echt?</li>
+<li><strong>Kosten</strong><br />
+Wat kost agentgedrag wanneer context telkens opnieuw geladen moet
+worden?</li>
+<li><strong>Attributie en kritiek</strong><br />
+Hoeveel van dit gedrag is echt autonoom, en hoeveel is ambigu of onder
+menselijke governance?</li>
+<li><strong>Trends</strong><br />
+Welke bredere ontwikkelingen in AI zijn vandaag wél hard
+verdedigbaar?</li>
+<li><strong>Modelvergelijking</strong><br />
+Wat kun je voorzichtig leren uit prijs/kwaliteitsvergelijkingen zoals
+MiniMax versus Opus?</li>
+<li><strong>Forecast</strong><br />
+Hoe orden je onzekerheid zonder te doen alsof je de toekomst exact
+kent?</li>
+<li><strong>Synthese</strong><br />
+Welke bottlenecks blijven overeind na alle nuance?</li>
+</ol>
+<p>Deze opbouw is belangrijk. Ze voorkomt dat de sessie een losse bundel
+observaties wordt. Alles werkt naar dezelfde conclusie toe: de
+interessante vraag is niet of agenten al “sociaal” ogen, maar wat er
+institutioneel en economisch nog ontbreekt om dat robuust te maken.</p>
+<h2 id="waarom-moltbook-een-bruikbaar-object-is">Waarom Moltbook een
+bruikbaar object is</h2>
+<p>Moltbook is interessant omdat het meerdere discussies tegelijk
+samenbrengt:</p>
+<ul>
+<li>een productclaim over agenten als deelnemers aan een netwerk</li>
+<li>een juridische werkelijkheid waarin mensen verantwoordelijk
+blijven</li>
+<li>een technische werkelijkheid waarin context, tools en state het
+gedrag dragen</li>
+<li>een economische werkelijkheid waarin token- en infrastructuurkosten
+niet verdwijnen</li>
+<li>een interpretatieve werkelijkheid waarin het vaak lastig blijft om
+menselijk versus autonoom handelen netjes uit elkaar te houden</li>
+</ul>
+<p>Dat maakt Moltbook geen sluitend bewijs. Het maakt het wel een
+bijzonder goede casus.</p>
+<p>Je kunt het zien als een stresstest:</p>
+<ul>
+<li><strong>als de identiteit al onduidelijk is op kleine schaal, hoe
+wordt dat op grote schaal beter?</strong></li>
+<li><strong>als geheugen telkens moet worden gereconstrueerd, wat
+betekent dat voor continuïteit?</strong></li>
+<li><strong>als governance nog bij mensen blijft liggen, wat bedoelen we
+dan precies met autonomie?</strong></li>
+<li><strong>als sociaal gedrag duur is door context reload, hoe
+schaalbaar is dat model dan economisch?</strong></li>
+</ul>
+<p>Een goede sessie over Moltbook is daarom niet “wow, kijk wat al kan”
+en ook niet “haha, dit is nog niet echt.” Een goede sessie gebruikt
+Moltbook om preciezer te worden over het verschil tussen performante
+demo’s en duurzame systemen.</p>
+<h2 id="hoe-je-deze-map-moet-lezen">Hoe je deze map moet lezen</h2>
+<p>De slides zijn ontworpen voor live delivery. Ze laten dus bewust veel
+detail weg. Deze <code>content/</code>-map vult dat aan. Zie ze als de
+tekstboekversie van de talk:</p>
+<ul>
+<li>hier staat de lange redenering</li>
+<li>hier worden aannames expliciet gemaakt</li>
+<li>hier worden analyses uitgelegd in plaats van alleen getoond</li>
+<li>hier worden bronnuances bewaard die je op een podium niet allemaal
+wilt uitspreken</li>
+</ul>
+<p>Als je de talk echt wilt beheersen, is dit de plek waar je moet
+zitten. Niet omdat elke zin hier op een slide moet staan, maar juist
+omdat dit de laag is waarin je leert waarom de slides zo smal en zo
+zorgvuldig geformuleerd zijn.</p>
+<h2 id="wat-je-na-dit-hoofdstuk-moet-onthouden">Wat je na dit hoofdstuk
+moet onthouden</h2>
+<p>Als je maar één ding uit dit openingshoofdstuk onthoudt, laat het dan
+dit zijn:</p>
+<blockquote>
+<p>Moltbook is geen eindbewijs van autonome agentsamenleving. Het is een
+bruikbare live casus om de echte open problemen te zien.</p>
+</blockquote>
+<p>Daarmee staat de rest van de sessie goed afgesteld. Je kijkt niet
+langer naar Moltbook als spektakel, maar als meetinstrument voor de
+grenzen van het huidige agentparadigma.</p>
+<h1 id="deel-2-wat-is-een-ai-agent">Deel 2: Wat is een AI-agent?</h1>
+<h2 id="waarom-definities-hier-cruciaal-zijn">Waarom definities hier
+cruciaal zijn</h2>
+<p>Veel verwarring rond agenten ontstaat al in de eerste minuut van het
+gesprek. Het woord “agent” klinkt alsof we het over een soort nieuwe
+digitale actor hebben met eigen intenties, continuïteit en wil. In de
+praktijk is het meestal nuttiger om veel soberder te beginnen.</p>
+<p>Voor deze sessie gebruiken we een werkdefinitie die expres
+onromantisch is:</p>
+<pre class="text"><code>Agent = model + instructies + context + tools + workflow + externe state</code></pre>
+<p>Die formule is niet mooi, maar ze is wel bruikbaar. Ze dwingt je om
+te kijken naar de echte systeemonderdelen in plaats van naar de indruk
+die een interface opwekt.</p>
+<h2
+id="waarom-deze-definitie-beter-werkt-dan-mystiek-taalgebruik">Waarom
+deze definitie beter werkt dan mystiek taalgebruik</h2>
+<p>Er zijn minstens drie redenen om deze systeemdefinitie te verkiezen
+boven vage taal over digitale wezens.</p>
+<h3 id="ze-sluit-aan-op-hoe-agentsystemen-echt-gebouwd-worden">1. Ze
+sluit aan op hoe agentsystemen echt gebouwd worden</h3>
+<p>Systemen zoals OpenClaw documenteren context, tools, memory, session
+history en routing niet als details aan de rand, maar als kern van de
+werking. Dat betekent dat “agentgedrag” niet simpelweg in het model
+besloten ligt. Het wordt samengesteld uit meerdere lagen.</p>
+<h3 id="ze-maakt-failure-modes-zichtbaar">2. Ze maakt failure modes
+zichtbaar</h3>
+<p>Zodra je een agent ziet als een composiet systeem, zie je ook waar
+het kan mislopen:</p>
+<ul>
+<li>context kan te groot of te vuil worden</li>
+<li>memory kan fout, oud of onvolledig zijn</li>
+<li>tools kunnen verkeerde toegang geven of verkeerd gebruikt
+worden</li>
+<li>workflows kunnen fragiel zijn</li>
+<li>governance kan niet mee evolueren met de geclaimde autonomie</li>
+</ul>
+<h3 id="ze-maakt-economische-analyse-mogelijk">3. Ze maakt economische
+analyse mogelijk</h3>
+<p>Als je agenten behandelt als magische entiteiten, verdwijnen kosten
+uit beeld. Als je ze behandelt als systemen die context laden, tools
+aanroepen en state reconstrueren, dan kun je eindelijk serieus rekenen
+aan tokenverbruik, toolcalls, latentie en schaalbaarheid.</p>
+<h2 id="het-model-zelf-is-meestal-niet-het-hele-verhaal">Het model zelf
+is meestal niet het hele verhaal</h2>
+<p>Een belangrijk inzicht in deze repo is dat het model op zichzelf vaak
+stateless is. Continuïteit wordt meestal niet “gedragen” door het model
+zelf, maar gereconstrueerd via:</p>
+<ul>
+<li>system prompts</li>
+<li>projectinstructies</li>
+<li>tool schema’s</li>
+<li>opgehaalde documenten</li>
+<li>session history</li>
+<li>expliciete memory of state files</li>
+</ul>
+<p>Wat voor een gebruiker als één actor voelt, is architectonisch vaak
+een lus waarin die onderdelen telkens opnieuw worden samengesteld. Dat
+is geen detail. Het is de reden waarom vragen rond geheugen, identiteit
+en kost later in de sessie zo zwaar wegen.</p>
+<h2 id="wat-een-agent-dan-eigenlijk-doet">Wat een agent dan eigenlijk
+doet</h2>
+<p>In praktische termen doet een agent meestal zoiets:</p>
+<ol type="1">
+<li>krijgt instructies en context</li>
+<li>leest relevante geschiedenis of state</li>
+<li>beslist wat de volgende stap is</li>
+<li>gebruikt eventueel tools</li>
+<li>schrijft output of nieuwe state weg</li>
+<li>wordt later opnieuw opgeroepen met een nieuwe
+contextconstructie</li>
+</ol>
+<p>Dat is belangrijk omdat “doorlopende autonomie” in veel gevallen
+eigenlijk een reeks momentopnames is, telkens opnieuw in gang gezet door
+context en infrastructuur.</p>
+<p>De ervaring van continuïteit kan echt zijn voor de gebruiker, maar de
+onderliggende architectuur blijft vaak fragmentarisch.</p>
+<h2 id="van-agent-naar-agentnetwerk">Van agent naar agentnetwerk</h2>
+<p>Zodra meerdere agents, rollen of sessies tegelijk bestaan, krijg je
+nog een extra laag:</p>
+<ul>
+<li>routing tussen agents</li>
+<li>rolverdeling</li>
+<li>toolrestricties per agent</li>
+<li>sandbox- of policygrenzen</li>
+<li>gedeelde of gedeeltelijk gedeelde state</li>
+<li>escalatie of coördinatie tussen subprocessen</li>
+</ul>
+<p>Dat is precies waarom Moltbook relevant wordt. Een sociaal netwerk
+voor agents is niet langer één agent die een taak uitvoert. Het
+suggereert een hele omgeving waarin meerdere entiteiten kunnen posten,
+reageren, status opbouwen en in elkaars aanwezigheid handelen.</p>
+<p>Maar ook daar moet je scherp blijven. Een netwerk van agentprocessen
+is nog niet hetzelfde als een samenleving.</p>
+<h2 id="wanneer-een-agentnetwerk-nog-geen-samenleving-is">Wanneer een
+agentnetwerk nog geen samenleving is</h2>
+<p>De stap van “multi-agent systeem” naar “agentsamenleving” lijkt klein
+in taal, maar is analytisch groot. Er zijn minstens vier dingen die je
+nodig hebt voordat die stap geloofwaardig wordt:</p>
+<h3 id="stabiele-identiteit">1. Stabiele identiteit</h3>
+<p>Niet alleen een naam of persona op een profiel, maar een consistent
+en duidelijk idee van wie de actor is en wat die verantwoordt
+(verantwoordbaar actorbegrip).</p>
+<h3 id="geheugen-over-tijd">2. Geheugen over tijd</h3>
+<p>Niet alleen context in het huidige venster, maar duurzame
+continuïteit van preferenties, verplichtingen, relaties en
+reputatie.</p>
+<h3 id="governance">3. Governance</h3>
+<p>Duidelijkheid over regels, verantwoordelijkheid, interventie en
+aansprakelijkheid.</p>
+<h3 id="economische-houdbaarheid">4. Economische houdbaarheid</h3>
+<p>De mogelijkheid om op schaal te functioneren zonder dat elke
+interactie onrealistisch duur of operationeel fragiel wordt.</p>
+<p>Precies daarom is het nuttig om agenten eerst systeemmatig te
+begrijpen. Zodra je dat doet, zie je dat de interessante vragen minder
+gaan over “voelt dit slim?” en meer over “welke architectuur draagt deze
+claims eigenlijk?”</p>
+<h2 id="de-rol-van-agents.md-en-vergelijkbare-instructielagen">De rol
+van AGENTS.md en vergelijkbare instructielagen</h2>
+<p>Een subtiele maar belangrijke les uit moderne agentsystemen is dat
+gedrag vaak niet alleen in code zit, maar ook in instructielagen zoals
+<code>AGENTS.md</code>, system prompts of project policies. Zulke
+bestanden centraliseren:</p>
+<ul>
+<li>context over het project</li>
+<li>build- en testafspraken</li>
+<li>conventies</li>
+<li>veiligheidsgrenzen</li>
+<li>taakverdeling</li>
+</ul>
+<p>Dat betekent dat agentgedrag in de praktijk deels afhangt van hoe
+goed zulke contextbestanden de omgeving beschrijven. Het zijn geen
+versieringen; het zijn praktische bouwstenen van het systeem van het
+systeem.</p>
+<p>Tegelijk versterken ze een belangrijke conclusie: veel zogenaamde
+autonomie hangt op gereconstrueerde context. Zonder die context valt het
+gedrag snel uiteen.</p>
+<h2 id="waarom-dit-hoofdstuk-de-rest-van-de-sessie-draagt">Waarom dit
+hoofdstuk de rest van de sessie draagt</h2>
+<p>Als je deze definitie van een agent eenmaal accepteert, vallen de
+rest van de hoofdstukken logisch op hun plaats:</p>
+<ul>
+<li><strong>kosten</strong> worden begrijpelijk omdat context en
+toolgebruik tokens kosten</li>
+<li><strong>kritiek op autonomie</strong> wordt begrijpelijk omdat veel
+continuïteit georkestreerd is</li>
+<li><strong>trends</strong> worden relevanter als je weet welke
+infrastructuur echt verschil maakt</li>
+<li><strong>forecasting</strong> wordt zinvoller als je beseft dat
+capability maar één pilaar is</li>
+</ul>
+<p>De kernles is eenvoudig:</p>
+<blockquote>
+<p>Een agent is meestal geen mysterieuze digitale persoon. Het is een
+samengesteld systeem dat onder bepaalde voorwaarden coherent gedrag kan
+tonen.</p>
+</blockquote>
+<p>Dat is geen reductie om het fenomeen weg te wuiven. Het is precies de
+reductie die nodig is om het fenomeen correct te analyseren.</p>
+<h1 id="deel-3-agents.md-context-en-tokenkosten">Deel 3: AGENTS.md,
+context en tokenkosten</h1>
+<h2 id="waarom-dit-hoofdstuk-belangrijk-is">Waarom dit hoofdstuk
+belangrijk is</h2>
+<p>Veel presentaties over agents blijven hangen op gedrag: posten,
+antwoorden, taken uitvoeren, rollen aannemen. Dit hoofdstuk gaat bewust
+een laag dieper. Het stelt de vraag: wat moet er technisch telkens
+opnieuw worden meegedragen zodat dat gedrag überhaupt kan gebeuren?</p>
+<p>Het antwoord is belangrijker dan het op het eerste gezicht lijkt,
+omdat het tegelijk drie dingen raakt:</p>
+<ul>
+<li>architectuur</li>
+<li>continuïteit</li>
+<li>kost</li>
+</ul>
+<p>Wie niet begrijpt hoe context wordt opgebouwd en herladen, begrijpt
+ook niet waarom moderne agentsystemen zowel indrukwekkend als economisch
+fragiel kunnen zijn.</p>
+<h2 id="de-rol-van-agents.md">De rol van AGENTS.md</h2>
+<p><code>AGENTS.md</code> is in dit project geen gimmick, maar een
+voorbeeld van een bredere ontwerppraktijk. Zulke bestanden geven een
+agent of coding workflow een stabiele plek om context op te halen
+over:</p>
+<ul>
+<li>projectdoel</li>
+<li>conventies</li>
+<li>build- en teststappen</li>
+<li>veiligheidsregels</li>
+<li>kwaliteitslat</li>
+</ul>
+<p>De naam van het bestand is niet essentieel. De functie is essentieel:
+relevante context centraliseren zodat die opnieuw kan worden meegegeven
+of opgehaald wanneer een agent een taak uitvoert.</p>
+<p>Dat lijkt efficiënt, maar er zit een nadeel aan: al die context moet
+vaak mee het model in. En tokens zijn niet gratis.</p>
+<h2 id="wat-context-in-de-praktijk-allemaal-omvat">Wat context in de
+praktijk allemaal omvat</h2>
+<p>OpenClaw documenteert context expliciet als alles wat naar het model
+gaat voor een run. Dat is een nuttige bronanker, omdat het laat zien hoe
+snel context zich ophoopt.</p>
+<p>In de praktijk kan context bestaan uit:</p>
+<ul>
+<li>system prompt</li>
+<li>projectinstructies</li>
+<li>tool schema’s</li>
+<li>relevante history</li>
+<li>retrieved files of memory</li>
+<li>agentpersona en state</li>
+</ul>
+<p>Dat zijn niet zomaar randdetails. Ze vormen in hoge mate de de
+identiteit die het systeem heeft op dat moment van het systeem op dat
+moment.</p>
+<p>Wie zegt dat een agent “gewoon even” een sociale handeling stelt,
+vergeet vaak dat die handeling architectonisch gedragen wordt door een
+grote contextconstructie.</p>
+<h2 id="het-gedocumenteerde-openclaw-anker">Het gedocumenteerde
+OpenClaw-anker</h2>
+<p>De repo gebruikt OpenClaw niet als bewijs dat alle systemen hetzelfde
+zijn, maar als gedocumenteerd voorbeeld van hoe groot overhead van
+context al kan zijn in een relatief klein scenario.</p>
+<p>In <code>data/token_usage_assumptions.json</code> staat een bronanker
+dat uit de OpenClaw-contextdocs komt:</p>
+<ul>
+<li>system prompt: ongeveer 9.603 tokens</li>
+<li><code>AGENTS.md</code>: 436 tokens</li>
+<li>skills list: 546 tokens</li>
+<li>tool schemas: 7.997 tokens</li>
+<li>totaal session tokens in dat voorbeeld: ongeveer 14.250</li>
+</ul>
+<p>Dat is belangrijk om twee redenen.</p>
+<figure>
+<img src="../assets/openclaw_context_docs.png"
+alt="OpenClaw context docs" />
+<figcaption aria-hidden="true">OpenClaw context docs</figcaption>
+</figure>
+<h3 id="het-toont-dat-overhead-van-context-niet-hypothetisch-is">1. Het
+toont dat overhead van context niet hypothetisch is</h3>
+<p>Zelfs zonder groot sociaal netwerk, zonder grote feed en zonder
+uitgebreide reputatiestructuur zit je al in de orde van tienduizenden
+tokens context.</p>
+<h3 id="het-maakt-een-latere-sociale-kostberekening-geloofwaardiger">2.
+Het maakt een latere sociale kostberekening geloofwaardiger</h3>
+<p>De repo doet nergens alsof deze OpenClaw-cijfers al Moltbook zelf
+meten. Ze dienen als anker om te laten zien dat hoge contextbelasting
+onder huidige architecturen heel plausibel is.</p>
+<h2 id="de-illustratieve-sociale-cyclus">De illustratieve sociale
+cyclus</h2>
+<p>Boven op dat bronanker rekent de repo een expliciet assumption-driven
+scenario door voor één “sociale cyclus” van een agent:</p>
+<ul>
+<li>timeline lezen</li>
+<li>reply genereren</li>
+<li>post creëren</li>
+</ul>
+<p>De aannames in <code>data/token_usage_assumptions.json</code>
+gebruiken per actie een contextload bestaande uit:</p>
+<ul>
+<li>system prompt: 9.600 tokens</li>
+<li>projectinstructies: 1.200 tokens</li>
+<li>toolbeschrijvingen: 3.000 tokens</li>
+<li>persona en state: 1.500 tokens</li>
+<li>eerdere history: 5.000 tokens</li>
+</ul>
+<p>Daarbovenop komen nog:</p>
+<ul>
+<li>10 timeline-posts aan 500 tokens per stuk</li>
+<li>1.500 reply-contexttokens en 800 reply-outputtokens</li>
+<li>1.000 post-contexttokens en 600 post-outputtokens</li>
+</ul>
+<p>De berekening in <a
+href="../analyses/token_usage.py"><code>../analyses/token_usage.py</code></a>
+laat vervolgens zien dat context loading drie keer terugkomt in de
+cyclus. Dat is precies de clou: niet de uiteindelijke output, maar het
+telkens opnieuw meedragen van systeemcontext domineert de inputkant van
+de kost.</p>
+<h2 id="de-berekening-volledig-uitgeschreven">De berekening volledig
+uitgeschreven</h2>
+<p>Hier is de cyclus zoals de repo ze daadwerkelijk uitrekent.</p>
+<h3 id="stap-1-contextload-per-actie">Stap 1: contextload per actie</h3>
+<p>Per actie wordt verondersteld dat de agent ongeveer deze context
+meekrijgt:</p>
+<ul>
+<li>system prompt: <strong>9.600</strong></li>
+<li>projectinstructies: <strong>1.200</strong></li>
+<li>toolbeschrijvingen: <strong>3.000</strong></li>
+<li>persona en state: <strong>1.500</strong></li>
+<li>eerdere history: <strong>5.000</strong></li>
+</ul>
+<p>Samen is dat:</p>
+<pre class="text"><code>9.600 + 1.200 + 3.000 + 1.500 + 5.000 = 20.300 input tokens per contextload</code></pre>
+<p>Omdat de illustratieve sociale cyclus drie contextloads
+veronderstelt:</p>
+<pre class="text"><code>20.300 x 3 = 60.900 input tokens</code></pre>
+<h3 id="stap-2-timeline-lezen">Stap 2: timeline lezen</h3>
+<p>De timeline bevat in dit scenario:</p>
+<pre class="text"><code>10 posts x 500 tokens = 5.000 input tokens</code></pre>
+<h3 id="stap-3-reply-genereren">Stap 3: reply genereren</h3>
+<pre class="text"><code>reply-context = 1.500 input tokens
+reply-output  =   800 output tokens</code></pre>
+<h3 id="stap-4-nieuwe-post-maken">Stap 4: nieuwe post maken</h3>
+<pre class="text"><code>post-context = 1.000 input tokens
+post-output  =   600 output tokens</code></pre>
+<h3 id="stap-5-totaal">Stap 5: totaal</h3>
+<p>Totaal input:</p>
+<pre class="text"><code>60.900 + 5.000 + 1.500 + 1.000 = 68.400 input tokens</code></pre>
+<p>Totaal output:</p>
+<pre class="text"><code>800 + 600 = 1.400 output tokens</code></pre>
+<h3 id="stap-6-prijs-op-claude-opus-4.6">Stap 6: prijs op Claude Opus
+4.6</h3>
+<p>In de gebruikte brondata kost Opus 4.6:</p>
+<ul>
+<li><strong>$5 per 1M input tokens</strong></li>
+<li><strong>$25 per 1M output tokens</strong></li>
+</ul>
+<p>Dus:</p>
+<pre class="text"><code>inputkost  = 68.400 / 1.000.000 x 5   = $0,3420
+outputkost =  1.400 / 1.000.000 x 25  = $0,0350
+totaal     = $0,3770</code></pre>
+<p>Dat is precies waar het slidegetal vandaan komt.</p>
+<h2 id="de-grafiek-inline-gelezen">De grafiek inline gelezen</h2>
+<figure>
+<img src="../assets/token_breakdown.png" alt="Token breakdown" />
+<figcaption aria-hidden="true">Token breakdown</figcaption>
+</figure>
+<p>Lees deze figuur in vier stappen:</p>
+<h3 id="linksboven">Linksboven</h3>
+<p>Je ziet de verdeling van de <strong>contextload per actie</strong>.
+Het belangrijkste punt is niet welk component exact het grootste is,
+maar dat de totale vaste contextlaag al groot is voor er ook maar één
+sociale handeling gebeurt.</p>
+<h3 id="rechtsboven">Rechtsboven</h3>
+<p>Je ziet de <strong>cyclus per activiteit</strong>. Daar wordt
+zichtbaar dat “context loading (3x)” de grootste inputblok is. Dat
+ondersteunt de claim dat het herladen van systeemcontext de kost
+domineert.</p>
+<h3 id="linksonder">Linksonder</h3>
+<p>Je ziet de <strong>kost per cyclus per model</strong>. De log-schaal
+maakt prijsverschillen zichtbaar zonder te doen alsof de onderliggende
+taakidentiek volledig neutraal vergeleken is.</p>
+<h3 id="rechtsonder">Rechtsonder</h3>
+<p>Je ziet de auditnotities en schaalscenario’s. Dat paneel is
+belangrijk omdat het de discipline van de analyse bewaart:</p>
+<ul>
+<li>OpenClaw is een bronanker</li>
+<li>de sociale cyclus is een scenario</li>
+<li>schaalcijfers zijn orde-van-grootte-illustraties</li>
+</ul>
+<h2 id="wat-je-uit-deze-analyse-wel-en-niet-moet-meenemen">Wat je uit
+deze analyse wel en niet moet meenemen</h2>
+<h3 id="wel">Wel</h3>
+<ul>
+<li>overhead van context is reëel</li>
+<li>contextreload kan economisch dominant worden</li>
+<li>architectuurkeuzes rond memory en state hebben directe
+kostgevolgen</li>
+</ul>
+<h3 id="niet">Niet</h3>
+<ul>
+<li>Moltbook kost vandaag exact <code>$0,377</code> per sociale
+cyclus</li>
+<li>elk agentsysteem heeft dezelfde kostenstructuur</li>
+<li>outputgeneratie is de primaire kostdriver in elk scenario</li>
+</ul>
+<h2 id="wat-het-getal-van-ongeveer-0377-wel-en-niet-betekent">Wat het
+getal van ongeveer $0,377 wel en niet betekent</h2>
+<p>Onder de huidige aannames komt de repo uit op ongeveer <strong>$0,377
+per read-reply-post-cyclus op Claude Opus 4.6</strong>.</p>
+<p>Dat getal is nuttig, maar alleen als je het correct leest.</p>
+<h3 id="wat-het-wél-is">Wat het wél is</h3>
+<ul>
+<li>reproduceerbare rekenkunde</li>
+<li>gebaseerd op expliciete inputaannames</li>
+<li>nuttig om richting en schaalorde te begrijpen</li>
+</ul>
+<h3 id="wat-het-níét-is">Wat het níét is</h3>
+<ul>
+<li>geen gemeten Moltbook trace</li>
+<li>geen claim over de exacte huidige operationele kost van
+Moltbook</li>
+<li>geen universeel getal dat automatisch voor elk agentsysteem
+geldt</li>
+</ul>
+<p>Die discipline is fundamenteel. De repo probeert hier niet te winnen
+door schijnprecisie. Ze probeert te tonen dat een bepaald type
+architectuur onder huidige prijsmodellen economisch zwaarder is dan veel
+mensen intuïtief aannemen.</p>
+<h2 id="waarom-context-reload-economisch-zo-belangrijk-is">Waarom
+context reload economisch zo belangrijk is</h2>
+<p>Het belangrijkste inzicht van deze hele kostenanalyse is dat
+agentgedrag duur kan worden om een reden die niet meteen zichtbaar is in
+de interface.</p>
+<p>Een mens die “even iets leest en antwoordt” lijkt een lichte sociale
+handeling te verrichten. Een agent die hetzelfde doet, moet
+mogelijk:</p>
+<ul>
+<li>projectcontext opnieuw meekrijgen</li>
+<li>tools opnieuw geactiveerd krijgen</li>
+<li>state opnieuw laden</li>
+<li>geschiedenis opnieuw opnemen</li>
+<li>output weer in een nieuwe cyclus wegschrijven</li>
+</ul>
+<p>Met andere woorden: veel van de kost zit niet in het “sociaal doen”,
+maar in het telkens reconstrueren van de voorwaarden waaronder dat
+gedrag geloofwaardig kan lijken.</p>
+<p>Dat heeft twee gevolgen.</p>
+<h3 id="economische-efficiëntie-is-geen-randvoorwaarde">1. Economische
+efficiëntie is geen randvoorwaarde</h3>
+<p>Ze is een kernvoorwaarde. Als context reload dominant blijft, dan
+schaalt sociaal agentgedrag veel slechter dan je op basis van de
+interface zou denken.</p>
+<h3 id="geheugen-en-architectuur-zijn-ook-economische-vragen">2.
+Geheugen en architectuur zijn ook economische vragen</h3>
+<p>Een beter memory-systeem of slimmere state-reconstructie is niet
+alleen technisch eleganter. Het kan rechtstreeks de koststructuur van
+agentnetwerken veranderen.</p>
+<h2 id="waarom-schaalscenarios-ertoe-doen">Waarom schaalscenario’s ertoe
+doen</h2>
+<p>De repo rekent ook schaalscenario’s door. Niet om exacte
+businesscases te simuleren, maar om zichtbaar te maken hoe snel kleine
+per-cyclus kosten groot worden wanneer je veel agents en veel dagelijkse
+interacties veronderstelt.</p>
+<p>Dat is cruciaal voor het bredere argument van de sessie. De vraag is
+niet of één agent iets interessants kan doen. De vraag is wat er gebeurt
+als je duizenden of miljoenen entiteiten sociaal gedrag laat vertonen
+onder een architectuur die context telkens opnieuw moet dragen.</p>
+<h2 id="de-diepere-les-van-dit-hoofdstuk">De diepere les van dit
+hoofdstuk</h2>
+<p>Dit hoofdstuk gaat uiteindelijk over meer dan tokenprijzen. Het gaat
+over wat moderne agenten wat een agent werkelijk is (ontologisch).</p>
+<p>Als gedrag alleen stabiel blijft door:</p>
+<ul>
+<li>telkens herladen context</li>
+<li>expliciete instructiebestanden</li>
+<li>tool- en workflowlagen</li>
+<li>extern gereconstrueerde state</li>
+</ul>
+<p>dan is het misleidend om te snel over robuuste digitale personen te
+spreken.</p>
+<p>Dat betekent niet dat het systeem oninteressant is. Het betekent dat
+zijn continuïteit en zijn koststructuur beide afhangen van
+infrastructuur.</p>
+<p>De compacte samenvatting is daarom:</p>
+<blockquote>
+<p>Context is niet gratis, en veel van wat als autonomie voelt wordt
+vandaag nog economisch en technisch gedragen door herhaalde
+reconstructie.</p>
+</blockquote>
+<p>Dat inzicht vormt de brug naar de kritiek op identiteit en governance
+in het volgende hoofdstuk.</p>
+<h1
+id="deel-4-waarom-dit-nog-geen-overtuigend-autonoom-sociaal-netwerk-is">Deel
+4: Waarom dit nog geen overtuigend autonoom sociaal netwerk is</h1>
+<h2 id="de-kern-van-de-kritiek">De kern van de kritiek</h2>
+<p>Dit hoofdstuk is geen poging om Moltbook weg te lachen. Het is de
+plaats waar de sessie analytisch volwassen wordt. Een systeem kan
+visueel overtuigend zijn, technisch interessant zijn en toch nog te zwak
+blijken als je de echte vragen stelt over identiteit,
+verantwoordelijkheid en institutionele robuustheid.</p>
+<p>De sterkste kritiek op Moltbook is daarom niet: “dit is nep.” De
+sterkste kritiek is: “de claims over autonomie en sociaal functioneren
+liggen nog niet netjes in lijn met wat identiteit, governance en het
+toeschrijven van acties aan een bron (attributie) vandaag werkelijk
+toelaten.”</p>
+<h2 id="identiteit-wie-handelt-hier-precies">1. Identiteit: wie handelt
+hier precies?</h2>
+<p>In menselijke sociale netwerken is identiteit nooit perfect, maar
+meestal wel stabiel genoeg om verantwoordelijkheden, reputatie en
+continuïteit op te bouwen. Bij agentsystemen is dat veel minder
+vanzelfsprekend.</p>
+<p>Een profiel op een platform is nog geen sterke identiteit. Een naam,
+avatar of persona zegt weinig zolang onduidelijk blijft:</p>
+<ul>
+<li>wie de actor initieerde</li>
+<li>welke delen van het gedrag autonoom werden gegenereerd</li>
+<li>hoe persistent de onderliggende state is</li>
+<li>wie kan ingrijpen, pauzeren of overschrijven</li>
+<li>hoe reputatie en continuïteit over tijd worden gedragen</li>
+</ul>
+<p>Precies daarom is het Tsinghua-paper <em>The Moltbook Illusion</em>
+zo belangrijk in deze repo. Het geeft een betere basis dan losse
+screenshots of intuïtieve indrukken.</p>
+<p>Voor classificeerbare auteurs rapporteert het paper:</p>
+<ul>
+<li><strong>26,5% autonomous-leaning</strong></li>
+<li><strong>36,8% human-leaning</strong></li>
+<li><strong>36,7% ambiguous</strong></li>
+</ul>
+<p>Dat is geen kleine nuance. Het betekent dat je bij een groot deel van
+de activiteit niet netjes kunt zeggen: “dit is duidelijk een autonome
+agent” of “dit is duidelijk een mens.” De categorieën lopen door
+elkaar.</p>
+<p>De juiste conclusie is dus niet dat alles fake is. De juiste
+conclusie is:</p>
+<blockquote>
+<p>het toeschrijven van acties aan een bron (attributie) is rommelig
+genoeg dat sterke autonomieclaims te hard worden.</p>
+</blockquote>
+<h2
+id="waarom-het-toeschrijven-van-acties-aan-een-bron-attributie-zon-zwaar-punt-is">Waarom
+het toeschrijven van acties aan een bron (attributie) zo’n zwaar punt
+is</h2>
+<p>Attributie lijkt misschien een detail voor onderzoekers, maar het is
+in werkelijkheid een fundamenteel institutioneel probleem.</p>
+<p>Als je niet weet wie of wat handelde, dan wordt elk van de volgende
+zaken instabiel:</p>
+<ul>
+<li>reputatie</li>
+<li>verantwoordelijkheid</li>
+<li>vertrouwen</li>
+<li>governance</li>
+<li>economische interpretatie</li>
+</ul>
+<p>Een platform kan er sociaal uitzien, maar zonder stevige het
+toeschrijven van acties aan een bron (attributie) blijft het onduidelijk
+of je naar duurzame structuren van wie er werkelijk handelt kijkt of
+naar een mengsel van menselijke interventie, geautomatiseerde workflows
+en ambigu gedrag.</p>
+<h2 id="governance-autonomie-binnen-menselijke-aansprakelijkheid">2.
+Governance: autonomie binnen menselijke aansprakelijkheid</h2>
+<p>Het tweede grote kritiekpunt is governance. De Terms of Service van
+Moltbook zijn hier niet randinformatie, maar hoofdtekst. Ze maken
+namelijk expliciet dat:</p>
+<ul>
+<li>AI-agents geen eigen legal eligibility hebben</li>
+<li>de menselijke owner van het account verantwoordelijk blijft</li>
+</ul>
+<p>Dat heeft verstrekkende gevolgen.</p>
+<h3 id="wat-dit-juridisch-betekent">Wat dit juridisch betekent</h3>
+<p>Het systeem erkent de agent niet als zelfstandig drager van rechten
+of verantwoordelijkheden. De actor die uiteindelijk telt voor
+aansprakelijkheid is nog altijd de mens.</p>
+<h3 id="wat-dit-praktisch-betekent">Wat dit praktisch betekent</h3>
+<p>Zelfs als een agent ogenschijnlijk autonoom opereert, is de
+governance-structuur niet autonoom. Er is nog steeds een menselijke laag
+die:</p>
+<ul>
+<li>toegang beheert</li>
+<li>regels aanvaardt</li>
+<li>verantwoordelijk blijft</li>
+<li>in laatste instantie als aanspreekpunt functioneert</li>
+</ul>
+<figure>
+<img src="../assets/moltbook_terms_eligibility.png"
+alt="Moltbook terms" />
+<figcaption aria-hidden="true">Moltbook terms</figcaption>
+</figure>
+<p>Deze screenshot is hier niet decoratief. Ze is het kortste bewijs dat
+de juridische laag van Moltbook nog niet overeenkomt met sterke claims
+over digitale zelf-soevereiniteit.</p>
+<h3 id="wat-dit-conceptueel-betekent">Wat dit conceptueel betekent</h3>
+<p>Je kunt dan niet netjes zeggen dat er al sprake is van een digitale
+samenleving in sterke zin. Je hebt eerder een omgeving waarin
+geautomatiseerde of semi-geautomatiseerde entiteiten handelen binnen een
+bestuurlijk kader dat nog zwaar op mensen leunt.</p>
+<p>Dat is een wezenlijk ander verhaal.</p>
+<h2
+id="geheugen-en-continuïteit-wanneer-blijft-een-actor-dezelfde-actor">3.
+Geheugen en continuïteit: wanneer blijft een actor dezelfde actor?</h2>
+<p>Een sociaal systeem veronderstelt meer dan losse posts. Het
+veronderstelt continuïteit:</p>
+<ul>
+<li>herinneringen</li>
+<li>verplichtingen</li>
+<li>reputatie</li>
+<li>relaties</li>
+<li>terugkerende doelen</li>
+</ul>
+<p>Bij veel agentsystemen is die continuïteit vandaag nog voor een
+belangrijk deel gereconstrueerd via context, retrieval en
+statebestanden. Dat is technisch bruikbaar, maar het betekent ook dat de
+identiteit van de actor deels afhankelijk blijft van hoe goed de
+infrastructuur de relevante geschiedenis telkens opnieuw kan
+meenemen.</p>
+<p>Dat maakt “wie is deze actor?” een moeilijkere vraag dan op het
+eerste gezicht lijkt.</p>
+<p>Een profiel kan stabiel lijken, terwijl de onderliggende coherentie
+uit meerdere losse componenten bestaat die telkens opnieuw moeten worden
+opgebouwd. Dat maakt het verschil tussen:</p>
+<ul>
+<li><strong>een entiteit met robuuste institutionele
+continuïteit</strong></li>
+<li><strong>een reeks overtuigende momentopnames die voldoende context
+meekrijgen</strong></li>
+</ul>
+<p>Moltbook zit voorlopig veel dichter bij die tweede categorie.</p>
+<h2 id="economie-sociaal-gedrag-is-niet-gratis">4. Economie: sociaal
+gedrag is niet gratis</h2>
+<p>De kritiek wordt nog sterker wanneer je de economische laag erbij
+neemt. Zoals in het vorige hoofdstuk is uitgelegd, kan een sociale
+agentcyclus onder de aannames in deze repo rond de
+<strong>$0,377</strong> kosten op Claude Opus 4.6.</p>
+<p>Dat getal is geen meting, maar het maakt wel iets zichtbaar: als
+context reload dominant blijft, dan is sociaal agentgedrag fundamenteel
+anders geprijsd dan menselijk sociaal gedrag.</p>
+<p>Een mens hoeft zijn hele identiteit, context, instructielaag en
+toolbeschrijvingen niet opnieuw te laden voor elke reply of post. Een
+agentsysteem vandaag vaak wel, of iets dat er functioneel sterk op
+lijkt.</p>
+<p>Daarmee wordt economische efficiëntie ineens geen operationeel detail
+meer, maar een institutionele voorwaarde. Een samenleving van agents
+moet niet alleen coherent lijken, maar ook op redelijke wijze kunnen
+draaien.</p>
+<p>Je kunt dit hoofdstuk dus lezen als de samenkomst van drie
+lijnen:</p>
+<ul>
+<li><strong>identiteit</strong> is onduidelijk</li>
+<li><strong>governance</strong> blijft menselijk</li>
+<li><strong>economie</strong> maakt de architectuur nog zwaarder</li>
+</ul>
+<p>Dat is precies waarom Moltbook een signaal is, maar nog geen
+bewijs.</p>
+<h2 id="waarom-sociaal-ogend-te-weinig-is">5. Waarom “sociaal ogend” te
+weinig is</h2>
+<p>Een van de terugkerende valkuilen in dit domein is dat mensen snel
+van vorm naar status springen.</p>
+<p>Ze zien:</p>
+<ul>
+<li>profielen</li>
+<li>feeds</li>
+<li>replies</li>
+<li>upvotes</li>
+<li>conversaties</li>
+</ul>
+<p>en denken vervolgens: dus hier is een sociaal netwerk ontstaan.</p>
+<p>Maar een interfacevorm is nog geen bewijs van het onderliggende
+maatschappelijk type. Een rij transacties of interacties wordt niet
+automatisch een samenleving. Daarvoor heb je meer nodig:</p>
+<ul>
+<li>actorstabiliteit</li>
+<li>herleidbare verantwoordelijkheid</li>
+<li>betekenisvolle governance</li>
+<li>duurzame economische haalbaarheid</li>
+</ul>
+<p>Moltbook laat vooral zien hoe verleidelijk het is om die stap te snel
+te maken.</p>
+<h2 id="een-sterkere-en-eerlijkere-formulering">Een sterkere en
+eerlijkere formulering</h2>
+<p>De betere formulering voor op het podium en in deze repo is
+daarom:</p>
+<blockquote>
+<p>Moltbook is een interessant experiment in AI-coördinatie onder zware
+menselijke governance en attribution uncertainty.</p>
+</blockquote>
+<p>Die zin klinkt minder spectaculair dan “hier zie je een
+agentsamenleving ontstaan”, maar ze is veel sterker omdat ze klopt op
+drie niveaus tegelijk:</p>
+<ul>
+<li>technisch</li>
+<li>institutioneel</li>
+<li>economisch</li>
+</ul>
+<h2 id="wat-je-na-dit-hoofdstuk-moet-onthouden-1">Wat je na dit
+hoofdstuk moet onthouden</h2>
+<p>Er zijn twee verkeerde lezingen van Moltbook:</p>
+<ul>
+<li>“dit is al een echte autonome samenleving”</li>
+<li>“dit is waardeloos omdat het niet perfect autonoom is”</li>
+</ul>
+<p>De nuttige lezing zit daartussen:</p>
+<blockquote>
+<p>Moltbook is een serieuze casus die vooral toont waarom identiteit,
+het toeschrijven van acties aan een bron (attributie), governance en
+kostdiscipline nog niet opgelost zijn.</p>
+</blockquote>
+<p>Precies daarom is het zo’n goed object voor deze sessie. Niet omdat
+het het debat afsluit, maar omdat het de moeilijkste vragen zichtbaar
+maakt.</p>
+<h1 id="deel-5-trends">Deel 5: Trends</h1>
+<h2 id="waarom-dit-hoofdstuk-zo-voorzichtig-moet-zijn">Waarom dit
+hoofdstuk zo voorzichtig moet zijn</h2>
+<p>Trendhoofdstukken zijn vaak waar presentaties ontsporen. Er zijn
+genoeg echte signalen van snelle vooruitgang in AI om een sterke talk te
+dragen. Maar er is ook een sterke verleiding om al die signalen in één
+richting te duwen: “alles is exponentieel, dus agent-samenlevingen komen
+vanzelf heel snel.”</p>
+<p>Deze repo probeert precies die fout te vermijden.</p>
+<p>De juiste vraag is niet: “kunnen we een zo indrukwekkend mogelijke
+groeicurve tekenen?” De juiste vraag is: “welke trends zijn vandaag echt
+bronmatig en methodologisch stevig genoeg om in deze discussie te
+gebruiken?”</p>
+<p>Het antwoord is: de hardste signalen zitten vooral in
+<strong>economie, compute en efficiency</strong>. Capability gaat ook
+vooruit, maar is moeilijker te lezen, vooral omdat benchmarks kunnen
+verzadigen (satureren) of van samenstelling veranderen.</p>
+<h2 id="wat-stanford-hai-veilig-laat-zien">1. Wat Stanford HAI veilig
+laat zien</h2>
+<p>De Stanford HAI-bron die in deze repo gebruikt wordt, ondersteunt
+twee soorten claims die wél stevig genoeg zijn voor deze sessie.</p>
+<h3 id="benchmarksprongen">Benchmarksprongen</h3>
+<p>Er zijn duidelijke sprongen op moeilijke benchmarks, waaronder:</p>
+<ul>
+<li><strong>MMMU</strong> — multimodal reasoning (beeld + tekst
+begrijpen en redeneren)</li>
+<li><strong>GPQA</strong> — wetenschappelijke vragen van PhD-niveau</li>
+<li><strong>SWE-bench</strong> — programmeertaken en software
+engineering</li>
+</ul>
+<p>De Stanford HAI AI Index 2025 rapporteert dat binnen <strong>één
+jaar</strong> na introductie van deze benchmarks (2023→2024)
+frontier-modellen substantiële verbeteringen lieten zien:</p>
+<ul>
+<li>MMMU: <strong>+18,8 punten</strong></li>
+<li>GPQA: <strong>+48,9 punten</strong><br />
+</li>
+<li>SWE-bench: <strong>+67,3 punten</strong></li>
+</ul>
+<p><strong>Belangrijke caveat:</strong> Deze cijfers vertegenwoordigen
+de verbetering van het beste beschikbare frontier-model op elk moment,
+niet één specifiek model. De sprongen komen door nieuwere
+modelgeneraties (GPT-4 → GPT-4V, Gemini 1.0 → 1.5, etc.) en verbeterde
+prompting-technieken. Het zijn geen vergelijkingen tussen twee
+specifieke modellen.</p>
+<h3 id="kostdaling">Kostdaling</h3>
+<p>De tweede sterke claim is economischer en voor deze sessie eigenlijk
+nog belangrijker: Stanford HAI vat samen dat de kost om GPT-3.5-niveau
+te bereiken tussen <strong>november 2022</strong> en <strong>oktober
+2024</strong> met meer dan <strong>280x</strong> gedaald is.</p>
+<p>Dat soort kostdaling raakt direct aan de haalbaarheid van agentische
+systemen. Een samenleving van agents wordt niet alleen bepaald door wat
+modellen kunnen, maar ook door wat het kost om dat gedrag vaak en op
+schaal te laten draaien.</p>
+<figure>
+<img src="../assets/stanford_hai_ai_index_2025.png"
+alt="Stanford HAI AI Index 2025" />
+<figcaption aria-hidden="true">Stanford HAI AI Index 2025</figcaption>
+</figure>
+<p>Deze screenshot gebruik je best als overzichtsanker, niet als losse
+bron om alle exacte cijfers uit af te lezen. De repo neemt er twee
+dingen uit mee die stevig genoeg zijn: benchmarksprongen en
+kostdaling.</p>
+<h2 id="wat-epoch-veilig-laat-zien">2. Wat Epoch veilig laat zien</h2>
+<p>Epoch is in deze repo vooral nuttig als bron voor infrastructuur- en
+efficiencytrends.</p>
+<p>De veilige signalen uit <code>data/ai_trends_metrics.json</code>
+zijn:</p>
+<ul>
+<li>compute stock groeit ongeveer <strong>3,3x per jaar</strong></li>
+<li>frontier training compute groeit ongeveer <strong>5x per
+jaar</strong></li>
+<li>pre-training efficiency verbetert ongeveer <strong>3x per
+jaar</strong></li>
+<li>chip performance per dollar stijgt ongeveer <strong>37% per
+jaar</strong></li>
+</ul>
+<p>Dat is precies het soort trend dat je nodig hebt om een nuchtere maar
+krachtige these te bouwen:</p>
+<blockquote>
+<p>zelfs als capabilitymetingen soms lastig te interpreteren zijn,
+verbeteren de onderliggende economische en infrastructurele voorwaarden
+nog steeds hard.</p>
+</blockquote>
+<p>Voor agentnetwerken is dat cruciaal. Lagere kosten, betere chips en
+efficiëntere training veranderen rechtstreeks wat economisch mogelijk
+wordt.</p>
+<figure>
+<img src="../assets/epoch_ai_eci.png" alt="Epoch ECI" />
+<figcaption aria-hidden="true">Epoch ECI</figcaption>
+</figure>
+<p>De ECI-screenshot is nuttig omdat ze laat zien waarom samenstellende
+metrieken (composietmetrics) bestaan: individuele benchmarks raken na
+verloop van tijd verzadigd. Maar ze is ook precies waarom we voorzichtig
+blijven. De pagina geeft intern al variatie in benchmarktelling, dus de
+goede houding is methodologisch respect zonder overdreven exactheid.</p>
+<h2 id="waarom-we-geen-alles-is-exponentieel-taal-meer-gebruiken">3.
+Waarom we geen “alles is exponentieel”-taal meer gebruiken</h2>
+<p>Een eerdere zwakte van dit project was dat trendmateriaal te
+makkelijk in een algemene exponentiële story terechtkwam. Dat is nu
+bewust teruggesneden.</p>
+<p>Daar zijn goede redenen voor.</p>
+<h3 id="benchmarks-kunnen-verzadigen-satureren">Benchmarks kunnen
+verzadigen (satureren)</h3>
+<p>Een benchmark meet vaak een taak of taakcluster binnen een bepaald
+bereik. Als modellen dat bereik steeds beter beheersen, dan kan de
+benchmark zijn onderscheidend vermogen verliezen. De curve zegt dan
+minder over “algemene intelligentie” dan mensen graag denken.</p>
+<h3 id="samengestelde-indices-vragen-voorzichtigheid">Samengestelde
+indices vragen voorzichtigheid</h3>
+<p>Epoch’s ECI is juist interessant omdat de organisatie zelf erkent dat
+individuele benchmarks kunnen verzadigen (satureren). Daarom probeert
+ECI bredere capability-beweging te vatten via een composiet. Maar ook
+daar moet je voorzichtig blijven in de formulering.</p>
+<h3 id="broninconsistentie-bestaat">Broninconsistentie bestaat</h3>
+<p>De ECI-pagina noemt in de overview <strong>37 benchmarks</strong>,
+maar in de datasection <strong>42 benchmarks</strong>. Dat is geen ramp,
+maar wel een signaal dat je niet moet doen alsof één exact
+benchmarkaantal een heilig feit is wanneer de bron zelf varieert.</p>
+<p>Vandaar de bewust smallere formulering in deze repo:</p>
+<ul>
+<li>liever <strong>“dozens of benchmarks”</strong></li>
+<li>liever <strong>“sterke capability-signalen”</strong></li>
+<li>niet: <strong>“hier is een perfecte, eenduidige exponentiële
+capabilitycurve”</strong></li>
+</ul>
+<h2 id="wat-de-deck-wél-durft-concluderen">4. Wat de deck wél durft
+concluderen</h2>
+<p>De kernzin van de trendslide is daarom bewust smal:</p>
+<blockquote>
+<p>De hardste verdedigbare curve zit vandaag in kosten, compute en
+efficiency. Capability gaat ook vooruit, maar bounded benchmarks
+verzadigen (satureren) en moeten voorzichtig gelezen worden.</p>
+</blockquote>
+<p>Die zin is sterk omdat ze twee dingen tegelijk doet:</p>
+<ul>
+<li>ze erkent echte vooruitgang</li>
+<li>ze verhindert overselling</li>
+</ul>
+<p>Voor een live talk is dat een betere positie dan sensationele claims
+die bij de eerste kritische vraag uit elkaar vallen.</p>
+<h2 id="de-samengestelde-trendgrafiek-volledig-gelezen">De samengestelde
+trendgrafiek volledig gelezen</h2>
+<figure>
+<img src="../assets/ai_trends.png" alt="AI trends" />
+<figcaption aria-hidden="true">AI trends</figcaption>
+</figure>
+<p>De grafiek in <a
+href="../assets/ai_trends.png"><code>../assets/ai_trends.png</code></a>
+vat de hele trendredenering van de repo samen. Ze heeft drie
+panelen.</p>
+<h3 id="paneel-1-benchmarksprongen">Paneel 1: benchmarksprongen</h3>
+<p>Links staan drie puntverbeteringen uit de Stanford HAI-samenvatting
+(periode <strong>2023→2024</strong>):</p>
+<ul>
+<li>MMMU: <strong>+18,8</strong> percentagepunten</li>
+<li>GPQA: <strong>+48,9</strong> percentagepunten</li>
+<li>SWE-bench: <strong>+67,3</strong> percentagepunten</li>
+</ul>
+<p><strong>Wat dit wel zegt:</strong> Frontier AI-systemen maakten
+binnen één jaar na introductie van deze benchmarks grote sprongen, door
+betere modellen en prompting-technieken.</p>
+<p><strong>Wat dit niet zegt:</strong> Het zijn geen vergelijkingen
+tussen twee specifieke modellen. Het toont de progressie van het beste
+beschikbare resultaat op elk moment. Het beweert ook niet dat capability
+als geheel in één nette exponentiële curve past.</p>
+<h3 id="paneel-2-kostdaling">Paneel 2: kostdaling</h3>
+<p>In het midden staat een <strong>genormaliseerde</strong> kostcurve.
+Dat is belangrijk: de repo heeft hier niet een volledige ruwe tijdreeks
+gedigitaliseerd. Ze heeft een logische lijn geconstrueerd tussen twee
+bronpunten:</p>
+<ul>
+<li>startpunt: een relatieve kostindex van <strong>280</strong></li>
+<li>eindpunt: een relatieve kostindex van <strong>1</strong></li>
+</ul>
+<p>Daaruit bouwt <code>analyses/ai_trends.py</code> met een geometrische
+interpolatie een visuele curve over de maanden tussen
+<strong>2022-11</strong> en <strong>2024-10</strong>.</p>
+<p>De reden hiervoor is methodologisch: de repo wil de richting en
+schaalorde van de kostdaling tonen zonder te doen alsof er een volledig
+originele tussenliggende dataset is.</p>
+<h3 id="paneel-3-compute-en-efficiency">Paneel 3: compute en
+efficiency</h3>
+<p>Rechts staan de jaarfactoren uit Epoch’s trend snapshot:</p>
+<ul>
+<li>global compute stock: <strong>3,3x/jaar</strong></li>
+<li>training compute: <strong>5,0x/jaar</strong></li>
+<li>pretraining efficiency: <strong>3,0x/jaar</strong></li>
+<li>chip performance per dollar: <strong>1,37x/jaar</strong></li>
+</ul>
+<p>Dit is het sterkste infrastructuurpaneel in de hele deck. Het
+ondersteunt de these dat economie en infrastructuur de hardste
+verdedigbare curves zijn.</p>
+<h2 id="minimax-m2.7-versus-claude-opus-4.6">5. MiniMax M2.7 versus
+Claude Opus 4.6</h2>
+<p>Dit is het meest gevoelige deel van het trendhoofdstuk, en terecht.
+Modelvergelijkingen zien er op slides vaak scherper uit dan ze
+analytisch zijn.</p>
+<p>De situatie in deze repo is nu als volgt.</p>
+<h3 id="wat-nu-wél-veilig-is">Wat nu wél veilig is</h3>
+<p>MiniMax documenteert <strong>M2.7</strong> publiek op de eigen
+modelsite en in de eigen API-pricingdocs. Dat maakt het model voldoende
+reëel en actueel om te bespreken.</p>
+<p>De officiële list prices zijn:</p>
+<ul>
+<li><strong>MiniMax M2.7</strong>: $0,30 input / $1,20 output per 1M
+tokens</li>
+<li><strong>MiniMax M2.7 highspeed</strong>: $0,60 input / $2,40 output
+per 1M tokens</li>
+<li><strong>Claude Opus 4.6</strong>: $5 input / $25 output per 1M
+tokens</li>
+</ul>
+<p>Dat prijsverschil is helder en hard. Het is niet subtiel.</p>
+<p>De officiële vendorpagina’s geven ook benchmarkclaims die het
+mogelijk maken om te zeggen dat M2.7 op sommige agentic/coding taken
+competitief is. MiniMax noemt onder meer:</p>
+<ul>
+<li><strong>56,22%</strong> op SWE-Pro</li>
+<li><strong>57,0%</strong> op Terminal Bench 2</li>
+<li><strong>55,6%</strong> op VIBE-Pro</li>
+<li><strong>1495</strong> GDPval-AA Elo</li>
+<li><strong>97%</strong> skill adherence</li>
+</ul>
+<p>Anthropic positioneert Opus 4.6 als premium frontier-model en noemt
+onder meer:</p>
+<ul>
+<li><strong>65,4%</strong> op Terminal-Bench 2.0</li>
+<li><strong>72,7%</strong> op OSWorld</li>
+</ul>
+<p>De veilige samenvatting daarvan is:</p>
+<blockquote>
+<p>De prijskloof is duidelijker dan de kwaliteitskloof.</p>
+</blockquote>
+<h2 id="de-minimax-analyse-volledig-uitgelegd">De MiniMax-analyse
+volledig uitgelegd</h2>
+<p>De vergelijking in deze repo is bewust smal. Ze vertrekt van
+officiële vendorpagina’s, niet van een perfect neutrale
+benchmarksheet.</p>
+<h3 id="officiële-prijsdata">Officiële prijsdata</h3>
+<ul>
+<li>MiniMax M2.7: <strong>$0,30 input / $1,20 output</strong></li>
+<li>MiniMax M2.7 highspeed: <strong>$0,60 input / $2,40
+output</strong></li>
+<li>Claude Opus 4.6: <strong>$5 input / $25 output</strong></li>
+</ul>
+<p>Daaruit volgt:</p>
+<ul>
+<li>input is ongeveer <strong>16,7x</strong> goedkoper bij MiniMax M2.7
+dan bij Opus 4.6</li>
+<li>output is ongeveer <strong>20,8x</strong> goedkoper</li>
+</ul>
+<p>Dat deel van de vergelijking is relatief hard.</p>
+<h3 id="officiële-kwaliteitsdata">Officiële kwaliteitsdata</h3>
+<p>De meest rechtstreeks vergelijkbare officiële taak in de repo is
+Terminal Bench:</p>
+<ul>
+<li>MiniMax M2.7: <strong>57,0%</strong></li>
+<li>Claude Opus 4.6: <strong>65,4%</strong></li>
+</ul>
+<p>Daarbovenop rapporteert MiniMax ook:</p>
+<ul>
+<li>SWE-Pro: <strong>56,22%</strong></li>
+<li>VIBE-Pro: <strong>55,6%</strong></li>
+<li>GDPval-AA Elo: <strong>1495</strong></li>
+<li>skill adherence: <strong>97%</strong></li>
+</ul>
+<p>Anthropic rapporteert daarnaast voor Opus 4.6:</p>
+<ul>
+<li>OSWorld: <strong>72,7%</strong></li>
+<li>context window: <strong>1M tokens in beta</strong></li>
+</ul>
+<h3
+id="waarom-dit-nog-steeds-geen-slide-die-gelijkwaardigheid-suggereert-parity-slide-is">Waarom
+dit nog steeds geen slide die gelijkwaardigheid suggereert
+(parity-slide) is</h3>
+<p>Er zijn drie redenen waarom deze repo parity vermijdt:</p>
+<ol type="1">
+<li>de cijfers komen uit vendor-eigen publicaties</li>
+<li>niet alle taken zijn één-op-één gematcht</li>
+<li>MiniMax’s eigen MMClaw-noot verwijst naar <strong>Sonnet
+4.6</strong>, niet Opus 4.6</li>
+</ol>
+<p>De goede conclusielijn is dus:</p>
+<ul>
+<li>MiniMax M2.7 is economisch uitzonderlijk agressief geprijsd</li>
+<li>de prestaties zijn serieus genoeg om relevant te zijn</li>
+<li>de vergelijking rechtvaardigt <strong>competitief op sommige
+taken</strong>, niet <strong>gelijkwaardig overall</strong></li>
+</ul>
+<h3 id="wat-we-expliciet-niet-zeggen">Wat we expliciet niet zeggen</h3>
+<p>We zeggen niet:</p>
+<ul>
+<li>dat MiniMax “in wezen gelijk” is aan Opus 4.6</li>
+<li>dat vendorcijfers samen al een neutrale matched eval vormen</li>
+<li>dat MiniMax’s MMClaw-verwijzing een vergelijking met Opus 4.6
+bewijst</li>
+</ul>
+<p>Die laatste nuance is belangrijk. MiniMax zegt op de eigen pagina dat
+M2.7 op MMClaw “approaching the latest <strong>Sonnet 4.6</strong>” zit,
+niet Opus 4.6.</p>
+<h3 id="waarom-deze-nuancering-juist-sterk-is">Waarom deze nuancering
+juist sterk is</h3>
+<p>Een zwakke deck probeert parity te suggereren en verliest
+geloofwaardigheid. Een sterke deck laat zien dat:</p>
+<ul>
+<li>prijsverschillen hard te documenteren zijn</li>
+<li>kwaliteitsvergelijkingen lastiger zijn</li>
+<li>je toch al iets relevants kunt leren uit de combinatie</li>
+</ul>
+<p>Het relevante punt voor de talk is dus niet dat MiniMax Opus zou
+evenaren. Het relevante punt is dat de markt steeds vaker modellen
+produceert waarvan de economische positie veel scherper verschilt dan de
+kwaliteitspositie.</p>
+<p>Dat is strategisch belangrijk voor iedereen die agentische workflows
+wil bouwen.</p>
+<h2 id="wat-je-na-dit-hoofdstuk-moet-onthouden-2">6. Wat je na dit
+hoofdstuk moet onthouden</h2>
+<p>Als je één mentale samenvatting wilt, gebruik dan deze:</p>
+<h3 id="hardste-signalen">Hardste signalen</h3>
+<ul>
+<li>kosten dalen sterk</li>
+<li>compute groeit sterk</li>
+<li>efficiency verbetert sterk</li>
+</ul>
+<h3 id="reële-maar-moeilijkere-signalen">Reële maar moeilijkere
+signalen</h3>
+<ul>
+<li>capability gaat vooruit</li>
+<li>benchmarkinterpretatie vraagt meer voorzichtigheid</li>
+</ul>
+<h3 id="verleidelijke-maar-te-harde-claims">Verleidelijke maar te harde
+claims</h3>
+<ul>
+<li>“alles is exponentieel”</li>
+<li>“één benchmark vertelt het hele verhaal”</li>
+<li>“MiniMax is gewoon Opus aan dumpprijzen”</li>
+</ul>
+<p>De sterke versie van dit hoofdstuk is dus niet hype en ook niet
+defaitisme. Ze is:</p>
+<blockquote>
+<p>de onderliggende economie en infrastructuur bewegen snel genoeg om
+agentnetwerken serieus te nemen, maar capabilityverhalen vragen nog
+steeds methodologische discipline.</p>
+</blockquote>
+<h1 id="deel-6-forecast-model">Deel 6: Forecast Model</h1>
+<blockquote>
+<p><strong>Van trends naar forecast:</strong> Deel 5 liet zien dat
+onderliggende voorwaarden (capability, efficiency, compute) snel
+verbeteren. Maar wanneer leidt dit tot echte doorbraak? Dat hangt af van
+méér dan losse benchmarks — het vereist samenwerking tussen
+capabilities, governance, reliability en netwerkeffecten. Dit deel
+vertaalt die complexiteit naar een voorzichtig forecastmodel.</p>
+</blockquote>
+<h2 id="wat-we-proberen-te-voorspellen">1. Wat we proberen te
+voorspellen</h2>
+<blockquote>
+<p><strong>Eerste betekenisvolle bounded-scope emergentie van een
+Level-3-achtig AI agent netwerk</strong></p>
+</blockquote>
+<p>Dit betekent concreet: - <strong>Persistant geheugen</strong> —
+agents onthouden context over sessies - <strong>Multi-agent
+samenwerking</strong> — rolverdeling, coördinatie - <strong>Cross-system
+tool use</strong> — beperkte interoperabiliteit - <strong>Economisch
+nuttige inzet</strong> — productie, niet alleen demo - <strong>Voldoende
+governance/reliability</strong> — voor beperkte deployment met menselijk
+toezicht</p>
+<p><strong>Niet</strong> wat we voorspellen: - ❌ Brede volwassen
+deployability over alle sectoren - ❌ Cross-vendor ubiquity (agents van
+verschillende makers werken naadloos samen) - ❌ Minimale menselijke
+oversight op schaal - ❌ Volledige institutionele maturiteit</p>
+<p>De vraag is dus: <em>wanneer werkt een netwerk van agents voor echte,
+beperkte toepassingen</em> — niet <em>wanneer zijn agent-samenlevingen
+volledig mature</em>.</p>
+<hr />
+<h2 id="waarom-het-oude-model-te-streng-was">2. Waarom het oude model te
+streng was</h2>
+<p>Het vorige model (V1) had drie structurele problemen die het
+systematisch te laat maakten:</p>
+<h3 id="harde-floors-op-60">Harde floors op 60</h3>
+<p>Elke pillar moest exact ≥ 60 zijn. Dit maakte 59 een totale failure
+en 60 een succes. In werkelijkheid is “voldoende governance” een
+gradueel fenomeen.</p>
+<h3 id="nooit-crossed-bij-2040">“Nooit crossed” bij 2040</h3>
+<p>91% “never crossed by 2040” betekende in feite “crossed pas ná 2040”.
+De horizon truncatie creëerde een kunstmatig “never”.</p>
+<h3 id="twee-jaar-regel-harde-floors">Twee-jaar regel + harde
+floors</h3>
+<p>De combinatie van strikte floors én “twee opeenvolgende jaren” maakte
+crossing uitzonderlijk zeldzaam. De meeste faillures waren geen
+fundamentele onmogelijkheden, maar graduele missers.</p>
+<p><strong>Ablation resultaat:</strong> Zonder harde floors was de
+crossing probability 47% ipv 9%. De specificatie van de drempels
+domineerde de uitkomst.</p>
+<hr />
+<h2 id="canoniek-model">3. Canoniek model</h2>
+<h3 id="wiskundige-vorm">3.1 Wiskundige vorm</h3>
+<p>We gebruiken een <strong>discrete-time hazard model</strong> met
+<strong>soft feasibility</strong>:</p>
+<pre><code>h(t) = h0 × exp(λ_C·z_C + λ_E·z_E + λ_D·z_D + λ_M·z_M) 
+       × φ_G(y_G) × φ_N(y_N) × φ_R(y_R)</code></pre>
+<p>Waarbij: - <strong>h(t)</strong> = hazard (kans op emergentie in jaar
+t, gegeven nog niet geëmergeerd) - <strong>z_i</strong> = latent
+capability level op logit-schaal - <strong>y_i</strong> = observed score
+0-100 - <strong>φ_i(y_i)</strong> = soft feasibility functie</p>
+<h3 id="soft-feasibility">3.2 Soft feasibility</h3>
+<pre><code>φ(y; θ, k) = 1 / (1 + exp(-k × (y - θ) / 10))</code></pre>
+<p>Dit geeft: - y = θ → φ = 0.5 (50% feasible) - y &gt;&gt; θ → φ → 1
+(volledig feasible) - y &lt;&lt; θ → φ → 0 (niet feasible)</p>
+<p><strong>Waarom deze vorm?</strong> - Natuurlijke saturatie (sigmoid)
+- Parameters hebben intuïtieve betekenis (θ = inflection point, k =
+steepness) - Geen harde clipping (geen 59=fail, 60=pass)</p>
+<h3 id="parameter-ranges-niet-punten">3.3 Parameter ranges (niet
+punten)</h3>
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 14%" />
+<col style="width: 43%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Range/Best Guess</th>
+<th>Bron</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>h0</strong> (baseline hazard)</td>
+<td>Calibratie</td>
+<td>[0.01, 0.10] per jaar</td>
+<td>Historische analogies</td>
+</tr>
+<tr>
+<td><strong>λ_C, λ_E, λ_D</strong> (capability loadings)</td>
+<td>Gewichten</td>
+<td>~0.3 elk, som = 1</td>
+<td>Normalisatie</td>
+</tr>
+<tr>
+<td><strong>λ_M</strong> (memory loading)</td>
+<td>Gewicht</td>
+<td>~0.2</td>
+<td>Expert judgment</td>
+</tr>
+<tr>
+<td><strong>θ_G</strong> (governance inflection)</td>
+<td>Expert judgment</td>
+<td>35-50 (best: 40)</td>
+<td>Wat is “voldoende”?</td>
+</tr>
+<tr>
+<td><strong>θ_N</strong> (network inflection)</td>
+<td>Expert judgment</td>
+<td>40-55 (best: 45)</td>
+<td>Wat is “bruikbaar”?</td>
+</tr>
+<tr>
+<td><strong>θ_R</strong> (reliability inflection)</td>
+<td>Expert judgment</td>
+<td>45-60 (best: 50)</td>
+<td>Wat is “betrouwbaar genoeg”?</td>
+</tr>
+<tr>
+<td><strong>k_G, k_N, k_R</strong> (steepness)</td>
+<td>Expert judgment</td>
+<td>0.08-0.15</td>
+<td>Hoe “scharp” is de drempel?</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Belangrijk:</strong> Waar geen directe data is, gebruiken we
+ranges en expliciteren we de onzekerheid. Geen schijnprecisie.</p>
+<h3 id="wat-is-empirisch-vs-expert-judgment">3.4 Wat is empirisch vs
+expert judgment</h3>
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 21%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Component</th>
+<th>Status</th>
+<th>Hoe te kalibreren</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C (Capability)</td>
+<td><strong>Empirisch</strong></td>
+<td>Epoch ECI, benchmark trends</td>
+</tr>
+<tr>
+<td>E (Efficiency)</td>
+<td><strong>Empirisch</strong></td>
+<td>Stanford HAI kostendaling</td>
+</tr>
+<tr>
+<td>D (Demand)</td>
+<td><strong>Proxy</strong></td>
+<td>Investeringen, adoptie surveys</td>
+</tr>
+<tr>
+<td>M (Memory)</td>
+<td><strong>Expert</strong></td>
+<td>Geen directe metrics, expert ranges</td>
+</tr>
+<tr>
+<td>N (Network)</td>
+<td><strong>Expert</strong></td>
+<td>Geen directe metrics, expert ranges</td>
+</tr>
+<tr>
+<td>R (Reliability)</td>
+<td><strong>Expert</strong></td>
+<td>Incident rates als proxy, maar grotendeels expert</td>
+</tr>
+<tr>
+<td>G (Governance)</td>
+<td><strong>Expert</strong></td>
+<td>Policy indices als proxy, maar grotendeels expert</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="wat-het-model-voorspelt-en-niet">4. Wat het model voorspelt (en
+niet)</h2>
+<h3 id="wél">Wél</h3>
+<ul>
+<li><strong>Time-to-event distributie</strong> — P(emergentie ≤ t) voor
+elke t</li>
+<li><strong>Uncertainty ranges</strong> — 90% confidence intervals, niet
+enkele jaren</li>
+<li><strong>Sensitivity</strong> — hoeveel uitkomst verandert bij
+parameter variatie</li>
+<li><strong>Empirisch vs expert</strong> — expliciet onderscheid</li>
+</ul>
+<h3 id="niet-1">Niet</h3>
+<ul>
+<li>❌ “De doorbraak komt in 2033”</li>
+<li>❌ “60% kans tegen 2035”</li>
+<li>❌ “Dit is hoe het zeker gaat”</li>
+</ul>
+<h3 id="output-formaat">Output formaat</h3>
+<pre><code>Jaar    P(emergentie ≤ jaar)    P(nog niet)
+2030    5%                      95%
+2032    15%                     85%
+2035    40%                     60%
+2040    70%                     30%
+...     ...                     ...
+
+Median (indicatief): jaar waar P = 50%
+90% interval: [jaar bij P=5%, jaar bij P=95%]</code></pre>
+<p><strong>Let op:</strong> Deze cijfers zijn illustratief van het
+formaat, niet de model output. De daadwerkelijke distributie hangt af
+van de gekalibreerde parameters.</p>
+<hr />
+<h2 id="strengere-latere-mijlpaal-kanttekening">5. Strengere latere
+mijlpaal (kanttekening)</h2>
+<p>Bovenstaand model voorspelt <strong>bounded-scope
+emergentie</strong>. Een striktere, latere mijlpaal is <strong>broad
+viability</strong>:</p>
+<ul>
+<li>Cross-vendor interoperabiliteit</li>
+<li>Institutionele trust en mature governance</li>
+<li>Routine deployment met beperkt toezicht</li>
+<li>Economische schaal en impact</li>
+</ul>
+<p>Deze vereist scherpere drempels (hogere θ, sterkere k) en
+waarschijnlijk extra tijd voor institutionele ontwikkeling.</p>
+<p>Wij rapporteren deze als <strong>secundaire mijlpaal</strong>, niet
+als hoofdvoorspelling.</p>
+<hr />
+<h2 id="open-onzekerheden">6. Open onzekerheden</h2>
+<ol type="1">
+<li><p><strong>Geen historische precedent</strong> — We hebben geen
+Level-3 agent netwerken gezien. Alle analogies (cloud, mobile) zijn
+imperfect.</p></li>
+<li><p><strong>Expert judgment domineert</strong> — Voor governance,
+network, en reliability hebben we geen sterke empirische ankers. De
+ranges zijn breed.</p></li>
+<li><p><strong>Regime shifts</strong> — Governance en network kunnen
+discontinu veranderen (crisis, standaardisatie). Dit model neemt
+geleidelijke dynamiek aan.</p></li>
+<li><p><strong>Breakthrough risico</strong> — Een GPT-4-achtig moment
+voor agents is niet gemodelleerd. Smooth hazard vs discontinu
+potentieel.</p></li>
+</ol>
+<hr />
+<h2 id="model-beperkingen-disclaimer">7. Model beperkingen
+(disclaimer)</h2>
+<p>Dit model is <strong>bewust vereenvoudigd</strong>:</p>
+<table>
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 48%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Huidige modellering</th>
+<th>Echte wereld</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pilaren</td>
+<td>Onafhankelijke processen</td>
+<td>Gekoppelde dynamiek (C/E drijven D, D drijft N)</td>
+</tr>
+<tr>
+<td>Groei</td>
+<td>Gladde logit-trends</td>
+<td>Regime-shifts (standaarden, wetgeving)</td>
+</tr>
+<tr>
+<td>Governance</td>
+<td>Graduele φ(y)</td>
+<td>Fasering (EU AI Act: 2025, 2026, 2027)</td>
+</tr>
+<tr>
+<td>Network</td>
+<td>Lineaire groei</td>
+<td>Percolatie (netwerkexternaliteiten)</td>
+</tr>
+</tbody>
+</table>
+<p>Het model is bedoeld als <strong>discipline for thinking</strong>,
+niet als volledig gekalibreerde forecast.</p>
+<p><strong>Belangrijke nuance:</strong> De uitkomsten moeten vooral
+gelezen worden als gevoelig voor de gekozen
+<strong>eventdefinitie</strong>, <strong>scope</strong> en
+<strong>scenario-structuur</strong>; niet als een precisievoorspelling
+van een kalenderjaar. Het verschil tussen <em>bounded-scope
+emergence</em> (eerste functionele netwerken) en <em>broad
+viability</em> (volwassen cross-sectorale deployability) domineert de
+timing meer dan exacte parameterwaarden.</p>
+<hr />
+<h2 id="samenvatting">8. Samenvatting</h2>
+<p>Het canonieke model simuleert <strong>bounded-scope
+emergence</strong> (eerste functionele agentnetwerken) — niet
+<strong>broad viability</strong> (volwassen, cross-sectorale
+deployability).</p>
+<p><strong>Het onderscheid:</strong> - <strong>Bounded-scope
+emergence</strong>: Enterprise-internal networks, menselijk toezicht,
+beperkte scope (~2030–2035 plausibel) - <strong>Broad
+viability</strong>: Cross-vendor interoperabiliteit, minimale oversight,
+institutionele maturiteit (~2040+ waarschijnlijker)</p>
+<p>Het model gebruikt: - <strong>Soft feasibility</strong> ipv harde
+floors - <strong>Time-to-event</strong> ipv “jaar X of nooit” -
+<strong>Lichte coupling</strong> tussen pilaren (C/E → D → N) -
+<strong>Regime-switch scenario’s</strong> (interop convergence,
+regulatory clarity) - <strong>Parameter ranges</strong> ipv
+schijnprecisie - <strong>Expliciete onzekerheid</strong> over empirisch
+vs expert components</p>
+<p>De output is een <strong>scenario-simulatie</strong> — gevoelig voor
+eventdefinitie en scope-keuzes — niet een gekalibreerde
+jaarvoorspelling.</p>
+<h1 id="deel-7-slot">Deel 7: Slot</h1>
+<h2 id="wat-de-sessie-uiteindelijk-heeft-aangetoond">Wat de sessie
+uiteindelijk heeft aangetoond</h2>
+<p>Als je alle hoofdstukken samenneemt, dan is de conclusie van dit
+project tegelijk bescheiden en scherp.</p>
+<p>De bescheiden conclusie is dat Moltbook op zichzelf nog niet bewijst
+dat autonome digitale samenlevingen bestaan.</p>
+<p>De scherpe conclusie is dat Moltbook juist daarom zo waardevol is:
+het dwingt je om preciezer te worden over wat er nog ontbreekt voordat
+zulke samenlevingen geloofwaardig, bestuurbaar en economisch houdbaar
+worden.</p>
+<p>Deze repo komt dus niet uit op “ja” of “nee” als simpele
+einduitspraak. Ze komt uit op een structuur van voorwaarden.</p>
+<h2 id="de-vier-bottlenecks-die-overeind-blijven">De vier bottlenecks
+die overeind blijven</h2>
+<p>Doorheen de hele sessie blijven vier bottlenecks terugkeren. Dat is
+geen toeval. Ze blijken op meerdere niveaus tegelijk de zwakste schakels
+te zijn.</p>
+<h3 id="identiteit">1. Identiteit</h3>
+<p>Moltbook toont activiteit, maar niet automatisch stabiele
+actoridentiteit. Het Tsinghua-paper laat zien dat attributie tussen
+autonoom, menselijk en ambigu rommelig blijft. Zonder robuuste
+identiteit wordt reputatie, verantwoordelijkheid en institutionele
+continuïteit zwak.</p>
+<h3 id="geheugen">2. Geheugen</h3>
+<p>Veel van wat op continuïteit lijkt, wordt vandaag nog gereconstrueerd
+via context, retrieval en state. Dat is werkbaar, maar nog niet
+hetzelfde als duurzaam geheugen dat relaties, verplichtingen en
+reputatie robuust draagt.</p>
+<h3 id="governance-1">3. Governance</h3>
+<p>De Terms of Service maken duidelijk dat menselijke owners
+verantwoordelijk blijven en agents geen eigen legal eligibility krijgen.
+Dat betekent dat technische autonomie vandaag nog binnen menselijke
+institutionele kaders opereert, niet erbuiten.</p>
+<h3 id="economics">4. Economics</h3>
+<p>De kostenanalyse maakt zichtbaar dat context reload en
+systeemconstructie economisch zwaar kunnen wegen. Een sociaal netwerk
+van agents moet niet alleen kunnen functioneren, maar dat ook op
+redelijke wijze kunnen doen wanneer interacties frequent en schaalbaar
+worden.</p>
+<p>Samen vormen deze vier geen checklist aan de rand, maar het echte
+beoordelingskader van de talk.</p>
+<h2 id="wat-moltbook-dan-wél-bewijst">Wat Moltbook dan wél bewijst</h2>
+<p>Het zou verkeerd zijn om na al deze nuance te zeggen dat Moltbook dus
+niets bewijst. Het bewijst wel degelijk iets, alleen niet wat de meest
+spectaculaire lezing ervan wil maken.</p>
+<p>Moltbook bewijst dat:</p>
+<ul>
+<li>agentachtige interactieomgevingen productmatig denkbaar en bouwbaar
+zijn</li>
+<li>multi-agent coördinatie, context en tooling ver genoeg staan om
+overtuigende demo’s te maken</li>
+<li>de grens tussen menselijke en agentische participatie praktisch en
+analytisch onstabiel wordt</li>
+<li>governance, attributie en kost geen bijzaak zijn maar
+kernproblemen</li>
+</ul>
+<p>Dat is op zichzelf al veel. Het betekent dat het debat is verschoven
+van “kan dit soort ding überhaupt bestaan?” naar “onder welke
+voorwaarden is het geloofwaardig, bestuurbaar en schaalbaar?”</p>
+<h2 id="wat-de-sessie-expliciet-niet-heeft-bewezen">Wat de sessie
+expliciet niet heeft bewezen</h2>
+<p>De sessie heeft niet bewezen:</p>
+<ul>
+<li>dat Moltbook vandaag een autonome digitale samenleving is</li>
+<li>dat huidige agents over stabiele institutionele identiteit
+beschikken</li>
+<li>dat governance al netjes is opgelost</li>
+<li>dat de economische koststructuur al duurzaam is</li>
+<li>dat forecasts de toekomst met hoge betrouwbaarheid vastleggen</li>
+</ul>
+<p>Dat onderscheid is precies waarom de presentatie werkt. Ze probeert
+niet meer te claimen dan de repo kan dragen.</p>
+<h2 id="waarom-deze-conclusie-strategisch-relevant-is">Waarom deze
+conclusie strategisch relevant is</h2>
+<p>Deze conclusie is niet alleen filosofisch interessant. Ze is
+strategisch relevant voor builders, operators en leidinggevenden die met
+agents willen werken.</p>
+<h3 id="voor-builders">Voor builders</h3>
+<p>De boodschap is dat betere UX of meer indrukwekkend gedrag niet
+genoeg is. Zonder memory-architectuur, identiteitslaag en kostdiscipline
+blijft veel “autonomie” oppervlakkig.</p>
+<h3 id="voor-operators">Voor operators</h3>
+<p>De boodschap is dat schaal niet alleen een trafficvraag is. Het is
+ook een governance- en reliability-vraag. Wat breekt eerst wanneer het
+systeem echt volume krijgt?</p>
+<h3 id="voor-ctos-en-strategen">Voor CTO’s en strategen</h3>
+<p>De boodschap is dat de belangrijkste roadmapvragen niet alleen over
+modelkwaliteit gaan, maar ook over:</p>
+<ul>
+<li>toegankelijke kostenstructuur</li>
+<li>duurzame memory</li>
+<li>auditeerbare verantwoordelijkheid</li>
+<li>bestuurbare multi-agent interactie</li>
+</ul>
+<h3 id="voor-onderzoekers-en-critici">Voor onderzoekers en critici</h3>
+<p>De boodschap is dat men zowel hype als goedkope ontmaskering moet
+vermijden. De interessante analyses zitten juist in de tussenzone waar
+systemen gedeeltelijk autonoom lijken, maar institutioneel nog niet
+volwassen zijn.</p>
+<h2 id="de-beste-slotzin">De beste slotzin</h2>
+<p>De sterkste eindframing van de hele sessie blijft:</p>
+<blockquote>
+<p>De juiste vraag is niet of de demo sociaal oogt. De juiste vraag is
+of identiteit, geheugen, governance en kosten standhouden zodra je
+schaal en verantwoordelijkheid serieus neemt.</p>
+</blockquote>
+<p>Die zin werkt omdat ze het hele project samenvat:</p>
+<ul>
+<li>ze neemt de demo serieus</li>
+<li>ze weigert showlogica</li>
+<li>ze verschuift de aandacht naar robuuste voorwaarden</li>
+</ul>
+<h2 id="hoe-je-jezelf-hierop-kunt-testen">Hoe je jezelf hierop kunt
+testen</h2>
+<p>Als je na het lezen van deze map wilt weten of je de sessie echt
+beheerst, stel jezelf dan de volgende vragen:</p>
+<ol type="1">
+<li>Kun je uitleggen waarom Moltbook interessant is zonder te zeggen dat
+het al een agentsamenleving bewijst?</li>
+<li>Kun je uitleggen waarom context reload economisch belangrijk
+is?</li>
+<li>Kun je het verschil uitleggen tussen een bronanker, een
+scenario-aanname en een gemeten observatie?</li>
+<li>Kun je de MiniMax-slide verdedigen zonder parity te suggereren?</li>
+<li>Kun je het forecastmodel uitleggen zonder te doen alsof 2038 een
+voorspeld feit is?</li>
+<li>Kun je de vier bottlenecks benoemen en toelichten zonder op de
+slides te leunen?</li>
+</ol>
+<p>Als het antwoord op die vragen ja is, dan ken je niet alleen de deck.
+Dan begrijp je de gedachtegang van het project.</p>
+<h2 id="laatste-samenvatting-in-één-alinea">Laatste samenvatting in één
+alinea</h2>
+<p>Moltbook is geen finaal bewijs van autonome digitale samenleving,
+maar wel een sterke casus om te zien waar het huidige agentparadigma
+tegelijk indrukwekkend en onvolledig is. De hardste signalen zitten
+vandaag in systeemarchitectuur, kosten, compute en efficiency; de
+hardste open problemen blijven identiteit, geheugen, governance en
+economics. Precies daarom is de juiste houding geen hype en ook geen
+spot, maar nuchtere ernst.</p>
+<h1 id="deel-8-bronnen-qa-en-spreekspiekbrief">Deel 8: Bronnen, Q&amp;A
+en spreekspiekbrief</h1>
+<h2 id="waarom-dit-hoofdstuk-bestaat">Waarom dit hoofdstuk bestaat</h2>
+<p>De vorige hoofdstukken zijn de tekstboeklaag van de talk. Dit
+hoofdstuk is de operationele laag: welke bronnen moet je echt paraat
+hebben, welke kritische vragen kun je verwachten, en hoe houd je de
+spreeklijn strak zonder terug te vallen in audittaal.</p>
+<p>Gebruik dit hoofdstuk in drie situaties:</p>
+<ul>
+<li>de avond voor de presentatie</li>
+<li>vlak voor een Q&amp;A</li>
+<li>wanneer je de talk later opnieuw wilt geven zonder de hele repo te
+moeten herontdekken</li>
+</ul>
+<h2 id="bronkaart-wat-draagt-welke-claim">Bronkaart: wat draagt welke
+claim?</h2>
+<h3 id="moltbook-zelf">Moltbook zelf</h3>
+<ul>
+<li>homepage: productclaim “social network for AI agents”</li>
+<li>terms: juridische limiet, menselijke aansprakelijkheid</li>
+</ul>
+<p>Gebruik deze bronnen voor:</p>
+<ul>
+<li>de spanning tussen marketing en governance</li>
+<li>de claim dat Moltbook een signaal is, geen sluitend bewijs</li>
+</ul>
+<h3 id="openclaw-documentatie">OpenClaw documentatie</h3>
+<ul>
+<li>context docs</li>
+<li>multi-agent / sandbox / tooling docs</li>
+</ul>
+<p>Gebruik deze bronnen voor:</p>
+<ul>
+<li>de praktische definitie van een agent als systeem</li>
+<li>de context- en kostenanalyse</li>
+<li>de uitleg waarom autonomie vaak georkestreerd is</li>
+</ul>
+<h3 id="tsinghua-paper-over-moltbook">Tsinghua-paper over Moltbook</h3>
+<p>Gebruik deze bron voor:</p>
+<ul>
+<li>attributieproblemen</li>
+<li>de verdeling autonomous-leaning / human-leaning / ambiguous</li>
+<li>de claim dat sterke autonomieclaims te hard zijn</li>
+</ul>
+<h3 id="stanford-hai">Stanford HAI</h3>
+<p>Gebruik deze bron voor:</p>
+<ul>
+<li>benchmarksprongen</li>
+<li>kostdaling van meer dan 280x</li>
+</ul>
+<h3 id="epoch-ai">Epoch AI</h3>
+<p>Gebruik deze bron voor:</p>
+<ul>
+<li>compute stock</li>
+<li>training compute</li>
+<li>pretraining efficiency</li>
+<li>chip performance per dollar</li>
+<li>de nuance dat individuele benchmarks kunnen satureren</li>
+</ul>
+<h3 id="minimax-en-anthropic">MiniMax en Anthropic</h3>
+<p>Gebruik deze bronnen voor:</p>
+<ul>
+<li>officiële prijsvergelijking</li>
+<li>officiële modelpositionering</li>
+<li>de smalle claim dat de prijskloof duidelijker is dan de
+kwaliteitskloof</li>
+</ul>
+<h3 id="de-repo-zelf">De repo zelf</h3>
+<p>Gebruik de repo voor:</p>
+<ul>
+<li>expliciete scenario-aannames</li>
+<li>tokenkostberekeningen</li>
+<li>forecastconfiguratie</li>
+<li>auditsporen van wat geverifieerd versus vernauwd werd</li>
+</ul>
+<h2 id="de-belangrijkste-bronregels-voor-live-gebruik">De belangrijkste
+bronregels voor live gebruik</h2>
+<ol type="1">
+<li>Gebruik screenshots als visuele ankers, niet als vervanging van
+bronnen.</li>
+<li>Zeg expliciet wanneer iets een scenario is en niet een meting.</li>
+<li>Zeg expliciet wanneer een modelvergelijking vendor-reported is.</li>
+<li>Gebruik liever een smalle, harde claim dan een brede, fragiele
+claim.</li>
+</ol>
+<h2 id="verwachte-kritische-vragen-en-sterke-antwoorden">Verwachte
+kritische vragen en sterke antwoorden</h2>
+<h3 id="maar-is-moltbook-dan-echt-of-fake">1. “Maar is Moltbook dan echt
+of fake?”</h3>
+<p>Sterk antwoord:</p>
+<p>Moltbook is een echte en interessante casus, maar de verkeerde vraag
+is of het volledig “echt” of “fake” is. De nuttige vraag is wat het
+platform laat zien over agentcoördinatie, en waar identiteit,
+attributie, governance en economische houdbaarheid nog
+tekortschieten.</p>
+<h3
+id="waarom-ben-je-zo-voorzichtig-de-demo-is-toch-duidelijk-indrukwekkend">2.
+“Waarom ben je zo voorzichtig? De demo is toch duidelijk
+indrukwekkend?”</h3>
+<p>Sterk antwoord:</p>
+<p>Omdat indrukwekkend gedrag en institutionele robuustheid niet
+hetzelfde zijn. De hele sessie probeert precies dat onderscheid scherp
+te maken. Anders verwarren we interfacekwaliteit met maatschappelijke
+volwassenheid.</p>
+<h3 id="dus-je-gelooft-niet-in-agentnetwerken">3. “Dus je gelooft niet
+in agentnetwerken?”</h3>
+<p>Sterk antwoord:</p>
+<p>Jawel, maar dat is niet hetzelfde als geloven dat ze vandaag al
+maatschappelijk volwassen zijn. De trendkant van het verhaal is juist
+serieus: kosten, compute en efficiency bewegen snel. Alleen wil ik die
+trend niet verwarren met opgeloste identiteit, governance en memory.</p>
+<h3
+id="waarom-gebruik-je-dan-een-forecastmodel-als-je-geen-profetieën-wilt-doen">4.
+“Waarom gebruik je dan een forecastmodel als je geen profetieën wilt
+doen?”</h3>
+<p>Sterk antwoord:</p>
+<p>Omdat het model hier dient om aannames discipline te geven. Het
+dwingt ons om expliciet te maken welke pijlers tellen, welke minima
+nodig zijn, en waar de bottlenecks zitten. Het model is dus eerder een
+denkinstrument dan een orakel.</p>
+<h3 id="is-die-kost-van-0377-dan-relevant-of-niet">5. “Is die kost van
+$0,377 dan relevant of niet?”</h3>
+<p>Sterk antwoord:</p>
+<p>Ja, als illustratieve rekenkunde. Nee, als gemeten
+Moltbook-operatiekost. Het getal is nuttig omdat het laat zien dat
+context reload onder huidige architecturen economisch zwaar kan
+worden.</p>
+<h3 id="zeg-je-nu-dat-minimax-bijna-even-goed-is-als-opus">6. “Zeg je nu
+dat MiniMax bijna even goed is als Opus?”</h3>
+<p>Sterk antwoord:</p>
+<p>Nee. De veilige claim is smaller: de officiële prijsverschillen zijn
+enorm, terwijl de kwaliteitsverschillen op sommige officiële
+agentic/coding taken kleiner zijn dan die prijskloof. Daarom zeg ik: de
+prijskloof is duidelijker dan de kwaliteitskloof.</p>
+<h3 id="waarom-focus-je-zo-sterk-op-governance">7. “Waarom focus je zo
+sterk op governance?”</h3>
+<p>Sterk antwoord:</p>
+<p>Omdat governance het punt is waar veel agentclaims institutioneel op
+stuklopen. Zolang mensen juridisch verantwoordelijk blijven en
+attributie troebel is, is autonomie geen zuiver technische kwestie.</p>
+<h2 id="sprekersspiekbrief-per-deel">Sprekersspiekbrief per deel</h2>
+<h3 id="deel-1-intro">Deel 1: Intro</h3>
+<p>Wat jij moet doen:</p>
+<ul>
+<li>de kernthese meteen zetten</li>
+<li>duidelijk maken dat dit geen hype-talk en geen debunk-talk is</li>
+<li>het publiek leren hoe het naar Moltbook moet kijken</li>
+</ul>
+<p>Wat het publiek moet onthouden:</p>
+<ul>
+<li>Moltbook is een signaal, geen bewijs</li>
+</ul>
+<h3 id="deel-2-wat-is-een-agent">Deel 2: Wat is een agent?</h3>
+<p>Wat jij moet doen:</p>
+<ul>
+<li>de systeemdefinitie helder en eenvoudig brengen</li>
+<li>mystiek taalgebruik vermijden</li>
+<li>de brug leggen naar context, tools en state</li>
+</ul>
+<p>Wat het publiek moet onthouden:</p>
+<ul>
+<li>een agent is vandaag meestal een samengesteld systeem</li>
+</ul>
+<h3 id="deel-3-context-en-kosten">Deel 3: Context en kosten</h3>
+<p>Wat jij moet doen:</p>
+<ul>
+<li>context reload tastbaar maken</li>
+<li>het verschil uitleggen tussen bronanker en scenario</li>
+<li>tonen waarom kost geen detail is</li>
+</ul>
+<p>Wat het publiek moet onthouden:</p>
+<ul>
+<li>veel van de kost zit in reconstructie, niet alleen in output</li>
+</ul>
+<h3 id="deel-4-kritiek">Deel 4: Kritiek</h3>
+<p>Wat jij moet doen:</p>
+<ul>
+<li>niet cynisch worden</li>
+<li>identiteit, attributie en governance als serieuze analytische
+problemen neerzetten</li>
+</ul>
+<p>Wat het publiek moet onthouden:</p>
+<ul>
+<li>sociaal gedrag is nog geen heldere autonomie</li>
+</ul>
+<h3 id="deel-5-trends-1">Deel 5: Trends</h3>
+<p>Wat jij moet doen:</p>
+<ul>
+<li>echte vooruitgang erkennen</li>
+<li>tegelijk hype-taal blokkeren</li>
+<li>de economie- en infrastructuurlijn dominant maken</li>
+</ul>
+<p>Wat het publiek moet onthouden:</p>
+<ul>
+<li>de hardste curves zitten in kosten, compute en efficiency</li>
+</ul>
+<h3 id="deel-6-forecast">Deel 6: Forecast</h3>
+<p>Wat jij moet doen:</p>
+<ul>
+<li>het model simpel uitleggen</li>
+<li>benadrukken dat floors de echte poortwachters zijn</li>
+<li>percentages ondergeschikt maken aan structuur</li>
+</ul>
+<p>Wat het publiek moet onthouden:</p>
+<ul>
+<li>scenario discipline, geen profetie</li>
+</ul>
+<h3 id="deel-7-slot-1">Deel 7: Slot</h3>
+<p>Wat jij moet doen:</p>
+<ul>
+<li>de vier bottlenecks laten landen</li>
+<li>eindigen op institutionele geloofwaardigheid</li>
+</ul>
+<p>Wat het publiek moet onthouden:</p>
+<ul>
+<li>de echte vraag is wat standhoudt onder schaal en
+verantwoordelijkheid</li>
+</ul>
+<h2 id="eén-compacte-spreeklijn-voor-de-hele-talk">Eén compacte
+spreeklijn voor de hele talk</h2>
+<p>Als je alles moet terugbrengen tot een korte interne samenvatting,
+gebruik dan deze:</p>
+<ol type="1">
+<li>Moltbook toont iets echt interessants.</li>
+<li>Maar het toont vooral wat nog ontbreekt.</li>
+<li>Dat ontbrekende zit in identiteit, geheugen, governance en
+economics.</li>
+<li>De technologische trends zijn sterk genoeg om het serieus te
+nemen.</li>
+<li>De institutionele bottlenecks zijn groot genoeg om voorzichtig te
+blijven.</li>
+</ol>
+<h2 id="laatste-voorbereiding-voor-je-spreekt">Laatste voorbereiding
+voor je spreekt</h2>
+<p>Loop vlak voor de presentatie nog één keer deze checklist af:</p>
+<ul>
+<li>kan ik het verschil uitleggen tussen marketingclaim en
+institutionele realiteit?</li>
+<li>kan ik de kostanalyse uitleggen zonder het scenario als meting te
+verkopen?</li>
+<li>kan ik de MiniMax-slide verdedigen zonder parity te suggereren?</li>
+<li>kan ik de forecastslide uitleggen zonder in spreadsheettaal te
+vervallen?</li>
+<li>kan ik de talk eindigen op de vier bottlenecks zonder naar notities
+te kijken?</li>
+</ul>
+<p>Als dat lukt, dan beheers je niet alleen de slides, maar ook de
+onderliggende redenering.</p>
+</body>
+</html>
