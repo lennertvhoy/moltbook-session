@@ -170,20 +170,21 @@ Dit model is **bewust vereenvoudigd**:
 | Governance | Graduele φ(y) | Fasering (EU AI Act: 2025, 2026, 2027) |
 | Network | Lineaire groei | Percolatie (netwerkexternaliteiten) |
 
-Het model is bedoeld als **discipline for thinking**, niet als volledig gekalibreerde forecast. Echte adoptie van agentnetwerken wordt waarschijnlijk mede bepaald door:
-- **Regime shifts** (A2A/MCP standaardisatie, AI Act toepassing)
-- **Feedback loops** (lagere kosten → meer vraag → meer standaardisatie)
-- **Percolatie** (tipping points in adoptie)
+Het model is bedoeld als **discipline for thinking**, niet als volledig gekalibreerde forecast.
 
-Deze factoren zijn hier slechts beperkt gemodelleerd.
+**Belangrijke nuance:** De uitkomsten moeten vooral gelezen worden als gevoelig voor de gekozen **eventdefinitie**, **scope** en **scenario-structuur**; niet als een precisievoorspelling van een kalenderjaar. Het verschil tussen *bounded-scope emergence* (eerste functionele netwerken) en *broad viability* (volwassen cross-sectorale deployability) domineert de timing meer dan exacte parameterwaarden.
 
 ---
 
 ## 8. Samenvatting
 
-Het canonieke model voorspelt **eerste bounded-scope emergentie** van nuttige agent netwerken — niet volledige mature deployability.
+Het canonieke model simuleert **bounded-scope emergence** (eerste functionele agentnetwerken) — niet **broad viability** (volwassen, cross-sectorale deployability).
 
-Het gebruikt:
+**Het onderscheid:**
+- **Bounded-scope emergence**: Enterprise-internal networks, menselijk toezicht, beperkte scope (~2030–2035 plausibel)
+- **Broad viability**: Cross-vendor interoperabiliteit, minimale oversight, institutionele maturiteit (~2040+ waarschijnlijker)
+
+Het model gebruikt:
 - **Soft feasibility** ipv harde floors
 - **Time-to-event** ipv "jaar X of nooit"
 - **Lichte coupling** tussen pilaren (C/E → D → N)
@@ -191,4 +192,4 @@ Het gebruikt:
 - **Parameter ranges** ipv schijnprecisie
 - **Expliciete onzekerheid** over empirisch vs expert components
 
-De hoofdvoorspelling is een **distributie over tijd**, niet een enkel jaar.
+De output is een **scenario-simulatie** — gevoelig voor eventdefinitie en scope-keuzes — niet een gekalibreerde jaarvoorspelling.
