@@ -1,34 +1,36 @@
-"""Monte Carlo readiness model for AI-agent networks.
+"""Monte Carlo hazard model for AI-agent network emergence.
 
-This model is intentionally presented as an assumption-driven scenario tool.
-It is not an empirical forecast. The scenario inputs live in
-``data/forecast_scenarios.json`` so the assumptions can be audited directly.
+This model implements a discrete-time hazard rate approach with soft feasibility
+functions for bounded-scope emergence forecasting.
 
-VERSION 2 ENHANCEMENTS (2026-03-25):
-- Latent capability scale: Transforms 0-100 pillars to logit scale
-- Local linear trend model: State-space with stochastic growth rate
-- Natural saturation: Sigmoid transform creates asymptotic approach to 100
-- Uncertainty decomposition: Level, trend, regime, and shock components
+VERSION 4 (SOFT FEASIBILITY - CANONICAL):
+- Discrete-time hazard model: h(t) = baseline × capability_effect × feasibility
+- Soft feasibility φ(y; θ, k): sigmoid function for gradual emergence
+- Single event: bounded-scope emergence (first functional networks)
+- Output: cumulative emergence probability over time
+- No hard floors, no threshold crossing, no two-year rule
 
-Mathematical foundation:
-    z_t = logit(y_t/100) = log(y_t / (100 - y_t))
+Mathematical model:
+    h(t) = h0 × exp(λ_C·z_C + λ_E·z_E + λ_D·z_D + λ_M·z_M) 
+           × φ_G(y_G) × φ_N(y_N) × φ_R(y_R)
     
-    State equations (Model C - Local Linear Trend):
-        z_t = z_{t-1} + g_t + eps_t      (level, eps_t ~ N(0, sigma_level))
-        g_t = phi*g_{t-1} + (1-phi)*g_bar + eta_t  (growth, eta_t ~ N(0, sigma_growth))
+    φ(y; θ, k) = 1 / (1 + exp(-k × (y - θ) / 10))
     
-    Where:
-        z_t = latent capability level (logit scale)
-        g_t = latent growth rate
-        g_bar = long-run mean growth rate
-        phi = persistence parameter (0.9)
-        eps_t, eta_t = level and growth shocks
+    P(emergent by year T) = 1 - exp(-Σ_{t=1}^{T} h(t))
+
+Where:
+    h(t) = hazard rate (instantaneous emergence probability)
+    h0 = baseline hazard (calibration parameter)
+    z_i = latent capability on logit scale
+    y_i = observed score 0-100
+    φ_i(y_i) = soft feasibility for governance, network, reliability
+    θ_i = inflection point (where feasibility = 50%)
+    k_i = steepness parameter
 """
 
 from __future__ import annotations
 
 import json
-from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -36,36 +38,10 @@ from typing import Any
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS_DIR = ROOT / "assets"
 DATA_PATH = ROOT / "data" / "forecast_scenarios.json"
 SEED = 42
-
-
-def to_logit(y: np.ndarray) -> np.ndarray:
-    """Transform 0-100 scores to logit scale.
-    
-    Mathematical definition:
-        z = log(y / (100 - y))
-        
-    This maps:
-        y=50  → z=0
-        y=90  → z≈2.2
-        y=99  → z≈4.6
-        y→100 → z→∞ (asymptotic saturation)
-    """
-    y_clipped = np.clip(y, 0.01, 99.99)
-    return np.log(y_clipped / (100 - y_clipped))
-
-
-def from_logit(z: np.ndarray) -> np.ndarray:
-    """Transform logit scale back to 0-100 scores.
-    
-    Mathematical definition:
-        y = 100 / (1 + exp(-z)) = 100 * sigmoid(z)
-    """
-    return 100.0 / (1.0 + np.exp(-z))
 
 
 @dataclass(frozen=True)
@@ -79,17 +55,88 @@ class PillarConfig:
     neg_shock_prob: float
     neg_shock_size: float
     weight: float
-    growth_volatility: float = 0.02  # For local linear trend model
+    growth_volatility: float = 0.02
+
+
+@dataclass(frozen=True)
+class SoftFeasibilityParams:
+    """Parameters for soft feasibility function φ(y; θ, k)."""
+    theta: float  # Inflection point (feasibility = 50%)
+    k: float      # Steepness parameter
 
 
 @dataclass(frozen=True)
 class Scenario:
-    """Container for one scenario's pillar assumptions."""
+    """Container for one scenario's assumptions."""
     name: str
     pillars: tuple[PillarConfig, ...]
-    threshold: float
-    floor_values: dict[str, float]
-    min_consecutive_years: int
+    h0: float  # Baseline hazard
+    # Soft feasibility parameters for G, N, R
+    feasibility_params: dict[str, SoftFeasibilityParams]
+
+
+def to_logit(y: np.ndarray) -> np.ndarray:
+    """Transform 0-100 scores to logit scale."""
+    y_clipped = np.clip(y, 0.01, 99.99)
+    return np.log(y_clipped / (100 - y_clipped))
+
+
+def from_logit(z: np.ndarray) -> np.ndarray:
+    """Transform logit scale back to 0-100 scores."""
+    return 100.0 / (1.0 + np.exp(-z))
+
+
+def soft_feasibility(y: float, theta: float, k: float) -> float:
+    """Compute soft feasibility φ(y; θ, k).
+    
+    φ(y; θ, k) = 1 / (1 + exp(-k × (y - θ) / 10))
+    
+    Args:
+        y: Observed score (0-100)
+        theta: Inflection point where feasibility = 50%
+        k: Steepness parameter (higher = sharper transition)
+    
+    Returns:
+        Feasibility value between 0 and 1
+    """
+    return 1.0 / (1.0 + np.exp(-k * (y - theta) / 10.0))
+
+
+def compute_hazard(
+    pillars: dict[str, float],
+    logit_pillars: dict[str, float],
+    h0: float,
+    loadings: dict[str, float],
+    feasibility_params: dict[str, SoftFeasibilityParams],
+) -> float:
+    """Compute hazard rate h(t) for given pillar values.
+    
+    h(t) = h0 × exp(Σ λ_i × z_i) × Π φ_j(y_j)
+    
+    Args:
+        pillars: Current pillar scores (0-100)
+        logit_pillars: Current pillar scores on logit scale
+        h0: Baseline hazard
+        loadings: Loading factors (λ) for each pillar
+        feasibility_params: Soft feasibility params for G, N, R
+    
+    Returns:
+        Hazard rate h(t)
+    """
+    # Capability effect: exp(Σ λ_i × z_i)
+    capability_contrib = 0.0
+    for code in ["C", "E", "D", "M"]:
+        capability_contrib += loadings[code] * logit_pillars[code]
+    capability_effect = np.exp(capability_contrib)
+    
+    # Feasibility effects: Π φ_j(y_j)
+    feasibility_effect = 1.0
+    for code in ["G", "N", "R"]:
+        params = feasibility_params[code]
+        phi = soft_feasibility(pillars[code], params.theta, params.k)
+        feasibility_effect *= phi
+    
+    return h0 * capability_effect * feasibility_effect
 
 
 def load_config() -> dict[str, Any]:
@@ -102,11 +149,36 @@ def create_scenarios(config: dict[str, Any]) -> dict[str, Scenario]:
     weights = config["weights"]
     descriptions = config["pillar_descriptions"]
     
-    # Scenario-specific growth volatility
     growth_vol_scenarios = {
         "Conservative": 0.03,
         "Base case": 0.02,
         "Accelerated": 0.015,
+    }
+    
+    # Soft feasibility parameters (expert judgment ranges)
+    feasibility_scenarios = {
+        "Conservative": {
+            "G": SoftFeasibilityParams(theta=45.0, k=0.12),
+            "N": SoftFeasibilityParams(theta=50.0, k=0.12),
+            "R": SoftFeasibilityParams(theta=55.0, k=0.12),
+        },
+        "Base case": {
+            "G": SoftFeasibilityParams(theta=40.0, k=0.10),
+            "N": SoftFeasibilityParams(theta=45.0, k=0.10),
+            "R": SoftFeasibilityParams(theta=50.0, k=0.10),
+        },
+        "Accelerated": {
+            "G": SoftFeasibilityParams(theta=35.0, k=0.08),
+            "N": SoftFeasibilityParams(theta=40.0, k=0.08),
+            "R": SoftFeasibilityParams(theta=45.0, k=0.08),
+        },
+    }
+    
+    # Baseline hazard per scenario
+    h0_scenarios = {
+        "Conservative": 0.03,   # Lower baseline emergence probability
+        "Base case": 0.05,      # Moderate
+        "Accelerated": 0.08,    # Higher
     }
     
     scenarios: dict[str, Scenario] = {}
@@ -128,608 +200,232 @@ def create_scenarios(config: dict[str, Any]) -> dict[str, Scenario]:
             )
             for pillar in scenario_data["pillars"]
         )
+        
         scenarios[scenario_name] = Scenario(
             name=scenario_name,
             pillars=pillars,
-            threshold=float(config["threshold"]),
-            floor_values={key: float(value) for key, value in config["floor_values"].items()},
-            min_consecutive_years=int(config["min_consecutive_years"]),
+            h0=h0_scenarios[scenario_name],
+            feasibility_params=feasibility_scenarios[scenario_name],
         )
+    
     return scenarios
 
 
-class GrowthModel(ABC):
-    """Abstract base class for growth dynamics models."""
+def simulate_trajectory(
+    scenario: Scenario,
+    years: np.ndarray,
+    rng: np.random.Generator,
+    phi: float = 0.9,
+) -> dict[str, np.ndarray]:
+    """Simulate one trajectory with local linear trend model.
     
-    def __init__(self, rng: np.random.Generator):
-        self.rng = rng
-    
-    @abstractmethod
-    def simulate_pillar(
-        self, 
-        pillar: PillarConfig, 
-        n_simulations: int, 
-        n_years: int
-    ) -> np.ndarray:
-        """Simulate pillar evolution over time."""
-        pass
-
-
-class ModelA_FixedLogGrowth(GrowthModel):
-    """Model A: Fixed log-growth on logit scale (backward compatible).
-    
-    Equation:
-        z_t = z_{t-1} + growth_mu + N(0, volatility)
-        y_t = sigmoid(z_t) * 100
+    Returns dict with pillar trajectories and emergence probability.
     """
+    n_years = len(years)
+    year_indices = years - 2026
     
-    def simulate_pillar(
-        self, 
-        pillar: PillarConfig, 
-        n_simulations: int, 
-        n_years: int
-    ) -> np.ndarray:
-        """Simulate with fixed growth rate on logit scale."""
-        z_values = np.zeros((n_simulations, n_years))
-        z_values[:, 0] = to_logit(pillar.initial_2026)
+    # Initialize storage
+    pillars: dict[str, np.ndarray] = {}
+    logit_pillars: dict[str, np.ndarray] = {}
+    
+    for pillar in scenario.pillars:
+        z = np.zeros(n_years)
+        g = np.zeros(n_years)
+        
+        # Initial conditions
+        y0 = pillar.initial_2026
+        z[0] = to_logit(np.array([y0]))[0]
+        g[0] = pillar.growth_mu
         
         for t in range(1, n_years):
-            growth_shock = self.rng.normal(
-                loc=pillar.growth_mu,
-                scale=pillar.volatility,
-                size=n_simulations,
+            # Growth evolution with persistence
+            g[t] = (
+                phi * g[t-1]
+                + (1 - phi) * pillar.growth_mu
+                + rng.normal(0, pillar.growth_volatility)
             )
-            shocks = self.rng.random(n_simulations) < pillar.neg_shock_prob
-            growth_shock[shocks] += pillar.neg_shock_size
-            z_values[:, t] = z_values[:, t - 1] + growth_shock
+            
+            # Level evolution
+            level_shock = rng.normal(0, pillar.volatility)
+            z[t] = z[t-1] + g[t] + level_shock
+            
+            # Negative shocks (regime events)
+            if rng.random() < pillar.neg_shock_prob:
+                z[t] -= pillar.neg_shock_size
         
-        return from_logit(z_values)
-
-
-class ModelB_PiecewiseGrowth(GrowthModel):
-    """Model B: Piecewise growth with breakpoint.
+        logit_pillars[pillar.code] = z
+        pillars[pillar.code] = from_logit(z)
     
-    Before breakpoint: growth rate g1
-    After breakpoint: growth rate g2 (accelerated)
+    return {"pillars": pillars, "logit_pillars": logit_pillars}
+
+
+def compute_emergence_probability(
+    scenario: Scenario,
+    years: np.ndarray,
+    trajectory: dict[str, np.ndarray],
+) -> np.ndarray:
+    """Compute cumulative emergence probability from trajectory.
+    
+    Uses hazard rate accumulation:
+        P(emergent by T) = 1 - exp(-Σ_{t=1}^{T} h(t))
     """
+    n_years = len(years)
+    pillars = trajectory["pillars"]
+    logit_pillars = trajectory["logit_pillars"]
     
-    def __init__(self, rng: np.random.Generator, breakpoint_year: int = 2028):
-        super().__init__(rng)
-        self.breakpoint_year = breakpoint_year
+    # Loadings (weights, normalized)
+    loadings = {p.code: p.weight for p in scenario.pillars}
     
-    def simulate_pillar(
-        self, 
-        pillar: PillarConfig, 
-        n_simulations: int, 
-        n_years: int
-    ) -> np.ndarray:
-        """Simulate with piecewise growth rates."""
-        years = np.arange(2026, 2026 + n_years)
+    # Compute hazard rate each year
+    hazards = np.zeros(n_years)
+    for t in range(n_years):
+        p_t = {code: pillars[code][t] for code in pillars}
+        z_t = {code: logit_pillars[code][t] for code in logit_pillars}
         
-        if self.breakpoint_year < 2026:
-            growth_pre = pillar.growth_mu
-            growth_post = pillar.growth_mu * 1.2
-            in_pre_regime = np.zeros(n_years, dtype=bool)
-        else:
-            growth_pre = pillar.growth_mu
-            growth_post = pillar.growth_mu * 1.3
-            in_pre_regime = years < self.breakpoint_year
-        
-        z_values = np.zeros((n_simulations, n_years))
-        z_values[:, 0] = to_logit(pillar.initial_2026)
-        
-        for t in range(1, n_years):
-            mean_growth = growth_pre if in_pre_regime[t] else growth_post
-            growth_shock = self.rng.normal(
-                loc=mean_growth,
-                scale=pillar.volatility,
-                size=n_simulations,
-            )
-            shocks = self.rng.random(n_simulations) < pillar.neg_shock_prob
-            growth_shock[shocks] += pillar.neg_shock_size
-            z_values[:, t] = z_values[:, t - 1] + growth_shock
-        
-        return from_logit(z_values)
-
-
-class ModelC_LocalLinearTrend(GrowthModel):
-    """Model C: Local linear trend state-space model (DEFAULT).
-    
-    State equations on logit scale:
-        z_t = z_{t-1} + g_t + eps_t      (level equation)
-        g_t = phi*g_{t-1} + (1-phi)*g_bar + eta_t  (growth equation)
-    
-    Where:
-        z_t = latent capability level
-        g_t = latent growth rate (mean-reverting to g_bar)
-        phi = persistence parameter (default 0.9)
-        eps_t ~ N(0, sigma_level), eta_t ~ N(0, sigma_growth)
-    """
-    
-    def __init__(self, rng: np.random.Generator, persistence: float = 0.9):
-        super().__init__(rng)
-        self.persistence = persistence  # phi
-    
-    def simulate_pillar(
-        self, 
-        pillar: PillarConfig, 
-        n_simulations: int, 
-        n_years: int
-    ) -> np.ndarray:
-        """Simulate with local linear trend on logit scale."""
-        z_values = np.zeros((n_simulations, n_years))
-        z_values[:, 0] = to_logit(pillar.initial_2026)
-        
-        # Initialize latent growth rate with uncertainty
-        g_values = np.full(n_simulations, pillar.growth_mu) + self.rng.normal(
-            0, 0.05, n_simulations
+        hazards[t] = compute_hazard(
+            p_t, z_t, scenario.h0, loadings, scenario.feasibility_params
         )
-        
-        sigma_level = pillar.volatility
-        sigma_growth = pillar.growth_volatility
-        
-        for t in range(1, n_years):
-            # Growth equation with mean reversion
-            g_values = (
-                self.persistence * g_values 
-                + (1 - self.persistence) * pillar.growth_mu 
-                + self.rng.normal(0, sigma_growth, n_simulations)
-            )
-            
-            # Level equation
-            level_shock = self.rng.normal(0, sigma_level, n_simulations)
-            shocks = self.rng.random(n_simulations) < pillar.neg_shock_prob
-            level_shock[shocks] += pillar.neg_shock_size
-            
-            z_values[:, t] = z_values[:, t - 1] + g_values + level_shock
-        
-        return from_logit(z_values)
-
-
-class AgentNetworkForecaster:
-    """Monte Carlo forecaster for the readiness index.
     
-    Uses Model C (Local Linear Trend) as default for enhanced accuracy.
-    Set model_type='A' for backward compatibility with original fixed-growth model.
+    # Cumulative hazard and survival probability
+    cum_hazard = np.cumsum(hazards)
+    survival_prob = np.exp(-cum_hazard)
+    emergence_prob = 1 - survival_prob
+    
+    return emergence_prob
+
+
+def run_monte_carlo(
+    scenario: Scenario,
+    n_sims: int = 5000,
+    years: np.ndarray | None = None,
+) -> dict[str, Any]:
+    """Run Monte Carlo simulation for a scenario.
+    
+    Returns emergence probability distributions over time.
     """
+    if years is None:
+        years = np.arange(2026, 2041)
+    
+    rng = np.random.default_rng(SEED)
+    n_years = len(years)
+    
+    # Store emergence probabilities for all simulations
+    all_probs = np.zeros((n_sims, n_years))
+    
+    for i in range(n_sims):
+        trajectory = simulate_trajectory(scenario, years, rng)
+        all_probs[i, :] = compute_emergence_probability(scenario, years, trajectory)
+    
+    return {
+        "years": years,
+        "mean": np.mean(all_probs, axis=0),
+        "median": np.median(all_probs, axis=0),
+        "p25": np.percentile(all_probs, 25, axis=0),
+        "p75": np.percentile(all_probs, 75, axis=0),
+        "p10": np.percentile(all_probs, 10, axis=0),
+        "p90": np.percentile(all_probs, 90, axis=0),
+        "individual": all_probs[:100],  # Store 100 trajectories for viz
+    }
 
-    def __init__(
-        self, 
-        scenario: Scenario, 
-        n_simulations: int = 10000, 
-        seed: int = SEED,
-        model_type: str = "C",  # "A", "B", or "C"
-    ):
-        self.scenario = scenario
-        self.n_simulations = n_simulations
-        self.years = np.arange(2026, 2041)
-        self.rng = np.random.default_rng(seed)
-        self.model_type = model_type
+
+def plot_scenario_comparison(results: dict[str, Any]) -> None:
+    """Plot emergence probability comparison across scenarios."""
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    colors = {
+        "Conservative": "#e74c3c",
+        "Base case": "#3498db",
+        "Accelerated": "#2ecc71",
+    }
+    
+    for scenario_name, data in results.items():
+        years = data["years"]
+        color = colors.get(scenario_name, "gray")
         
-        # Create appropriate growth model
-        if model_type == "A":
-            self.model = ModelA_FixedLogGrowth(self.rng)
-        elif model_type == "B":
-            self.model = ModelB_PiecewiseGrowth(self.rng, breakpoint_year=2028)
-        else:
-            self.model = ModelC_LocalLinearTrend(self.rng, persistence=0.9)
+        # Plot median
+        ax.plot(years, data["median"] * 100, 
+                label=scenario_name, color=color, linewidth=2)
+        
+        # Plot 25-75 percentile band
+        ax.fill_between(years, 
+                        data["p25"] * 100, 
+                        data["p75"] * 100,
+                        alpha=0.2, color=color)
+    
+    ax.set_xlabel("Year", fontsize=12)
+    ax.set_ylabel("Cumulative Emergence Probability (%)", fontsize=12)
+    ax.set_title("Bounded-Scope Emergence Forecast\nFirst functional agent networks", 
+                 fontsize=14, fontweight="bold")
+    ax.legend(loc="upper left")
+    ax.set_ylim(0, 100)
+    ax.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.savefig(ASSETS_DIR / "forecast_distribution.png", dpi=150, bbox_inches="tight")
+    plt.close()
+    print(f"Saved: {ASSETS_DIR / 'forecast_distribution.png'}")
 
-    def _simulate_pillar(self, pillar: PillarConfig) -> np.ndarray:
-        """Simulate one pillar over time using the selected growth model."""
-        return self.model.simulate_pillar(pillar, self.n_simulations, len(self.years))
 
-    def _calculate_readiness_index(self, pillar_values: dict[str, np.ndarray]) -> np.ndarray:
-        """Calculate the weighted geometric mean readiness index."""
-        index = np.ones((self.n_simulations, len(self.years)))
-        for pillar in self.scenario.pillars:
-            index *= (pillar_values[pillar.code] / 100.0) ** pillar.weight
-        return index * 100.0
-
-    def _check_threshold_crossing(
-        self,
-        index: np.ndarray,
-        pillar_values: dict[str, np.ndarray],
-        threshold: float | None = None,
-        floor_values: dict[str, float] | None = None,
-    ) -> np.ndarray:
-        """Determine the first year a simulation crosses and sustains the threshold."""
-        active_threshold = self.scenario.threshold if threshold is None else threshold
-        active_floors = self.scenario.floor_values if floor_values is None else floor_values
-        crossing_years = np.full(self.n_simulations, np.nan)
-
-        for sim_idx in range(self.n_simulations):
-            consecutive = 0
-            for year_idx, year in enumerate(self.years):
-                floors_met = all(
-                    pillar_values[code][sim_idx, year_idx] >= minimum
-                    for code, minimum in active_floors.items()
-                )
-                if index[sim_idx, year_idx] >= active_threshold and floors_met:
-                    consecutive += 1
-                    if consecutive >= self.scenario.min_consecutive_years:
-                        crossing_years[sim_idx] = year
-                        break
+def print_summary_table(results: dict[str, Any]) -> None:
+    """Print summary table of emergence probabilities."""
+    print("\n" + "=" * 80)
+    print("BOUNDED-SCOPE EMERGENCE FORECAST")
+    print("First functional agent networks (Moltbook-like)")
+    print("=" * 80)
+    print("\nCumulative emergence probability by year:")
+    print("-" * 60)
+    print(f"{'Year':<8} {'Conservative':<15} {'Base case':<15} {'Accelerated':<15}")
+    print("-" * 60)
+    
+    years = list(results.values())[0]["years"]
+    for i, year in enumerate(years):
+        if year % 2 == 0:  # Print every 2 years
+            row = f"{year:<8}"
+            for scenario in ["Conservative", "Base case", "Accelerated"]:
+                if scenario in results:
+                    prob = results[scenario]["median"][i] * 100
+                    row += f"{prob:>6.1f}%        "
                 else:
-                    consecutive = 0
-
-        return crossing_years
-
-    def run(self) -> dict[str, Any]:
-        """Run the full simulation for the configured scenario."""
-        pillar_values = {
-            pillar.code: self._simulate_pillar(pillar) 
-            for pillar in self.scenario.pillars
-        }
-        index = self._calculate_readiness_index(pillar_values)
-        crossing_years = self._check_threshold_crossing(index, pillar_values)
-        return {
-            "pillar_values": pillar_values,
-            "index": index,
-            "crossing_years": crossing_years,
-        }
-
-    def calculate_statistics(
-        self,
-        results: dict[str, Any],
-        threshold: float | None = None,
-        floor_values: dict[str, float] | None = None,
-    ) -> dict[str, Any]:
-        """Summarize the simulation results."""
-        crossing_years = results["crossing_years"]
-        if threshold is not None or floor_values is not None:
-            crossing_years = self._check_threshold_crossing(
-                results["index"],
-                results["pillar_values"],
-                threshold,
-                floor_values,
-            )
-        valid = crossing_years[~np.isnan(crossing_years)]
-
-        return {
-            "p_by_2030": float(np.mean(crossing_years <= 2030)),
-            "p_by_2035": float(np.mean(crossing_years <= 2035)),
-            "p_by_2040": float(np.mean(crossing_years <= 2040)),
-            "median_year": float(np.median(valid)) if len(valid) else np.nan,
-            "p5_year": float(np.percentile(valid, 5)) if len(valid) else np.nan,
-            "p95_year": float(np.percentile(valid, 95)) if len(valid) else np.nan,
-            "never_crosses": float(np.mean(np.isnan(crossing_years))),
-            "n_simulations": self.n_simulations,
-            "year_probs": {int(year): float(np.mean(crossing_years <= year)) for year in self.years},
-            "model_type": self.model_type,
-        }
-
-
-def run_all_scenarios(
-    n_simulations: int = 10000,
-    model_type: str = "C"
-) -> dict[str, dict[str, Any]]:
-    """Run all configured scenarios.
+                    row += f"{'N/A':>15}"
+            print(row)
     
-    Args:
-        n_simulations: Number of Monte Carlo runs per scenario
-        model_type: "A"=Fixed growth, "B"=Piecewise, "C"=Local Linear Trend (default)
-    """
-    config = load_config()
-    scenarios = create_scenarios(config)
-    all_results: dict[str, dict[str, Any]] = {}
-
-    for idx, (name, scenario) in enumerate(scenarios.items()):
-        print(f"\nRunning {name} scenario with Model {model_type}...")
-        forecaster = AgentNetworkForecaster(
-            scenario=scenario,
-            n_simulations=n_simulations,
-            seed=SEED + (idx * 100),
-            model_type=model_type,
-        )
-        results = forecaster.run()
-        stats = forecaster.calculate_statistics(results)
-        all_results[name] = {
-            "scenario": scenario,
-            "forecaster": forecaster,
-            "results": results,
-            "stats": stats,
-        }
-
-    return all_results
-
-
-def run_threshold_sensitivity(
-    base_result: dict[str, Any],
-    thresholds: list[float],
-) -> list[dict[str, Any]]:
-    """Run threshold sensitivity checks for the base scenario."""
-    forecaster: AgentNetworkForecaster = base_result["forecaster"]
-    results = base_result["results"]
-    sensitivity_rows: list[dict[str, Any]] = []
-    for threshold in thresholds:
-        stats = forecaster.calculate_statistics(results, threshold=threshold)
-        sensitivity_rows.append(
-            {
-                "Threshold": threshold,
-                "P(<=2035)": stats["p_by_2035"],
-                "P(<=2040)": stats["p_by_2040"],
-                "Median": stats["median_year"],
-            }
-        )
-    return sensitivity_rows
-
-
-def run_floor_sensitivity(
-    base_result: dict[str, Any],
-    floor_values: list[float],
-) -> list[dict[str, Any]]:
-    """Run floor sensitivity checks for the base scenario."""
-    forecaster: AgentNetworkForecaster = base_result["forecaster"]
-    results = base_result["results"]
-    rows: list[dict[str, Any]] = []
-    for floor in floor_values:
-        stats = forecaster.calculate_statistics(
-            results,
-            floor_values={code: float(floor) for code in forecaster.scenario.floor_values},
-        )
-        rows.append(
-            {
-                "Floor": floor,
-                "P(<=2035)": stats["p_by_2035"],
-                "P(<=2040)": stats["p_by_2040"],
-                "Median": stats["median_year"],
-            }
-        )
-    return rows
-
-
-def plot_forecast_results(
-    all_results: dict[str, dict[str, Any]],
-    threshold_sensitivity: list[dict[str, Any]],
-    floor_sensitivity: list[dict[str, Any]],
-) -> Path:
-    """Create the forecast visualization."""
-    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
-    colors = {"Conservative": "#1d4ed8", "Base case": "#15803d", "Accelerated": "#dc2626"}
-
-    ax1 = axes[0, 0]
-    for scenario_name, payload in all_results.items():
-        years = payload["forecaster"].years
-        index = payload["results"]["index"]
-        median = np.median(index, axis=0)
-        p25 = np.percentile(index, 25, axis=0)
-        p75 = np.percentile(index, 75, axis=0)
-        ax1.plot(years, median, linewidth=2.2, color=colors[scenario_name], label=scenario_name)
-        ax1.fill_between(years, p25, p75, color=colors[scenario_name], alpha=0.18)
-    ax1.axhline(y=75, color="black", linestyle="--", linewidth=1)
-    ax1.set_title("Readiness index trajectories (Model C: Local Linear Trend)")
-    ax1.set_xlabel("Year")
-    ax1.set_ylabel("Index")
-    ax1.set_ylim(0, 100)
-    ax1.legend()
-
-    ax2 = axes[0, 1]
-    for scenario_name, payload in all_results.items():
-        year_probs = payload["stats"]["year_probs"]
-        ax2.plot(
-            list(year_probs.keys()),
-            list(year_probs.values()),
-            marker="o",
-            linewidth=2,
-            color=colors[scenario_name],
-            label=scenario_name,
-        )
-    ax2.set_title("Probability of crossing by year")
-    ax2.set_xlabel("Year")
-    ax2.set_ylabel("Cumulative probability")
-    ax2.set_ylim(0, 1)
-    ax2.legend()
-
-    ax3 = axes[1, 0]
-    crossing_groups = []
-    labels = []
-    for scenario_name in ("Conservative", "Base case", "Accelerated"):
-        valid = all_results[scenario_name]["results"]["crossing_years"]
-        valid = valid[~np.isnan(valid)]
-        if len(valid):
-            crossing_groups.append(valid)
-            labels.append(f"{scenario_name}\n(n={len(valid)})")
-    boxplot = ax3.boxplot(crossing_groups, tick_labels=labels, patch_artist=True)
-    for patch, scenario_name in zip(boxplot["boxes"], ("Conservative", "Base case", "Accelerated"), strict=True):
-        patch.set_facecolor(colors[scenario_name])
-        patch.set_alpha(0.25)
-    ax3.set_title("Crossing-year distribution")
-    ax3.set_ylabel("Year")
-
-    ax4 = axes[1, 1]
-    ax4.axis("off")
-    base_stats = all_results["Base case"]["stats"]
+    print("-" * 60)
+    print("\nKey years (50% median emergence probability):")
+    for scenario_name, data in results.items():
+        median_probs = data["median"]
+        years = data["years"]
+        # Find first year where median >= 0.5
+        above_50 = np.where(median_probs >= 0.5)[0]
+        if len(above_50) > 0:
+            year_50 = years[above_50[0]]
+            print(f"  {scenario_name}: ~{year_50}")
+        else:
+            print(f"  {scenario_name}: >2040 (not reached in forecast horizon)")
     
-    # Get model type from results
-    model_used = base_stats.get("model_type", "C")
-    model_desc = {
-        "A": "Fixed Log-Growth (baseline)",
-        "B": "Piecewise Growth",
-        "C": "Local Linear Trend (state-space)",
-    }.get(model_used, "Unknown")
-    
-    summary_lines = [
-        "Base-case audit notes",
-        f"Model: {model_desc}",
-        "",
-        f"- Median crossing year: {base_stats['median_year']:.0f}",
-        f"- 90% interval among crossings: {base_stats['p5_year']:.0f}-{base_stats['p95_year']:.0f}",
-        f"- Never crosses by 2040: {base_stats['never_crosses']:.1%}",
-        "",
-        "Mathematical enhancements:",
-        "- Logit transform: z = log(y/(100-y))",
-        "- Sigmoid saturation: natural flattening near 100",
-        "- Local linear trend: g_t evolves stochastically",
-        "- Mean reversion: phi=0.9 prevents explosive growth",
-        "",
-        "Threshold sensitivity",
-    ]
-    for row in threshold_sensitivity:
-        median = "N/A" if np.isnan(row["Median"]) else f"{row['Median']:.0f}"
-        summary_lines.append(
-            f"- threshold {row['Threshold']:.0f}: "
-            f"P<=2035 {row['P(<=2035)']:.1%}, "
-            f"P<=2040 {row['P(<=2040)']:.1%}, "
-            f"median {median}"
-        )
-    summary_lines.append("")
-    summary_lines.append("Floor sensitivity")
-    for row in floor_sensitivity:
-        median = "N/A" if np.isnan(row["Median"]) else f"{row['Median']:.0f}"
-        summary_lines.append(
-            f"- floors {row['Floor']:.0f}: "
-            f"P<=2035 {row['P(<=2035)']:.1%}, "
-            f"P<=2040 {row['P(<=2040)']:.1%}, "
-            f"median {median}"
-        )
-    summary_lines.extend(
-        [
-            "",
-            "Interpretation",
-            "- Monte Carlo sampling error is small relative to assumption error",
-            "- In this parameterization the floor constraints bind before headline threshold",
-            "- Logit transform creates natural saturation approaching 100",
-            "- Use as a scenario tool, not as a point prediction",
-        ]
-    )
-    ax4.text(
-        0.02,
-        0.98,
-        "\n".join(summary_lines),
-        va="top",
-        ha="left",
-        fontsize=10,
-        family="monospace",
-        bbox={"boxstyle": "round,pad=0.6", "facecolor": "#f8fafc", "edgecolor": "#cbd5e1"},
-    )
-
-    fig.suptitle("AI-agent network readiness model (v2 - Latent State-Space)", fontsize=16, fontweight="bold")
-    fig.tight_layout()
-
-    output_path = ASSETS_DIR / "forecast_distribution.png"
-    fig.savefig(output_path, dpi=150, bbox_inches="tight")
-    plt.close(fig)
-    return output_path
-
-
-def print_forecast_report(
-    all_results: dict[str, dict[str, Any]],
-    threshold_sensitivity: list[dict[str, Any]],
-    floor_sensitivity: list[dict[str, Any]],
-) -> None:
-    """Print the audit-friendly forecast summary."""
-    print("=" * 72)
-    print("AI-AGENT NETWORK FORECAST (ENHANCED MODEL V2)")
-    print("=" * 72)
-
-    print("\nModel standard")
-    print("-" * 72)
-    first = next(iter(all_results.values()))
-    scenario: Scenario = first["scenario"]
-    model_type = first["stats"].get("model_type", "C")
-    model_names = {"A": "Fixed Log-Growth", "B": "Piecewise", "C": "Local Linear Trend"}
-    print(f"Growth model: Model {model_type} ({model_names.get(model_type, 'Unknown')})")
-    print(f"Simulations per scenario: {first['stats']['n_simulations']:,}")
-    print(f"Threshold: {scenario.threshold:.0f}")
-    print(
-        "Floor constraints: "
-        + ", ".join(f"{code}>={value:.0f}" for code, value in scenario.floor_values.items())
-    )
-    print(f"Minimum consecutive years: {scenario.min_consecutive_years}")
-    print(f"Random seed: {SEED}")
-
-    print("\nResults by scenario")
-    print("-" * 72)
-    for scenario_name in ("Conservative", "Base case", "Accelerated"):
-        stats = all_results[scenario_name]["stats"]
-        median = "N/A" if np.isnan(stats["median_year"]) else f"{stats['median_year']:.0f}"
-        interval = (
-            "N/A"
-            if np.isnan(stats["p5_year"])
-            else f"{stats['p5_year']:.0f}-{stats['p95_year']:.0f}"
-        )
-        print(f"\n{scenario_name}")
-        print(f"  P(Level-3 by 2030): {stats['p_by_2030']:.1%}")
-        print(f"  P(Level-3 by 2035): {stats['p_by_2035']:.1%}")
-        print(f"  P(Level-3 by 2040): {stats['p_by_2040']:.1%}")
-        print(f"  Median crossing year: {median}")
-        print(f"  90% interval among crossings: {interval}")
-        print(f"  Never crosses by 2040: {stats['never_crosses']:.1%}")
-
-    print("\nThreshold sensitivity (base case)")
-    print("-" * 72)
-    for row in threshold_sensitivity:
-        median = "N/A" if np.isnan(row["Median"]) else f"{row['Median']:.0f}"
-        print(
-            f"threshold {row['Threshold']:.0f}: "
-            f"P<=2035 {row['P(<=2035)']:.1%}, "
-            f"P<=2040 {row['P(<=2040)']:.1%}, "
-            f"median {median}"
-        )
-
-    print("\nFloor sensitivity (base case)")
-    print("-" * 72)
-    for row in floor_sensitivity:
-        median = "N/A" if np.isnan(row["Median"]) else f"{row['Median']:.0f}"
-        print(
-            f"floors {row['Floor']:.0f}: "
-            f"P<=2035 {row['P(<=2035)']:.1%}, "
-            f"P<=2040 {row['P(<=2040)']:.1%}, "
-            f"median {median}"
-        )
-
-    print("\nMathematical foundation")
-    print("-" * 72)
-    print("The model uses a logit transform for natural saturation:")
-    print("  z = logit(y/100) = log(y/(100-y))  [latent capability]")
-    print("  y = 100 × sigmoid(z) = 100/(1+exp(-z))  [bounded score]")
-    print("")
-    print("Growth dynamics (Model C - Local Linear Trend):")
-    print("  z_t = z_{t-1} + g_t + eps_t           (level)")
-    print("  g_t = φ·g_{t-1} + (1-φ)·ḡ + η_t       (growth, φ=0.9)")
-    print("")
-    print("Where:")
-    print("  z_t = latent capability (logit scale)")
-    print("  g_t = time-varying growth rate")
-    print("  eps_t ~ N(0, σ_level) = level shock")
-    print("  η_t ~ N(0, σ_growth) = growth rate shock")
-
-    print("\nInterpretation")
-    print("-" * 72)
-    print("This model is useful for structured discussion of assumptions.")
-    print("It should not be presented as a data-derived point forecast.")
-    print("In this parameterization, floor constraints bind before the headline threshold.")
-    print("Scenario inputs and floor choices dominate the output.")
-    print("\n" + "=" * 72)
+    print("\n" + "=" * 80)
+    print("Model: Discrete-time hazard with soft feasibility")
+    print("φ(y; θ, k) = 1 / (1 + exp(-k × (y - θ) / 10))")
+    print("=" * 80 + "\n")
 
 
 def main() -> None:
-    """Run the forecast model and save the figure."""
-    import sys
+    """Run the full forecast analysis."""
+    ASSETS_DIR.mkdir(parents=True, exist_ok=True)
     
-    # Allow model selection via command line
-    model_type = "C"  # Default to Local Linear Trend
-    if len(sys.argv) > 1 and sys.argv[1] in ["A", "B", "C"]:
-        model_type = sys.argv[1]
-    
-    print(f"Running with Model {model_type}")
-    print("  A = Fixed Log-Growth (backward compatible)")
-    print("  B = Piecewise Growth (breakpoint 2028)")
-    print("  C = Local Linear Trend (default, recommended)")
-    
-    all_results = run_all_scenarios(model_type=model_type)
     config = load_config()
-    threshold_sensitivity = run_threshold_sensitivity(
-        all_results["Base case"],
-        thresholds=[float(value) for value in config["sensitivity_thresholds"]],
-    )
-    floor_sensitivity = run_floor_sensitivity(
-        all_results["Base case"],
-        floor_values=[float(value) for value in config["sensitivity_floor_values"]],
-    )
-    print_forecast_report(all_results, threshold_sensitivity, floor_sensitivity)
-    output_path = plot_forecast_results(all_results, threshold_sensitivity, floor_sensitivity)
-    print(f"\nSaved figure: {output_path.relative_to(ROOT)}")
+    scenarios = create_scenarios(config)
+    
+    years = np.arange(2026, 2041)
+    
+    results = {}
+    for scenario_name, scenario in scenarios.items():
+        print(f"Running {scenario_name} scenario...")
+        results[scenario_name] = run_monte_carlo(scenario, n_sims=5000, years=years)
+    
+    plot_scenario_comparison(results)
+    print_summary_table(results)
+    
+    print("\n✓ Forecast analysis complete")
 
 
 if __name__ == "__main__":

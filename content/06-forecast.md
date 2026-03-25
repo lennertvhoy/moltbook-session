@@ -1,6 +1,6 @@
 # Deel 6: Forecast Model
 
-> **Van trends naar forecast:** Deel 5 liet zien dat onderliggende voorwaarden (capability, efficiency, compute) snel verbeteren. Maar wanneer leidt dit tot echte doorbraak? Dit deel vertaalt die complexiteit naar een voorzichtig forecastmodel.
+> **Van trends naar forecast:** Deel 5 liet zien dat onderliggende voorwaarden (capability, efficiency, compute) snel verbeteren. Maar wanneer leidt dit tot echte doorbraak? Dat hangt af van méér dan losse benchmarks — het vereist samenwerking tussen capabilities, governance, reliability en netwerkeffecten. Dit deel vertaalt die complexiteit naar een voorzichtig forecastmodel.
 
 ## 1. Wat we proberen te voorspellen
 
@@ -23,158 +23,150 @@ De vraag is dus: *wanneer werkt een netwerk van agents voor echte, beperkte toep
 
 ---
 
-## 2. Het model: opzet en aannames
+## 2. Waarom het oude model te streng was
 
-### 2.1 Wiskundige basis
+Het vorige model (V1) had drie structurele problemen die het systematisch te laat maakten:
 
-Het model gebruikt een **latent capability** benadering met logit-transformatie:
+### Harde floors op 60
+Elke pillar moest exact ≥ 60 zijn. Dit maakte 59 een totale failure en 60 een succes. In werkelijkheid is "voldoende governance" een gradueel fenomeen.
 
-```
-z_t = logit(y_t/100) = log(y_t / (100 - y_t))
+### "Nooit crossed" bij 2040
+91% "never crossed by 2040" betekende in feite "crossed pas ná 2040". De horizon truncatie creëerde een kunstmatig "never".
 
-State equations (local linear trend):
-    z_t = z_{t-1} + g_t + ε_t      (level, ε_t ~ N(0, sigma))
-    g_t = φ×g_{t-1} + (1-φ)×ḡ + η_t  (growth, η_t ~ N(0, sigma_g))
+### Twee-jaar regel + harde floors
+De combinatie van strikte floors én "twee opeenvolgende jaren" maakte crossing uitzonderlijk zeldzaam. De meeste faillures waren geen fundamentele onmogelijkheden, maar graduele missers.
 
-y_t = 100 × sigmoid(z_t)          (transform back)
-```
-
-**Wat dit betekent in gewone taal:** We transformeren scores (0-100) naar een schaal waar groei natuurlijk vertraagt naarmate we 100 naderen. Dit voorkomt dat het model onrealistisch snel naar perfectie schiet.
-
-### 2.2 De zeven pilaren
-
-| Pijler | Code | Gewicht | Focus |
-|--------|------|---------|-------|
-| Capability | C | 20% | Wat agents kunnen |
-| Efficiency | E | 20% | Kost per capaciteit |
-| Memory | M | 15% | Duurzaam geheugen |
-| Reliability | R | 15% | Betrouwbaarheid |
-| Network | N | 12% | Interoperabiliteit |
-| Governance | G | 10% | Regels & verantwoording |
-| Demand | D | 8% | Marktbehoefte |
-
-### 2.3 Drempels (thresholds)
-
-Het model gebruikt **twee criteria**:
-
-1. **Readiness Index ≥ 75** — gewogen gemiddelde van alle pilaren
-2. **Vier "floor" pilaren ≥ 60** — Memory, Reliability, Network, Governance moeten allemaal minimaal 60 halen
-
-Daarnaast moeten beide criteria **twee opeenvolgende jaren** worden gehaald voordat "crossing" wordt geregistreerd.
-
-**Belangrijk:** Deze floors zijn harde drempels (59 = failure, 60 = pass). Dit is een bewuste keuze voor dit model, maar het betekent dat de uitkomst gevoelig is voor deze specifieke drempelwaarden.
+**Ablation resultaat:** Zonder harde floors was de crossing probability 47% ipv 9%. De specificatie van de drempels domineerde de uitkomst.
 
 ---
 
-## 3. Scenario's
+## 3. Canoniek model
 
-### 3.1 Drie scenario's
+### 3.1 Wiskundige vorm
 
-| Scenario | Beschrijving | Kenmerk |
-|----------|--------------|---------|
-| **Conservative** | Lage groei, hogere volatiliteit, meer shocks | Veel obstakels |
-| **Base case** | Moderate groei, moderate volatiliteit | Balans |
-| **Accelerated** | Hoge groei, lagere volatiliteit, minder shocks | Gunstige omstandigheden |
+We gebruiken een **discrete-time hazard model** met **soft feasibility**:
 
-### 3.2 Voorbeeld: Base case startwaarden (2026)
+```
+h(t) = h0 × exp(λ_C·z_C + λ_E·z_E + λ_D·z_D + λ_M·z_M) 
+       × φ_G(y_G) × φ_N(y_N) × φ_R(y_R)
+```
 
-| Pijler | Start | Groei/jaar | Opmerking |
-|--------|-------|------------|-----------|
-| Capability | 55 | +18% | Sterkste start |
-| Efficiency | 45 | +28% | Snelste groei |
-| Memory | 30 | +14% | Moet van ver komen |
-| Reliability | 28 | +16% | Moet van ver komen |
-| Network | 20 | +15% | Laagste start |
-| Governance | 25 | +12% | Institutionele traagheid |
-| Demand | 50 | +12% | Moderate groei |
+Waarbij:
+- **h(t)** = hazard (kans op emergentie in jaar t, gegeven nog niet geëmergeerd)
+- **z_i** = latent capability level op logit-schaal
+- **y_i** = observed score 0-100
+- **φ_i(y_i)** = soft feasibility functie
 
-**Let op:** Deze waarden zijn expliciete aannames (expert judgment), geen empirische metingen.
+### 3.2 Soft feasibility
+
+```
+φ(y; θ, k) = 1 / (1 + exp(-k × (y - θ) / 10))
+```
+
+Dit geeft:
+- y = θ → φ = 0.5 (50% feasible)
+- y >> θ → φ → 1 (volledig feasible)
+- y << θ → φ → 0 (niet feasible)
+
+**Waarom deze vorm?**
+- Natuurlijke saturatie (sigmoid)
+- Parameters hebben intuïtieve betekenis (θ = inflection point, k = steepness)
+- Geen harde clipping (geen 59=fail, 60=pass)
+
+### 3.3 Parameter ranges (niet punten)
+
+| Parameter | Type | Range/Best Guess | Bron |
+|-----------|------|------------------|------|
+| **h0** (baseline hazard) | Calibratie | [0.01, 0.10] per jaar | Historische analogies |
+| **λ_C, λ_E, λ_D** (capability loadings) | Gewichten | ~0.3 elk, som = 1 | Normalisatie |
+| **λ_M** (memory loading) | Gewicht | ~0.2 | Expert judgment |
+| **θ_G** (governance inflection) | Expert judgment | 35-50 (best: 40) | Wat is "voldoende"? |
+| **θ_N** (network inflection) | Expert judgment | 40-55 (best: 45) | Wat is "bruikbaar"? |
+| **θ_R** (reliability inflection) | Expert judgment | 45-60 (best: 50) | Wat is "betrouwbaar genoeg"? |
+| **k_G, k_N, k_R** (steepness) | Expert judgment | 0.08-0.15 | Hoe "scharp" is de drempel? |
+
+**Belangrijk:** Waar geen directe data is, gebruiken we ranges en expliciteren we de onzekerheid. Geen schijnprecisie.
+
+### 3.4 Wat is empirisch vs expert judgment
+
+| Component | Status | Hoe te kalibreren |
+|-----------|--------|-------------------|
+| C (Capability) | **Empirisch** | Epoch ECI, benchmark trends |
+| E (Efficiency) | **Empirisch** | Stanford HAI kostendaling |
+| D (Demand) | **Proxy** | Investeringen, adoptie surveys |
+| M (Memory) | **Expert** | Geen directe metrics, expert ranges |
+| N (Network) | **Expert** | Geen directe metrics, expert ranges |
+| R (Reliability) | **Expert** | Incident rates als proxy, maar grotendeels expert |
+| G (Governance) | **Expert** | Policy indices als proxy, maar grotendeels expert |
 
 ---
 
 ## 4. Wat het model voorspelt (en niet)
 
 ### Wél
-- **Crossing probability** — kans dat de drempels worden gehaald vóór 2040
-- **Scenario vergelijking** — hoe verschillende aannames leiden tot verschillende uitkomsten
-- **Sensitivity** — welke parameters de uitkomst het sterkst beïnvloeden
+- **Time-to-event distributie** — P(emergentie ≤ t) voor elke t
+- **Uncertainty ranges** — 90% confidence intervals, niet enkele jaren
+- **Sensitivity** — hoeveel uitkomst verandert bij parameter variatie
+- **Empirisch vs expert** — expliciet onderscheid
 
 ### Niet
 - ❌ "De doorbraak komt in 2033"
 - ❌ "60% kans tegen 2035"
 - ❌ "Dit is hoe het zeker gaat"
 
-### Typische output (voorbeeld, illustratief)
+### Output formaat
 
-In de base case:
-- Crossing probability vóór 2040: ~8-9%
-- "Never crosses" in de simulatie: ~91%
+```
+Jaar    P(emergentie ≤ jaar)    P(nog niet)
+2030    5%                      95%
+2032    15%                     85%
+2035    40%                     60%
+2040    70%                     30%
+...     ...                     ...
 
-**Interpretatie:** Dit betekent niet dat emergentie onmogelijk is. Het betekent dat onder de huidige aannames (lage startwaarden voor M, R, N, G + harde floors + sigmoid saturatie), het model een lage waarschijnlijkheid berekent.
+Median (indicatief): jaar waar P = 50%
+90% interval: [jaar bij P=5%, jaar bij P=95%]
+```
 
----
-
-## 5. Belangrijkste inzichten uit het model
-
-### 5.1 Floors binden meer dan de headline threshold
-
-Sensitivity analyse toont:
-- Floor 60 → 50: crossing probability stijgt van ~8% naar ~27%
-- Floor 60 → 70: crossing probability daalt van ~8% naar ~1%
-- Threshold 75 → 70: minimaal effect (~8% → ~8.5%)
-
-**Conclusie:** De vier floor-pilaren (Memory, Reliability, Network, Governance) zijn de echte "poortwachters" — niet het gewogen gemiddelde van 75.
-
-### 5.2 Sigmoid saturatie remt hoogwaardige groei
-
-Doordat het model logit/sigmoid gebruikt:
-- Groei van 20→30 gaat relatief snel
-- Groei van 80→90 gaat veel langzamer
-- Dit maakt het halen van floor 60 vanuit start 20-30 uitdagend
-
-### 5.3 Governance groeit het langzaamst
-
-In alle scenario's heeft Governance (G) de laagste groeirate (4-12%/jaar). Dit reflecteert institutionele traagheid: regels en verantwoordingskaders ontwikkelen zich langzamer dan technische capability.
+**Let op:** Deze cijfers zijn illustratief van het formaat, niet de model output. De daadwerkelijke distributie hangt af van de gekalibreerde parameters.
 
 ---
 
-## 6. Strengere latere mijlpaal (kanttekening)
+## 5. Strengere latere mijlpaal (kanttekening)
 
-Bovenstaand model voorspelt **bounded-scope emergentie** — bruikbare agentnetwerken in beperkte domeinen. Een striktere, latere mijlpaal is **broad viability**:
+Bovenstaand model voorspelt **bounded-scope emergentie**. Een striktere, latere mijlpaal is **broad viability**:
 
 - Cross-vendor interoperabiliteit
 - Institutionele trust en mature governance
 - Routine deployment met beperkt toezicht
 - Economische schaal en impact
 
-Deze zou hogere drempels vereisen (bijv. floors op 70-75 in plaats van 60) en waarschijnlijk extra tijd voor institutionele ontwikkeling.
+Deze vereist scherpere drempels (hogere θ, sterkere k) en waarschijnlijk extra tijd voor institutionele ontwikkeling.
 
 Wij rapporteren deze als **secundaire mijlpaal**, niet als hoofdvoorspelling.
 
 ---
 
-## 7. Open onzekerheden
+## 6. Open onzekerheden
 
 1. **Geen historische precedent** — We hebben geen Level-3 agent netwerken gezien. Alle analogies (cloud, mobile) zijn imperfect.
 
 2. **Expert judgment domineert** — Voor governance, network, en reliability hebben we geen sterke empirische ankers. De ranges zijn breed.
 
-3. **Harde floors zijn normatief** — De keuze voor floor=60 (niet 55 of 65) bepaalt veel van de uitkomst.
+3. **Regime shifts** — Governance en network kunnen discontinu veranderen (crisis, standaardisatie). Dit model neemt geleidelijke dynamiek aan.
 
-4. **Breakthrough risico** — Een GPT-4-achtig moment voor agents is niet gemodelleerd. Smooth growth vs discontinu potentieel.
+4. **Breakthrough risico** — Een GPT-4-achtig moment voor agents is niet gemodelleerd. Smooth hazard vs discontinu potentieel.
 
 ---
 
-## 8. Samenvatting
+## 7. Samenvatting
 
-Het forecast model voorspelt **eerste bounded-scope emergentie** van nuttige agent netwerken — niet volledige mature deployability.
+Het canonieke model voorspelt **eerste bounded-scope emergentie** van nuttige agent netwerken — niet volledige mature deployability.
 
 Het gebruikt:
-- **Logit/sigmoid transformatie** voor natuurlijke saturatie
-- **Harde floors** (60) voor vier kritieke pilaren
-- **Time-to-crossing** (binair: ja/nee per simulatie)
+- **Soft feasibility** ipv harde floors
+- **Time-to-event** ipv "jaar X of nooit"
+- **Parameter ranges** ipv schijnprecisie
 - **Expliciete onzekerheid** over empirisch vs expert components
 
-De hoofdvoorspelling is een **crossing probability**, niet een enkel jaartal.
-
-Het belangrijkste inzicht: **floors binden eerder dan de headline threshold**. Governance, Memory, Reliability en Network zijn de werkelijke bottlenecks — niet het gemiddelde van alle pilaren.
+De hoofdvoorspelling is een **distributie over tijd**, niet een enkel jaar.
