@@ -28,6 +28,7 @@ echo ""
 cat > "$CSS_PATH" << 'CSS'
 @page {
     size: A4;
+    /* Clean margins - no Chrome headers/footers thanks to --no-pdf-header-footer flag */
     margin: 2.5cm;
 }
 
@@ -211,7 +212,7 @@ echo "Converting to PDF..."
     --headless \
     --disable-gpu \
     --print-to-pdf="$PDF_PATH" \
-    --print-to-pdf-no-header \
+    --no-pdf-header-footer \
     --run-all-compositor-stages-before-draw \
     "$HTML_PATH" \
     2>/dev/null || {
