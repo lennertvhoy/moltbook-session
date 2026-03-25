@@ -112,21 +112,23 @@ Dit geeft:
 - ❌ "60% kans tegen 2035"
 - ❌ "Dit is hoe het zeker gaat"
 
-### Output formaat
+### Output formaat (voorbeeld, geen ingevulde forecast)
+
+Zo ziet de rapportage eruit — **de getallen zijn placeholders om het formaat te illustreren, geen model output:**
 
 ```
 Jaar    P(emergentie ≤ jaar)    P(nog niet)
-2030    5%                      95%
-2032    15%                     85%
-2035    40%                     60%
-2040    70%                     30%
+2030    ?%                      ?%
+2032    ?%                      ?%
+2035    ?%                      ?%
+2040    ?%                      ?%
 ...     ...                     ...
 
-Median (indicatief): jaar waar P = 50%
-90% interval: [jaar bij P=5%, jaar bij P=95%]
+Median: jaar waar P = 50% (afhankelijk van kalibratie)
+90% interval: [jaar bij P=5%, jaar bij P=95%] (afhankelijk van kalibratie)
 ```
 
-**Let op:** Deze cijfers zijn illustratief van het formaat, niet de model output. De daadwerkelijke distributie hangt af van de gekalibreerde parameters.
+**Expliciet:** De cijfers 5%, 15%, etc. zijn **geen** model resultaten. De daadwerkelijke distributie wordt bepaald na kalibratie van parameters (ranges → specifieke waarden of distributies). Tot die tijd rapporteren we alleen het wiskundige framework en de onzekerheidsranges.
 
 ---
 
