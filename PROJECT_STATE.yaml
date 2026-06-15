@@ -1,0 +1,180 @@
+# PROJECT_STATE.yaml - Structured current truth
+
+metadata:
+  updated_at: 2026-06-14
+  updated_by: agent
+  version: "statedd-template-v4"
+
+workflow:
+  repo_mode: bootstrap
+  bootstrap:
+    completed: false
+    completed_on: null
+    system_investigated: false
+    repo_investigated: false
+    user_intake_complete: false
+    unknowns_remaining:
+      - product not yet defined
+      - primary user not yet defined
+      - target deployment/runtime not yet defined
+      - first real milestone not yet defined
+
+verification_labels:
+  observed: verified directly in the current session
+  unknown: not yet determined from currently available evidence
+  reported: supported by prior evidence, not re-verified
+  blocked: verification attempted but prevented
+  assumed: temporary working assumption
+  stale: previously verified but no longer fresh
+  invalid: known false or superseded
+
+current_state:
+  repository:
+    canonical_path: /home/ff/Documents/Projects/StateDD_Template
+    path_status: observed
+    branch: main
+    head: c76dad7b747ea05b49f8f6239c6ec8e0974e0ab4
+    worktree_status: dirty
+
+  operating_mode:
+    status: observed
+    mode: bootstrap
+    summary: |
+      This repository starts in bootstrap mode. Do not switch to operating mode
+      until the project truth, backlog, active queue, runtime identity, and
+      evidence baseline have been established.
+
+  project:
+    name: moltbook-session
+    type: unknown
+    lifecycle_stage: bootstrap
+    truth_summary: bootstrap_initializing
+
+  runtime_identity:
+    status: unknown
+    repo_path: unknown
+    branch: null
+    head: null
+    process_or_container: unknown
+    port_or_base_url: unknown
+    rebuilt_in_current_slice: unknown
+    duplicate_runtimes_checked: false
+    notes: |
+      Fill this section before accepting user-facing behavior or investigating
+      a visual/runtime regression.
+
+  environment:
+    status: unknown
+    host:
+      os: unknown
+      kernel: unknown
+      shell: unknown
+      terminal: unknown
+    package_managers:
+      - unknown
+    language_runtimes:
+      python: unknown
+      node: unknown
+    container_tooling:
+      docker: unknown
+      podman: unknown
+    browser_tooling:
+      chrome: unknown
+      playwright: unknown
+    ports:
+      listeners: unknown
+      notes: |
+        Capture active listeners directly during bootstrap when that matters.
+
+  repository_structure:
+    status: unknown
+    top_level_entries:
+      - unknown
+    manifests:
+      - unknown
+    entrypoints:
+      - unknown
+    test_setup:
+      - unknown
+    deployment_assumptions:
+      - deployment target not yet proven
+    contradictions:
+      - project-specific contradictions not yet investigated
+
+  evidence:
+    status: initialized
+    ledger: docs/EVIDENCE_LOG.md
+    acceptance_freezes: docs/ACCEPTANCE_FREEZES.md
+    artifact_root: docs/evidence
+    standard: browser_verification_or_test_output_for_user_facing_claims
+
+  documentation:
+    status: initialized
+    primary_user_guide: README.md
+    live_docs:
+      - README.md
+      - AGENTS.md
+      - STATUS.md
+      - PROJECT_STATE.yaml
+      - PROJECT_DNA.yaml
+      - PROJECT_ADAPTER.yaml
+      - NEXT_ACTIONS.md
+      - BACKLOG.md
+      - WORKLOG.md
+      - LICENSE
+      - LICENSE_FAQ.md
+      - docs/GETTING_STARTED_5_MIN.md
+      - docs/EVIDENCE_LOG.md
+      - docs/ACCEPTANCE_FREEZES.md
+      - prompts/OPENCODE_STARTUP_PROMPT.md
+      - prompts/TOOL_MODEL_ROUTING_GUIDE.md
+      - scripts/statedd_handoff.py
+    prompt_assets:
+      cto_session_prompt: prompts/CTO_SESSION_PROMPT.md
+      coding_agent_startup_prompt: prompts/CODING_AGENT_STARTUP_PROMPT.md
+      opencode_startup_prompt: prompts/OPENCODE_STARTUP_PROMPT.md
+      tool_model_routing_guide:
+        status: observed
+        path: prompts/TOOL_MODEL_ROUTING_GUIDE.md
+        summary: |
+          Guides the CTO lane to recommend tools, models, settings, context
+          strategy, and tailored prompts based on current user access, task
+          risk, budget, and verified provider facts.
+    workflow_helpers:
+      getting_started_5_min:
+        status: observed
+        path: docs/GETTING_STARTED_5_MIN.md
+      workflow_for_beginners:
+        status: observed
+        path: docs/WORKFLOW_FOR_BEGINNERS.md
+      handoff_snapshot:
+        status: observed
+        path: scripts/statedd_handoff.py
+      audit_command:
+        status: observed
+        path: scripts/statedd_audit.py
+        summary: Machine-checkable StateDD closure audit.
+      doctor_command:
+        status: observed
+        path: scripts/statedd_doctor.py
+        summary: Fast human-readable StateDD health summary.
+      slice_contract_template:
+        status: observed
+        path: prompts/SLICE_CONTRACT_TEMPLATE.md
+      evidence_readme_template:
+        status: observed
+        path: prompts/EVIDENCE_README_TEMPLATE.md
+      schema_ownership_template:
+        status: observed
+        path: prompts/SCHEMA_OWNERSHIP_TEMPLATE.md
+      subagent_review_template:
+        status: observed
+        path: prompts/SUBAGENT_REVIEW_TEMPLATE.md
+      cto_review_checklist:
+        status: observed
+        path: prompts/CTO_REVIEW_CHECKLIST.md
+      adr_template:
+        status: observed
+        path: docs/adr/0000-adr-template.md
+
+active_problems: []

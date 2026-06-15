@@ -1,0 +1,109 @@
+# PROJECT_DNA.yaml - Canonical architecture blueprint
+
+version: "statedd-template-v4"
+schema_version: "1.0"
+
+product:
+  name: "moltbook-session"
+  one_sentence: "Project using the moltbook-session Project workflow."
+  description: |
+    This repository uses explicit state, a short active queue, durable history,
+    and evidence-led verification for AI-assisted technical delivery.
+  is:
+    - truth_first
+    - evidence_backed
+    - machine_checkable
+    - history_separated_from_state
+    - active_queue_is_short
+  is_not:
+    - runtime_status_dump
+    - append_only_status_file
+    - proof_by_chat_only
+
+truth_rules:
+  contract_files:
+    agents: AGENTS.md
+    status: STATUS.md
+    project_state: PROJECT_STATE.yaml
+    project_dna: PROJECT_DNA.yaml
+    project_adapter: PROJECT_ADAPTER.yaml
+    next_actions: NEXT_ACTIONS.md
+    backlog: BACKLOG.md
+    worklog: WORKLOG.md
+    evidence_log: docs/EVIDENCE_LOG.md
+    acceptance_freezes: docs/ACCEPTANCE_FREEZES.md
+
+  hard_rules:
+    - no_fake_completeness
+    - no_history_in_live_state
+    - evidence_required_for_user_facing_claims
+    - runtime_identity_required_for_user_facing_acceptance
+    - negative_search_results_do_not_prove_nonexistence
+    - clean_worktree_required_at_handoff
+    - active_queue_remains_short
+
+  claim_states:
+    observed: verified directly now
+    unknown: not yet determined from available evidence
+    reported: supported by prior evidence
+    blocked: verification currently prevented
+    assumed: provisional working assumption
+    stale: previously verified but aged out
+    invalid: known false or superseded
+
+  repo_modes:
+    bootstrap:
+      purpose: discover truth and establish baseline state
+      exit_condition: baseline completed and mode flipped to operating
+    operating:
+      purpose: steady-state human-in-the-loop delivery
+      exit_condition: none
+
+architecture:
+  control_plane:
+    description: Human and agent workflow coordination.
+  state_plane:
+    description: Structured current truth in PROJECT_STATE.yaml.
+  evidence_plane:
+    description: Artifact-backed proof for claims and verification.
+  history_plane:
+    description: Append-only record of completed work in WORKLOG.md.
+  routing_plane:
+    description: Dynamic CTO-lane selection of tools, models, settings, context strategy, and prompt shape.
+
+invariants:
+  - "STATUS.md stays short and current."
+  - "PROJECT_STATE.yaml stores structured live truth only."
+  - "PROJECT_DNA.yaml changes slowly."
+  - "NEXT_ACTIONS.md contains open work only."
+  - "BACKLOG.md assigns stable backlog IDs."
+  - "Accepted user-facing milestones are frozen to source, runtime, and evidence."
+  - "WORKLOG.md is append-only."
+  - "Implemented, validated, closure-grade, and accepted are four distinct states."
+  - "Human overrides are recorded, but they do not turn partial work into closure-grade work."
+  - "No schema may exist only in prose."
+
+governance:
+  evidence_standard: browser_verification_or_test_output
+  evidence_artifact_root: docs/evidence
+  acceptance_freeze_log: docs/ACCEPTANCE_FREEZES.md
+  adr_root: docs/adr
+  license: LICENSE
+  license_faq: LICENSE_FAQ.md
+  getting_started_guide: docs/GETTING_STARTED_5_MIN.md
+  tool_model_routing_guide: prompts/TOOL_MODEL_ROUTING_GUIDE.md
+  handoff_snapshot_helper: scripts/statedd_handoff.py
+  hygiene_check: scripts/check_state_docs.py
+  bootstrap_gate_check: scripts/check_state_docs.py --bootstrap-gate
+  closure_audit: scripts/statedd_audit.py
+  health_summary: scripts/statedd_doctor.py
+  slice_contract_template: prompts/SLICE_CONTRACT_TEMPLATE.md
+  evidence_readme_template: prompts/EVIDENCE_README_TEMPLATE.md
+  schema_ownership_template: prompts/SCHEMA_OWNERSHIP_TEMPLATE.md
+  subagent_review_template: prompts/SUBAGENT_REVIEW_TEMPLATE.md
+  cto_review_checklist: prompts/CTO_REVIEW_CHECKLIST.md
+  update_policy:
+    status: when_current_truth_changes
+    project_state: when_structured_truth_changes
+    worklog: when_work_is_completed
+    evidence_log: when_user_facing_claims_are_verified
