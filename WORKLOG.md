@@ -2,6 +2,19 @@
 
 **Purpose:** Append-only history for completed work.
 
+## 2026-07-14 - Stateware public naming compatibility
+
+**Type:** terminology_compatibility
+**Status:** COMPLETE
+
+### What changed
+- Adopted Stateware, State-Centric Engineering, and StateSpec in current public workflow documentation.
+- Kept repository paths, `statedd-*` scripts, format/version identifiers, license wording, and historical records unchanged as compatibility surfaces.
+- Added a compatibility boundary document and structured terminology state.
+
+### Verification
+- Diff hygiene, structured YAML parsing, and the compatibility occurrence audit passed on the isolated naming branch.
+
 ## 2026-06-14 - Dynamic CTO tool/model routing added
 
 **Type:** template_prompt_governance

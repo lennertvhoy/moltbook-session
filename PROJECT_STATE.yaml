@@ -1,9 +1,16 @@
 # PROJECT_STATE.yaml - Structured current truth
 
 metadata:
-  updated_at: 2026-06-14
+  updated_at: 2026-07-14
   updated_by: agent
   version: "statedd-template-v4"
+
+terminology:
+  category: Stateware
+  methodology: State-Centric Engineering
+  portable_specification: StateSpec
+  legacy_identifier: StateDD
+  migration_status: public_names_migrated_machine_identifiers_preserved
 
 workflow:
   repo_mode: bootstrap
@@ -153,11 +160,11 @@ current_state:
       audit_command:
         status: observed
         path: scripts/statedd_audit.py
-        summary: Machine-checkable StateDD closure audit.
+        summary: Machine-checkable StateSpec closure audit.
       doctor_command:
         status: observed
         path: scripts/statedd_doctor.py
-        summary: Fast human-readable StateDD health summary.
+        summary: Fast human-readable StateSpec health summary.
       slice_contract_template:
         status: observed
         path: prompts/SLICE_CONTRACT_TEMPLATE.md

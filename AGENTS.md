@@ -1,10 +1,18 @@
 ---
 repo_mode: "bootstrap"
 initialized_on: "2026-06-14"
-last_updated: "2026-06-14"
+last_updated: "2026-07-14"
 project: "moltbook-session"
 ---
 # AGENTS.md - Moltbook Session Project
+
+## Publieke naamgeving
+
+Deze repository gebruikt **Stateware** als productcategorie,
+**State-Centric Engineering** als methode en **StateSpec** als draagbare
+specificatie. Bestaande `StateDD`-paden, commando's, schema's, licentietekst
+en historische records blijven compatibiliteitsidentifiers. Zie
+`docs/NAMING_AND_COMPATIBILITY.md`.
 
 ## Project Context
 
